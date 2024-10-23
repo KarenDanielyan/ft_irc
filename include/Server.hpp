@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:31:10 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/22 23:08:14 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:49:40 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@
 # include <stdexcept>
 # include <cstdlib>
 # include <cstring>
+# include <cstdio>
 # include <vector>
+# include <map>
 
 # include <stdint.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <netdb.h>
 
 # include <sys/socket.h>
 # include <sys/poll.h>
@@ -31,6 +35,7 @@
 # include <arpa/inet.h>
 
 # include "defines.hpp"
+# include "Client.hpp"
 
 class	Server
 {
@@ -43,19 +48,27 @@ private:
 
 	const std::string	_passwd;
 
-	std::vector<pollfd>	_pollfds;
+	std::vector<pollfd>		_pollfds;
+	std::map<int, Client*>	_clients;
 
 
 	Server(std::string const & port, std::string const & password);
 	~Server();
+
+	std::string	read_message(int fd, bool &is_closed);
+
+	int	newSocket(void);
+
+	void	onClientConnect(void);
+	void	onClientDisconnect(pollfd& fd);
+	void	onClientRequest(pollfd&fd);
 public:
-	typedef std::vector<pollfd>::iterator	pollfds_iterator_t;
+	typedef std::vector<pollfd>::iterator		pollfds_iterator_t;
+	typedef std::map<int, Client*>::iterator	clients_iterator_t;
 
 	static Server*	getInstance(std::string const & port, \
 							std::string const & password);
 	static void		destroyInstance(void);
-
-	int		newSocket(void);
 
 	void	start(void);
 };

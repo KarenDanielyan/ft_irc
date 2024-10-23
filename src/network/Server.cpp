@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/16 23:38:05 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/10/24 02:22:37 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
-#include "defines.hpp"
+#include "Client.hpp"
+#include "utils.hpp"
 #include <cerrno>
 #include <stdexcept>
-#include <sys/poll.h>
 
 Server*	Server::_instance = NULL;
 
@@ -32,7 +32,13 @@ Server::Server(std::string const & port, std::string const & password): \
 	_server_fd = newSocket();
 }
 
-Server::~Server(void) {}
+Server::~Server(void)
+{
+	for (pollfds_iterator_t it = _pollfds.begin(); it != _pollfds.end(); it++)
+		close(it->fd);
+	for (clients_iterator_t it = _clients.begin(); it != _clients.end(); it++)
+		delete it->second;
+}
 
 Server*	Server::getInstance(std::string const & port, std::string const & password)
 {
@@ -56,7 +62,7 @@ void	Server::start(void)
 
 	_pollfds.push_back(servfd);
 
-	std::cout << "Server listens to any new connections..." << std::endl;
+	log(INFO_LISTEN);
 	while (_running)
 	{
 		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 1)
@@ -70,14 +76,101 @@ void	Server::start(void)
 				/* If new client connects */
 				if (it->fd == _server_fd)
 				{
-					std::cout << "A new client tries to connect" << std::endl;
-					close(accept(it->fd, NULL, NULL));
-					break ;
+					onClientConnect();
+					break;
 				}
-				std::cout << "Anyways" << std::endl;
+				onClientRequest(*it);
+			}
+			if (it->revents & POLLHUP)
+			{
+				onClientDisconnect(*it);
+				_pollfds.erase(it);
+				break ;
 			}
 		}
 	}
+}
+
+void	Server::onClientDisconnect(pollfd& fd)
+{
+	clients_iterator_t	it = _clients.find(fd.fd);
+
+	if (it != _clients.end())
+	{
+		Client	*c = _clients.find(fd.fd)->second;
+		char	log_message[NI_MAXHOST + 1024];
+
+		_clients.erase(fd.fd);
+		sprintf(log_message, "%s:%d disconnected to the server.", \
+			c->getHostname().c_str(), c->getPort());
+		log(log_message);
+		delete c;
+	}
+}
+
+void	Server::onClientRequest(pollfd& fd)
+{
+	bool		is_closed = false;
+	std::string	input;
+
+	input = read_message(fd.fd, is_closed);
+	if (is_closed == true)
+		fd.revents = POLLHUP;
+	else
+		std::cout << input;
+}
+
+void	Server::onClientConnect(void)
+{
+	int					fd;
+	struct sockaddr_in	sa;
+	socklen_t			sa_len;
+	char				hostname[NI_MAXHOST];
+	char				log_message[NI_MAXHOST + 1024];
+	Client				*c;
+
+	sa_len = sizeof(sa);
+	fd = accept(_server_fd, (SA*)(&sa), &sa_len);
+	if (fd < 0)
+		throw std::runtime_error(ERR_SCKFAIL);
+	if (fcntl(fd, F_SETFL, O_NONBLOCK) < 0)
+		throw std::runtime_error(ERR_FNBLCK);
+	pollfd	pfd = {fd, POLLIN, 0};
+	_pollfds.push_back(pfd);
+	if (getnameinfo((SA*)(&sa), sa_len, hostname, NI_MAXHOST, \
+					NULL, 0, NI_NUMERICSERV) < 0)
+	{
+		throw std::runtime_error(ERR_HOSTNAME);
+	}
+	c = new Client(fd, hostname, ntohs(sa.sin_port));
+	_clients[fd] = c;
+	sprintf(log_message, "%s:%d connected to the server.", \
+		c->getHostname().c_str(), c->getPort());
+	log(log_message);
+}
+
+std::string	Server::read_message(int fd, bool& is_closed)
+{
+	std::string	msg;
+	char		buffer[BUFFER_SIZE + 1];
+	int			rv;
+
+	do
+	{
+		memset(buffer, 0, BUFFER_SIZE);
+		rv = recv(fd, buffer, BUFFER_SIZE, 0);
+		buffer[rv] = 0;
+		if (rv == 0)
+		{
+			is_closed = true;
+			break;
+		}
+		else if (rv < 0 && rv != EWOULDBLOCK)
+			throw std::runtime_error(strerror(errno));
+		msg.append(buffer);
+	}
+	while (rv == BUFFER_SIZE);
+	return (msg);
 }
 
 int	Server::newSocket()
@@ -117,4 +210,3 @@ int	Server::newSocket()
 	}
 	return (sockfd);
 }
-
