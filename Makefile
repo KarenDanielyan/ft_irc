@@ -9,26 +9,26 @@ SUBDIRS =	network
 SRC		=	src
 
 SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
-			main.cpp) \
+			main.cpp utils.cpp) \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
-			Server.cpp)
+			Server.cpp Client.cpp)
 
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			defines.hpp \
-			Server.hpp)
+			Server.hpp Client.hpp)
 
 DEP		=	$(INC) Makefile
 
 OBJS	=	$(foreach dir, $(SUBDIRS), \
 			$(patsubst $(SRC)/$(dir)/%.cpp, $(BUILD)/%.o, \
 			$(filter $(SRC)/$(dir)/%.cpp, $(SRCS)))) \
-			$(patsubst %.cpp, $(BUILD)/%.o, main.cpp)
+			$(patsubst %.cpp, $(BUILD)/%.o, main.cpp utils.cpp)
 
 # Compilation Options
 
 CXX			=	c++
 
-CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g
+CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g -fsanitize=address
 
 INCFLAGS	=	-I $(INCLUDE)
 
