@@ -22,7 +22,14 @@ int	main(int ac, char **av)
 	else
 	{
 		serv = Server::getInstance(av[1], av[2]);
-		serv->start();
+		try
+		{
+			serv->start();
+		}
+		catch (std::exception &e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 	}
 	Server::destroyInstance();
 	return (0);
