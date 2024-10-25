@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/24 02:22:37 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/10/25 15:55:44 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void	Server::onClientDisconnect(pollfd& fd)
 	}
 }
 
+void	broadcast(int myfd, std::map<int, Client*> &clients, std::string &message);
+
 void	Server::onClientRequest(pollfd& fd)
 {
 	bool		is_closed = false;
@@ -117,7 +119,16 @@ void	Server::onClientRequest(pollfd& fd)
 	if (is_closed == true)
 		fd.revents = POLLHUP;
 	else
-		std::cout << input;
+		broadcast(fd.fd, _clients, input);
+}
+
+void	broadcast(int myfd, std::map<int, Client*> &clients, std::string &message)
+{
+	for (Server::clients_iterator_t it = clients.begin(); it != clients.end(); it++)
+	{
+		if (it->first != myfd)
+			send(it->first, message.c_str(), message.size(), 0);
+	}
 }
 
 void	Server::onClientConnect(void)

@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 00:16:22 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/24 00:48:40 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/10/25 15:51:17 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,9 @@ std::string const & Client::getHostname(void) const
 unsigned short Client::getPort(void) const
 {
 	return (_port);
+}
+
+int	Client::getFd(void) const
+{
+	return (_fd);
 }
