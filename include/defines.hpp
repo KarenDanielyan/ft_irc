@@ -21,6 +21,7 @@
 # define USAGE_MSG "Usage: ./ircserv <port> <password>"
 
 # define SA struct sockaddr
+# define SA_IN struct sockaddr_in
 
 /* Info Messages */
 # define INFO_LISTEN "Server listens to any new connections..."
