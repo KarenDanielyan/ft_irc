@@ -13,8 +13,6 @@
 #include "Server.hpp"
 #include "Client.hpp"
 #include "utils.hpp"
-#include <cerrno>
-#include <stdexcept>
 
 Server*	Server::_instance = NULL;
 
@@ -108,37 +106,26 @@ void	Server::onClientDisconnect(pollfd& fd)
 	}
 }
 
-void	broadcast(int myfd, std::map<int, Client*> &clients, std::string &message);
-
 void	Server::onClientRequest(pollfd& fd)
 {
 	bool		is_closed = false;
 	std::string	input;
 
-	input = read_message(fd.fd, is_closed);
+	input = readMessage(fd.fd, is_closed);
 	if (is_closed == true)
 		fd.revents = POLLHUP;
 	else
-		broadcast(fd.fd, _clients, input);
-}
-
-void	broadcast(int myfd, std::map<int, Client*> &clients, std::string &message)
-{
-	for (Server::clients_iterator_t it = clients.begin(); it != clients.end(); it++)
-	{
-		if (it->first != myfd)
-			send(it->first, message.c_str(), message.size(), 0);
-	}
+		std::cout << input;
 }
 
 void	Server::onClientConnect(void)
 {
-	int					fd;
-	struct sockaddr_in	sa;
-	socklen_t			sa_len;
-	char				hostname[NI_MAXHOST];
-	char				log_message[NI_MAXHOST + 1024];
-	Client				*c;
+	int			fd;
+	SA_IN		sa;
+	socklen_t	sa_len;
+	char		hostname[NI_MAXHOST];
+	char		log_message[NI_MAXHOST + 1024];
+	Client		*c;
 
 	sa_len = sizeof(sa);
 	fd = accept(_server_fd, (SA*)(&sa), &sa_len);
@@ -160,7 +147,7 @@ void	Server::onClientConnect(void)
 	log(log_message);
 }
 
-std::string	Server::read_message(int fd, bool& is_closed)
+std::string	Server::readMessage(int fd, bool& is_closed)
 {
 	std::string	msg;
 	char		buffer[BUFFER_SIZE + 1];
@@ -201,7 +188,7 @@ int	Server::newSocket()
 		throw std::runtime_error(ERR_FBIND);
 
 	/* Naming the socket */
-	struct sockaddr_in	serv_addr = {};
+	SA_IN	serv_addr = {};
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_addr.s_addr = INADDR_ANY;

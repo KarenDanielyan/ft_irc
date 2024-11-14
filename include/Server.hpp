@@ -55,7 +55,7 @@ private:
 	Server(std::string const & port, std::string const & password);
 	~Server();
 
-	std::string	read_message(int fd, bool &is_closed);
+	std::string	readMessage(int fd, bool &is_closed);
 
 	int	newSocket(void);
 
