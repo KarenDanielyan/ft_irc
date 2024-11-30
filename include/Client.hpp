@@ -25,7 +25,7 @@ protected:
 	unsigned short	_port;
 
 public:
-	Client(int fd, char *hostname, unsigned short port);
+	Client(int fd, const char *hostname, unsigned short port);
 	virtual ~Client();
 
 	std::string const &	getHostname(void) const;

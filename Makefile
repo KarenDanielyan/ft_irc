@@ -4,18 +4,19 @@ BUILD	=	build
 
 INCLUDE	=	include
 
-SUBDIRS =	network
+SUBDIRS =	network commands
 
 SRC		=	src
 
 SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			main.cpp utils.cpp) \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
-			Server.cpp Client.cpp)
-
+			Server.cpp Client.cpp) \
+			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
+			Commands.cpp Cap.cpp Invite.cpp Join.cpp Kick.cpp Mode.cpp Nick.cpp Notice.cpp Part.cpp Pass.cpp Ping.cpp Pong.cpp PrivMsg.cpp Quit.cpp Topic.cpp UserCmd.cpp Who.cpp)
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			defines.hpp \
-			Server.hpp Client.hpp)
+			Server.hpp Client.hpp Commands.hpp)
 
 DEP		=	$(INC) Makefile
 
