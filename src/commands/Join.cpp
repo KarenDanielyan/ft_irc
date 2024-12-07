@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Join(Client* _client, std::vector<std::string> _arg)
+Join::Join(Server* server): Command(server)
+{
+}
+
+Join::~Join()
+{
+}
+
+void Join::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

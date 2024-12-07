@@ -13,10 +13,14 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
 			Server.cpp Client.cpp) \
 			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
-			Commands.cpp Cap.cpp Invite.cpp Join.cpp Kick.cpp Mode.cpp Nick.cpp Notice.cpp Part.cpp Pass.cpp Ping.cpp Pong.cpp PrivMsg.cpp Quit.cpp Topic.cpp UserCmd.cpp Who.cpp)
+			CommandHandler.cpp Cap.cpp Invite.cpp Join.cpp \
+			Kick.cpp Mode.cpp Nick.cpp Notice.cpp \
+			Part.cpp Pass.cpp Ping.cpp Pong.cpp \
+			PrivMsg.cpp Quit.cpp Topic.cpp UserCmd.cpp \
+			Who.cpp)
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			defines.hpp \
-			Server.hpp Client.hpp Commands.hpp)
+			Server.hpp Client.hpp CommandHandler.hpp Command.hpp)
 
 DEP		=	$(INC) Makefile
 
@@ -29,7 +33,7 @@ OBJS	=	$(foreach dir, $(SUBDIRS), \
 
 CXX			=	c++
 
-CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g -fsanitize=address
+CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 #-g -fsanitize=address
 
 INCFLAGS	=	-I $(INCLUDE)
 

@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Topic(Client* _client, std::vector<std::string> _arg)
+Topic::Topic(Server* server): Command(server)
+{
+}
+
+Topic::~Topic()
+{
+}
+
+void Topic::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

@@ -1,7 +1,15 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Cap(Client* _client, std::vector<std::string> _arg)
+Cap::Cap(Server* server): Command(server)
 {
-	(void)_client;
-	(void)_arg;
+}
+
+Cap::~Cap()
+{
+}
+
+void Cap::implement(Client *client, std::vector<std::string> arg)
+{
+	(void)client;
+	(void)arg;
 }

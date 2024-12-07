@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Quit(Client* _client, std::vector<std::string> _arg)
+Quit::Quit(Server* server): Command(server)
+{
+}
+
+Quit::~Quit()
+{
+}
+
+void Quit::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

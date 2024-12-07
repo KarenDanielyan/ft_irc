@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::UserCmd(Client* _client, std::vector<std::string> _arg)
+UserCmd::UserCmd(Server* server): Command(server)
+{
+}
+
+UserCmd::~UserCmd()
+{
+}
+
+void UserCmd::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

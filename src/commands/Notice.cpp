@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Notice(Client* _client, std::vector<std::string> _arg)
+Notice::Notice(Server* server): Command(server)
+{
+}
+
+Notice::~Notice()
+{
+}
+
+void Notice::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;
