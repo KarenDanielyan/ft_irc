@@ -169,7 +169,22 @@
     "charconv": "cpp",
     "execution": "cpp",
     "map": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "xstring": "cpp",
+    "format": "cpp",
+    "xfacet": "cpp",
+    "xiosbase": "cpp",
+    "xlocale": "cpp",
+    "xlocbuf": "cpp",
+    "xlocinfo": "cpp",
+    "xlocmes": "cpp",
+    "xlocmon": "cpp",
+    "xlocnum": "cpp",
+    "xloctime": "cpp",
+    "xmemory": "cpp",
+    "xtr1common": "cpp",
+    "xtree": "cpp",
+    "xutility": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "python.analysis.typeCheckingMode": "basic"
