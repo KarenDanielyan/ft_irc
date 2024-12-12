@@ -18,6 +18,9 @@
 
 # define BUFFER_SIZE 80
 
+/* To be used later if we want */
+# define MSG_SIZE 512
+
 # define USAGE_MSG "Usage: ./ircserv <port> <password>"
 
 # define SA struct sockaddr
