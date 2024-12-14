@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Nick(Client* _client, std::vector<std::string> _arg)
+Nick::Nick(Server* server): Command(server)
+{
+}
+
+Nick::~Nick()
+{
+}
+
+void Nick::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

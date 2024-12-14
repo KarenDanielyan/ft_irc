@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Ping(Client* _client, std::vector<std::string> _arg)
+Ping::Ping(Server* server): Command(server)
+{
+}
+
+Ping::~Ping()
+{
+}
+
+void Ping::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

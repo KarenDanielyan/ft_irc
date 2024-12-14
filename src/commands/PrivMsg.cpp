@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::PrivMsg(Client* _client, std::vector<std::string> _arg)
+PrivMsg::PrivMsg(Server* server): Command(server)
+{
+}
+
+PrivMsg::~PrivMsg()
+{
+}
+
+void PrivMsg::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

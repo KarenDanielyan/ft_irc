@@ -1,97 +1,163 @@
-#include "Parser.hpp"
+#include "IRCParser.h"
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
+#include <algorithm>
+#include <cctype>
 
+void IRCParser::parseMessage(const std::string& rawMessage)
+{
+	_message = IRCMessage();
+	std::istringstream stream(rawMessage);
+	std::string token;
 
-static bool	Parser::check_arguments(std::string&)
-{
-	// check command + parametr if its rigth form
-} 
-static void	Parser::fill_client_command(std::string&)
-{
-	// fill all the data to cmd 
-}
-static int	Parser::check_command(cmd_data& cmd)
-{
-	// check command return its value depends on macros
-}
-static bool	Parser::check_commmand_cap(cmd_data& cmd)
-{
-	std::vector<std::string> sub_commands = {"LS", "LIST", "REQ", "ACK", "NAK", "NEW", "DEL", "END"};
-	// validateion for command cap
-}
-static bool	Parser::check_commmand_who(cmd_data& cmd) 
-{
-	// validateion for command who
-}
+	std::string message = rawMessage;
+	message.erase(0, message.find_first_not_of(" \r\n"));
+	message.erase(message.find_last_not_of(" \r\n") + 1);
 
-static bool	Parser::check_commmand_pass(cmd_data& cmd) 
-{
-	cmd->command_ is the PASS
-	cmd->parametrs_ is the <parametrs>
-	// validateion for command pass
-}
+	if (message.empty())
+		throw std::invalid_argument("Invalid IRC message: Empty message.");
 
-static bool	Parser::check_commmand_join(cmd_data& cmd)
-{
-	
-	// validateion for command join
-}
-static bool	Parser::check_commmand_kick(cmd_data& cmd)
-{
-	// validateion for command kick
-}
-static bool	Parser::check_commmand_mode(cmd_data& cmd)
-{
-	// validateion for command mode
-}
-static bool	Parser::check_commmand_quit(cmd_data& cmd)
-{
-	// validateion for command quit
-}
-static bool	Parser::check_commmand_nick(cmd_data& cmd)
-{
-	if (cmd.parametrs_.empty())
-		return false;
+	if (!message.empty() && message[0] == '@')
+	{
+		size_t spacePos = message.find(' ');
+		if (spacePos == std::string::npos)
+			throw std::invalid_argument("Invalid IRC message: Tags not followed by a space.");
+		std::string tags = message.substr(1, spacePos - 1);
+		_message.tags = parseTags(tags);
+		message = message.substr(spacePos + 1);
+	}
 
-	const std::string& nickname = cmd.parametrs_[0];
+	if (!message.empty() && message[0] == ':')
+	{
+		size_t spacePos = message.find(' ');
+		if (spacePos == std::string::npos)
+			throw std::invalid_argument("Invalid IRC message: Missing command after source.");
+		_message.source = message.substr(1, spacePos - 1);
+		message = message.substr(spacePos + 1);
+	}
 
-	if (nickname.empty())
-		return false;
-	if (nickname.find_first_not_of(VALID_CHARS) != std::string::npos;)
-		return false;
+	std::transform(message.begin(), message.end(), message.begin(), ::toupper);
+	size_t spacePos = message.find(' ');
+	if (spacePos == std::string::npos)
+	{
+		_message.command = message;
+		_message.parameters.clear();
+	}
+	else
+	{
+		_message.command = message.substr(0, spacePos);
+		std::string params = message.substr(spacePos + 1);
+		_message.parameters = parseParameters(params);
+	}
 
-	// check if its in use or not 
-	return true;
-}
-static bool	Parser::check_commmand_pong(cmd_data& cmd)
-{
-	// validateion for command pong
-}
-static bool	Parser::check_commmand_ping(cmd_data& cmd)
-{
-	// validateion for command ping
-}
-static bool	Parser::check_commmand_part(cmd_data& cmd)
-{
-	// validateion for command part
-}
-static bool	Parser::check_commmand_topic(cmd_data& cmd)
-{
-	// validateion for command topic
+	validateCommand();
+	if (rawMessage.length() > MAX_MESSAGE_LENGTH)
+		throw std::invalid_argument("Invalid IRC message: Message exceeds 512 characters.");
 }
 
-static bool	Parser::check_commmand_notice(cmd_data& cmd)
+const IRCMessage& IRCParser::getMessage() const
 {
-	// validateion for command notice
+	return _message;
 }
-static bool	Parser::check_commmand_invite(cmd_data& cmd)
+
+std::map<std::string, std::string> IRCParser::parseTags(const std::string& rawTags)
 {
-	// validateion for command invite
+	std::map<std::string, std::string> tags;
+	std::istringstream stream(rawTags);
+	std::string tag;
+
+	while (std::getline(stream, tag, ';'))
+	{
+		size_t eqPos = tag.find('=');
+		if (eqPos != std::string::npos)
+		{
+			std::string key = tag.substr(0, eqPos);
+			std::string value = decodeEscaped(tag.substr(eqPos + 1));
+			tags[key] = value;
+		} 
+		else
+			tags[tag] = "";
+	}
+	return tags;
 }
-static bool	Parser::check_commmand_privmsg(cmd_data& cmd)
+
+std::vector<std::string> IRCParser::parseParameters(const std::string& rawParams)
 {
-	// validateion for command privmsg
+	std::vector<std::string> parameters;
+	std::istringstream stream(rawParams);
+	std::string param;
+
+	while (std::getline(stream, param, ' '))
+	{
+		if (param[0] == ':')
+		{
+			std::string trailing;
+			std::getline(stream, trailing);
+			param = param.substr(1) + trailing;
+			parameters.push_back(param);
+			break;
+		}
+		parameters.push_back(param);
+	}
+	return parameters;
 }
-static bool	Parser::check_commmand_usercmd(cmd_data& cmd)
+
+std::string IRCParser::decodeEscaped(const std::string& rawValue)
 {
-	// validateion for command usercmd
+	std::string decoded;
+	for (size_t i = 0; i < rawValue.size(); ++i)
+	{
+		if (rawValue[i] == '\\' && i + 1 < rawValue.size()) 
+		{
+			switch (rawValue[i + 1])
+			{
+				case ':':
+					decoded += ':';
+					break;
+				case 's':
+					decoded += ' ';
+					break;
+				case '\\':
+					decoded += '\\';
+					break;
+				default:
+					decoded += rawValue[i + 1];
+					break;
+			}
+			++i;
+		}
+		else
+			decoded += rawValue[i];
+	}
+	return decoded;
+}
+
+void IRCParser::validateCommand()
+{
+	if (_message.command == "NICK")
+	{	
+		if (_message.parameters.size() != 1)
+			throw std::invalid_argument("Invalid NICK command: Requires exactly 1 parameter.");
+	}
+	else if (_message.command == "JOIN")
+	{
+		if (_message.parameters.size() < 1)
+			throw std::invalid_argument("Invalid JOIN command: Requires at least 1 parameter.");
+	}
+	else if (_message.command == "PRIVMSG")
+	{
+		if (_message.parameters.size() < 2)
+			throw std::invalid_argument("Invalid PRIVMSG command: Requires at least 2 parameters.");
+	}
+	else if (_message.command == "PART")
+	{
+		if (_message.parameters.size() < 1)
+			throw std::invalid_argument("Invalid PART command: Requires at least 1 parameter.");
+	}
+	else if (_message.command == "PONG")
+	{
+		if (_message.parameters.size() != 1)
+			throw std::invalid_argument("Invalid PONG command: Requires exactly 1 parameter.");
+	}
 }

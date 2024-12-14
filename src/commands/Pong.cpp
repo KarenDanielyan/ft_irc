@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Pong(Client* _client, std::vector<std::string> _arg)
+Pong::Pong(Server* server): Command(server)
+{
+}
+
+Pong::~Pong()
+{
+}
+
+void Pong::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

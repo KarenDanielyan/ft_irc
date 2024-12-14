@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Kick(Client* _client, std::vector<std::string> _arg)
+Kick::Kick(Server* server): Command(server)
+{
+}
+
+Kick::~Kick()
+{
+}
+
+void Kick::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Mode(Client* _client, std::vector<std::string> _arg)
+Mode::Mode(Server* server): Command(server)
+{
+}
+
+Mode::~Mode()
+{
+}
+
+void Mode::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

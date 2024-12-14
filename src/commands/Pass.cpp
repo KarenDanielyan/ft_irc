@@ -1,6 +1,14 @@
-#include "../include/Commands.hpp"
+#include "../include/Command.hpp"
 
-void Commands::Pass(Client* _client, std::vector<std::string> _arg)
+Pass::Pass(Server* server): Command(server)
+{
+}
+
+Pass::~Pass()
+{
+}
+
+void Pass::implement(Client* _client, std::vector<std::string> _arg)
 {
 	(void)_client;
 	(void)_arg;

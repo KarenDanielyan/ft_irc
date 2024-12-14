@@ -2,24 +2,17 @@
 #define _message_
 
 
-class Message
+
+#define MAX_MESSAGE_LENGTH 512
+
+struct IRCMessage
 {
-	private:
-		Client						*client_;
-		Server						*server_;
-		std::string					command_;
-		std::vector<std::string>	parametrs_;
-	public:
-		Client* 					get_client(void);
-		std::string					get_command(void);
-		std::vector<std::string>	get_parametrs(void);
-		Server*						get_server(void);
-	public:
-		void						set_server(Server& server);
-		void						set_clinet(Clinet& client);
-		void						set_command(std::string& command);
-		void						set_parametrs(std::vector<std::string>& parametrs);
+	std::map<std::string, std::string> _tags;
+	std::string _source;
+	std::string _command;
+	std::vector<std::string> _parameters;
 };
+
 
 
 #endif

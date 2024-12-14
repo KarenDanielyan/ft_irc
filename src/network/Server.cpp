@@ -112,6 +112,7 @@ void	Server::onClientRequest(pollfd& fd)
 	std::string	input;
 
 	input = readMessage(fd.fd, is_closed);
+	// parseMessage(input);
 	if (is_closed == true)
 		fd.revents = POLLHUP;
 	else
