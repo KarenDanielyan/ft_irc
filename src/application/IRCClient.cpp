@@ -10,5 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "IRCClient.hpp"
+#include "IRCClient.hpp"
+
+IRCClient::IRCClient(int fd, char *hostname, unsigned short port): \
+	Client(fd, hostname, port)
+{
+
+}
 

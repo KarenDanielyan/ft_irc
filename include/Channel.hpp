@@ -1,40 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.hpp                                         :+:      :+:    :+:   */
+/*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 17:02:33 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/25 15:15:55 by kdaniely         ###   ########.fr       */
+/*   Created: 2024/10/24 20:09:45 by kdaniely          #+#    #+#             */
+/*   Updated: 2024/10/24 20:13:25 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_HPP
-# define CLIENT_HPP
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 
-# include <sys/socket.h>
-# include <string>
-# include <netdb.h>
-
-/* 
- * NOTE: Never modify this class.
-*/
-
-class	Client
+class	Channel
 {
-protected:
-	int				_fd;
-	std::string		_hostname;
-	unsigned short	_port;
+private:
+	Channel() {}
 
 public:
-	Client(int fd, char *hostname, unsigned short port);
-	virtual ~Client();
-
-	std::string const &	getHostname(void) const;
-	unsigned short		getPort(void) const;
-	int					getFd(void) const;
 };
 
 #endif

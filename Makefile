@@ -12,6 +12,8 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			main.cpp utils.cpp) \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
 			Server.cpp Client.cpp)
+			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
+			IRCClient.cpp)
 
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			defines.hpp \

@@ -106,6 +106,19 @@ void	Server::onClientDisconnect(pollfd& fd)
 	}
 }
 
+void	broadcast(std::vector<pollfd> _pollfds, std::string msg);
+
+/*
+ * TODO:	As any communication is triggered by the client only, when handling
+ *			client requests, we can let know of the status of the proccess
+ *			through returning a value.
+ *			The pipeline should look like this:
+ *				1. We recieve a request
+ *				2. We send it up to the Application layer
+ *				3. Application layers sends back a reply code.
+ *				4. Server sends back a reply based on the reply code.
+*/
+
 void	Server::onClientRequest(pollfd& fd)
 {
 	bool		is_closed = false;
@@ -115,7 +128,14 @@ void	Server::onClientRequest(pollfd& fd)
 	if (is_closed == true)
 		fd.revents = POLLHUP;
 	else
-		std::cout << input;
+		broadcast(this->_pollfds, input);
+}
+
+void	broadcast(std::vector<pollfd> _pollfds, std::string msg)
+{
+	for (size_t i = 1; i < _pollfds.size(); i++)
+		send(_pollfds[i].fd, msg.c_str(), msg.length(), 0);
+	std::cout << msg;
 }
 
 void	Server::onClientConnect(void)

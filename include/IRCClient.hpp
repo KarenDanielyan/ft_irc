@@ -19,9 +19,18 @@
 class	IRCClient : public Client
 {
 private:
-	Channel	*_channel;
+	std::string	_nickname;
+	std::string	_username;
+	std::string	_realname;
+	Channel		*_channel;
 public:
-	IRCClient();
+	enum	e_ClientState
+	{
+		LOGIN,
+		LIVE,
+		DISCONNECTED
+	};
+	IRCClient(int fd, char *hostname, unsigned short port);
 
 	~IRCClient();
 };

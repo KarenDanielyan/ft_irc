@@ -71,6 +71,8 @@ public:
 	static void		destroyInstance(void);
 
 	void	start(void);
+	
+	void	reply(int rcode);
 };
 
 #endif
