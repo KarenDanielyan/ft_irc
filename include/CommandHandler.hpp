@@ -7,11 +7,12 @@
 #include <vector>
 #include <map>
 #include "Server.hpp"
-#include "Client.hpp"
+#include "IRCClient.hpp"
 #include "Command.hpp"
+#include "utils.hpp"
 
 class Server;
-class Client;
+class IRCClient;
 class Command;
 
 class CommandHandler
@@ -23,7 +24,7 @@ class CommandHandler
 		CommandHandler(Server* server);
 		~CommandHandler();
 
-    void Handler(Client* client, std::vector<std::string> arg, std::string cmd);
+    void Handler(IRCClient* IRCClient, std::vector<std::string> arg, std::string cmd);
 };
 
 #endif

@@ -8,8 +8,23 @@ Who::~Who()
 {
 }
 
-void Who::implement(Client* _client, std::vector<std::string> _arg)
+void Who::implement(IRCClient* client, std::vector<std::string> arg)
 {
-	(void)_client;
-	(void)_arg;
+	(void)client;
+	(void)arg;
+	// if (arg.empty())
+	// {
+	// 	//print for who -------- only the IRCClient
+	// }
+	// std::string mask = arg[0];
+	// Channel *channel = _server.channels.find(mask);
+	// if (channel)
+	// {
+	// 	// print channels IRCClients
+	// }
+
+	// if (getIRCClient(mask))
+	// {
+	// 	//reply-> nickname
+	// }
 }

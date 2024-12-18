@@ -8,9 +8,23 @@ Pass::~Pass()
 {
 }
 
-void Pass::implement(Client* _client, std::vector<std::string> _arg)
+void Pass::implement(IRCClient* client, std::vector<std::string> arg)
 {
-	(void)_client;
-	(void)_arg;
+	(void)client;
+	if (arg.empty())
+	{
+		throw ReplyException(ERR_NEEDMOREPARAMS("Pass"));
+		return ;
+	}
+	// if (client->isRegistered())
+	// {
+	// 	throw ReplyException(ERR_ALREADYREGISTERED("alabula"));
+	// 	return ;
+	// }
+	// if (_server->getPassword() != arg[0])
+	// {
+	// 	throw ReplyException(ERR_PASSWDMISMATCH(" "));
+	// 	return ;
+	// }
 }
 

@@ -1,5 +1,7 @@
 #include "../include/Command.hpp"
 
+//INVITE <nickname> <channel>
+
 Invite::Invite(Server* server): Command(server)
 {
 }
@@ -8,19 +10,19 @@ Invite::~Invite()
 {
 }
 
-void Invite::implement(Client* _client, std::vector<std::string> _arg)
+void Invite::implement(IRCClient* client, std::vector<std::string> arg)
 {
-	(void)_client;
-	(void)_arg;
+	(void)client;
+	(void)arg;
 	// if (_arg.size() < 2)
 	// {
 	// 	// error_msg NEEDMOREPARAMS
 	// }
 
-	// Client* _clientToInvite = _server->getUser(_arg[0]);
+	// IRCClient* _IRCClientToInvite = _server->getUser(_arg[0]);
 	// Channel* _channelToInvite = _server->getChannel(_arg[1]);
 
-	// if (!_clientToInvite)
+	// if (!_IRCClientToInvite)
 	// {
 	// 	//error_msg ERR_NOSUCHNICK
 	// }
@@ -28,7 +30,8 @@ void Invite::implement(Client* _client, std::vector<std::string> _arg)
 	// {
 	// 	//error_msg ERR_NOSUCHCHANNEL
 	// }
-	// check if the _client is in channel
-	// check if the _client has the permision to invite
+	// if (_ch)
+	// check if the _IRCClient is in channel
+	// check if the _IRCClient has the permision to invite
 	// 
 }

@@ -8,8 +8,8 @@ Kick::~Kick()
 {
 }
 
-void Kick::implement(Client* _client, std::vector<std::string> _arg)
+void Kick::implement(IRCClient* client, std::vector<std::string> arg)
 {
-	(void)_client;
-	(void)_arg;
+	(void)client;
+	(void)arg;
 }

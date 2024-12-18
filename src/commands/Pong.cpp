@@ -8,8 +8,11 @@ Pong::~Pong()
 {
 }
 
-void Pong::implement(Client* _client, std::vector<std::string> _arg)
+void Pong::implement(IRCClient* client, std::vector<std::string> arg)
 {
-	(void)_client;
-	(void)_arg;
+	(void)client;
+	(void)arg;
 }
+
+
+// do we need??

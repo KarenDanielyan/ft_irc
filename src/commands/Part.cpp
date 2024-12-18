@@ -8,8 +8,8 @@ Part::~Part()
 {
 }
 
-void Part::implement(Client* _client, std::vector<std::string> _arg)
+void Part::implement(IRCClient* client, std::vector<std::string> arg)
 {
-	(void)_client;
-	(void)_arg;
+	(void)client;
+	(void)arg;
 }

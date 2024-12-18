@@ -2,7 +2,8 @@
 # define COMMAND_HPP
 
 #include "Server.hpp"
-#include "Client.hpp"
+#include "IRCClient.hpp"
+#include "utils.hpp"
 #include <string>
 
 class Command
@@ -13,7 +14,7 @@ class Command
 		Command(Server* server): _server(server){};
 		virtual ~Command(){};
 
-		virtual void implement(Client *client, std::vector<std::string> arg) = 0;
+		virtual void implement(IRCClient *IRCClient, std::vector<std::string> arg) = 0;
 };
 
 class Cap: public Command
@@ -22,7 +23,7 @@ class Cap: public Command
 		Cap(Server *server);
 		~Cap();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Invite: public Command
@@ -31,7 +32,7 @@ class Invite: public Command
 		Invite(Server *server);
 		~Invite();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Join: public Command
@@ -40,7 +41,7 @@ class Join: public Command
 		Join(Server *server);
 		~Join();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Kick: public Command
@@ -49,7 +50,7 @@ class Kick: public Command
 		Kick(Server *server);
 		~Kick();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Mode: public Command
@@ -58,7 +59,7 @@ class Mode: public Command
 		Mode(Server *server);
 		~Mode();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Nick: public Command
@@ -67,7 +68,7 @@ class Nick: public Command
 		Nick(Server *server);
 		~Nick();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Notice: public Command
@@ -76,7 +77,7 @@ class Notice: public Command
 		Notice(Server *server);
 		~Notice();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Part: public Command
@@ -85,7 +86,7 @@ class Part: public Command
 		Part(Server *server);
 		~Part();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Pass: public Command
@@ -94,7 +95,7 @@ class Pass: public Command
 		Pass(Server *server);
 		~Pass();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Ping: public Command
@@ -103,7 +104,7 @@ class Ping: public Command
 		Ping(Server *server);
 		~Ping();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Pong: public Command
@@ -112,7 +113,7 @@ class Pong: public Command
 		Pong(Server *server);
 		~Pong();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class PrivMsg: public Command
@@ -121,7 +122,7 @@ class PrivMsg: public Command
 		PrivMsg(Server *server);
 		~PrivMsg();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Quit: public Command
@@ -130,7 +131,7 @@ class Quit: public Command
 		Quit(Server *server);
 		~Quit();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Topic: public Command
@@ -139,16 +140,16 @@ class Topic: public Command
 		Topic(Server *server);
 		~Topic();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
-class UserCmd: public Command
+class User: public Command
 {
 	public:
-		UserCmd(Server *server);
-		~UserCmd();
+		User(Server *server);
+		~User();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 
 class Who: public Command
@@ -157,6 +158,6 @@ class Who: public Command
 		Who(Server *server);
 		~Who();
 
-		void implement(Client *client, std::vector<std::string> arg);
+		void implement(IRCClient *IRCClient, std::vector<std::string> arg);
 };
 #endif

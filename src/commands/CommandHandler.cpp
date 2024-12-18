@@ -16,12 +16,15 @@ CommandHandler::CommandHandler(Server *server) : _server(server)
 	_commands["PRIVMSG"] = new PrivMsg(server);
 	_commands["QUIT"] = new Quit(server);
 	_commands["TOPIC"] = new Topic(server);
-	_commands["USERCMD"] = new UserCmd(server);
+	_commands["USER"] = new User(server);
 	_commands["WHO"] = new Who(server);
-
 }
 
-void CommandHandler::Handler(Client* client, std::vector<std::string> arg, std::string cmd)
+void CommandHandler::Handler(IRCClient* client, std::vector<std::string> arg, std::string cmd)
 {
-	_commands[cmd]->implement(client, arg);
+	std::map<std::string, Command*>::iterator it = _commands.find(cmd);
+	if (it == _commands.end())
+		throw ReplyException(ERR_UNKNOWNCOMMAND(cmd));
+	else
+		_commands[cmd]->implement(client, arg);
 }

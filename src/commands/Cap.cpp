@@ -8,8 +8,8 @@ Cap::~Cap()
 {
 }
 
-void Cap::implement(Client *client, std::vector<std::string> arg)
+void Cap::implement(IRCClient *IRCClient, std::vector<std::string> arg)
 {
-	(void)client;
+	(void)IRCClient;
 	(void)arg;
 }

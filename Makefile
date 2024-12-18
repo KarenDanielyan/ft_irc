@@ -16,11 +16,12 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			CommandHandler.cpp Cap.cpp Invite.cpp Join.cpp \
 			Kick.cpp Mode.cpp Nick.cpp Notice.cpp \
 			Part.cpp Pass.cpp Ping.cpp Pong.cpp \
-			PrivMsg.cpp Quit.cpp Topic.cpp UserCmd.cpp \
+			PrivMsg.cpp Quit.cpp Topic.cpp User.cpp \
 			Who.cpp)
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			defines.hpp \
-			Server.hpp Client.hpp CommandHandler.hpp Command.hpp)
+			Server.hpp Client.hpp CommandHandler.hpp Command.hpp \
+			IRCClient.hpp Channel.hpp)
 
 DEP		=	$(INC) Makefile
 

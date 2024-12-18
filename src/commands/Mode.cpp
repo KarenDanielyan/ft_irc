@@ -8,8 +8,8 @@ Mode::~Mode()
 {
 }
 
-void Mode::implement(Client* _client, std::vector<std::string> _arg)
+void Mode::implement(IRCClient* client, std::vector<std::string> arg)
 {
-	(void)_client;
-	(void)_arg;
+	(void)client;
+	(void)arg;
 }
