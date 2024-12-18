@@ -12,7 +12,7 @@
 
 #include "Client.hpp"
 
-Client::Client(int fd, char *hostname, unsigned short port): \
+Client::Client(int fd, const char *hostname, unsigned short port): \
 	_fd(fd), _hostname(hostname), _port(port) {}
 
 Client::~Client(void) {}

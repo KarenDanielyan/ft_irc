@@ -96,12 +96,12 @@ void	Server::onClientDisconnect(pollfd& fd)
 	if (it != _clients.end())
 	{
 		Client	*c = _clients.find(fd.fd)->second;
-		char	log_message[NI_MAXHOST + 1024];
+		// char	log_message[NI_MAXHOST + 1024];
 
 		_clients.erase(fd.fd);
-		sprintf(log_message, "%s:%d disconnected to the server.", \
-			c->getHostname().c_str(), c->getPort());
-		log(log_message);
+		// sprintf(log_message, "%s:%d disconnected to the server.", \
+			// 	c->getHostname().c_str(), c->getPort());
+		// log(log_message);
 		delete c;
 	}
 }
@@ -112,8 +112,7 @@ void	Server::onClientRequest(pollfd& fd)
 	std::string	input;
 
 	input = readMessage(fd.fd, is_closed);
-	// parseMessage(input);
-	if (is_closed == true)
+		if (is_closed == true)
 		fd.revents = POLLHUP;
 	else
 		std::cout << input;
@@ -125,7 +124,7 @@ void	Server::onClientConnect(void)
 	SA_IN		sa;
 	socklen_t	sa_len;
 	char		hostname[NI_MAXHOST];
-	char		log_message[NI_MAXHOST + 1024];
+	// char		log_message[NI_MAXHOST + 1024];
 	Client		*c;
 
 	sa_len = sizeof(sa);
@@ -143,9 +142,9 @@ void	Server::onClientConnect(void)
 	}
 	c = new Client(fd, hostname, ntohs(sa.sin_port));
 	_clients[fd] = c;
-	sprintf(log_message, "%s:%d connected to the server.", \
-		c->getHostname().c_str(), c->getPort());
-	log(log_message);
+	// sprintf(log_message, "%s:%d connected to the server.", \
+		// 	c->getHostname().c_str(), c->getPort());
+	// log(log_message);
 }
 
 std::string	Server::readMessage(int fd, bool& is_closed)
