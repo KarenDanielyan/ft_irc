@@ -35,6 +35,15 @@
 # define ERR_ADDRBIND "Error: failed to assign a name to a socket!"
 # define ERR_CREFUSED "Error: connection refused!"
 # define ERR_POLL "Error: polling failed!"
-# define ERR_HOSTNAME "Error: cannot retrieve hostname of the client!"
+# define ERR_HOSTNAME "Error: cannot retrieve hostname of the IRCClient!"
 
+/*reply*/
+# define ERR_ALREADYREGISTERED(target) (std::string("462 ") + "Error:" + target + " You may not reregister")
+# define ERR_NEEDMOREPARAMS(target) (std::string("461 ") + "Error:" + target + " Not enough parameters")
+# define ERR_NOSUCHNICK(target) (std::string("401 ") + "Error:" + target + " No such nick/channel")
+# define ERR_NOSUCHCHANNEL(target) (std::string("403 ") + "Error:" + target + " No such channel")
+# define ERR_NONICKNAMEGIVEN(target) (std::string("431 ") + "Error:" + target + " No nickname given")
+# define ERR_NICKNAMEINUSE(target) (std::string("433 ") + "Error:" + target + " Nickname is already in use")
+# define ERR_PASSWDMISMATCH(target) (std::string("464 ") + "Error:" + target + " Password incorrect")
+# define ERR_UNKNOWNCOMMAND(target) (std::string("421 ") + "Error: " + target + " Unknown command")
 #endif
