@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IRCClient.cpp                                      :+:      :+:    :+:   */
+/*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 15:16:27 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/25 15:16:37 by kdaniely         ###   ########.fr       */
+/*   Created: 2024/10/24 20:09:45 by kdaniely          #+#    #+#             */
+/*   Updated: 2024/10/24 20:13:25 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "IRCClient.hpp"
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 
-IRCClient::IRCClient(int fd, char *hostname, unsigned short port): \
-	Client(fd, hostname, port)
+class	Channel
 {
+private:
+	Channel() {}
 
-}
+public:
+};
 
+#endif
