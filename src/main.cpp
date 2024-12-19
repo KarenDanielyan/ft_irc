@@ -13,24 +13,40 @@
 #include <iostream>
 #include "Server.hpp"
 
-int	main(int ac, char **av)
-{
-	Server*	serv;
+#include <iostream>
 
-	if (ac != 3)
-		std::cout << USAGE_MSG << std::endl;
-	else
+int main()
+{
+	IRCParser parser;
+	std::vector<std::string> testMessages = {
+		"@time=12345;key=value :source PRIVMSG #channel :Hello, world!",
+		"NICK new_user",
+		"JOIN #channel1,#channel2",
+		"PRIVMSG #channel :Hello there!",
+		"PART #channel",
+		"PONG server1"
+	};
+	for (const auto& message : testMessages)
 	{
-		serv = Server::getInstance(av[1], av[2]);
-		try
-		{
-			serv->start();
-		}
-		catch (std::exception &e)
-		{
-			std::cout << e.what() << std::endl;
+		try {
+			parser.parseMessage(message);
+			const IRCMessage& ircMessage = parser.getMessage();
+			std::cout << "Parsed message:\n";
+			std::cout << "Command: " << ircMessage._command << "\n";
+			std::cout << "Source: " << ircMessage._source << "\n";
+			std::cout << "Tags: \n";
+			for (const auto& tag : ircMessage._tags) {
+				std::cout << "  " << tag.first << "=" << tag.second << "\n";
+			}
+			std::cout << "Parameters: \n";
+			for (const auto& param : ircMessage._parameters) {
+				std::cout << "  " << param << "\n";
+			}
+			std::cout << std::endl;
+		} catch (const std::invalid_argument& e) {
+			std::cout << "Error parsing message: " << e.what() << std::endl;
 		}
 	}
-	Server::destroyInstance();
-	return (0);
+
+	return 0;
 }
