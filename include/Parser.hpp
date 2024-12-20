@@ -38,8 +38,8 @@ class IRCParser
 
 		void parseMessage(const std::string& rawMessage);
 		const IRCMessage& getMessage() const;
-
-		void processCommand();
+		void validateCommand() const;
+		void processCommand() const;
 };
 
 #endif

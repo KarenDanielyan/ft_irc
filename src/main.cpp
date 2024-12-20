@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
 #include "Server.hpp"
-
 #include <iostream>
+
+#include "IRCParser.h"
 
 int main()
 {
