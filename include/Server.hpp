@@ -40,9 +40,6 @@
 class	Server
 {
 private:
-	static Server*	_instance;
-
-	bool			_running;
 	int				_server_fd;
 	unsigned short	_port;
 
@@ -51,9 +48,6 @@ private:
 	std::vector<pollfd>		_pollfds;
 	std::map<int, Client*>	_clients;
 
-
-	Server(std::string const & port, std::string const & password);
-	~Server();
 
 	std::string	readMessage(int fd, bool &is_closed);
 
@@ -66,13 +60,15 @@ public:
 	typedef std::vector<pollfd>::iterator		pollfds_iterator_t;
 	typedef std::map<int, Client*>::iterator	clients_iterator_t;
 
-	static Server*	getInstance(std::string const & port, \
-							std::string const & password);
-	static void		destroyInstance(void);
+	Server(std::string const & port, std::string const & password);
+	~Server();
+
 
 	void	start(void);
 	
 	void	reply(int rcode);
+
+	void	send(Client* to, std::string const & message);
 };
 
 #endif

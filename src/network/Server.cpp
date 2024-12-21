@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/25 15:55:44 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:01:05 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 #include "Client.hpp"
 #include "utils.hpp"
 
-Server*	Server::_instance = NULL;
-
 Server::Server(std::string const & port, std::string const & password): \
-	_running(true), _passwd(password)
+		_passwd(password)
 {
 	int	p;
 
@@ -38,22 +36,6 @@ Server::~Server(void)
 		delete it->second;
 }
 
-Server*	Server::getInstance(std::string const & port, std::string const & password)
-{
-	if (_instance == NULL)
-		_instance = new Server(port, password);
-	return (_instance);
-}
-
-void	Server::destroyInstance(void)
-{
-	if (_instance != NULL)
-	{
-		delete _instance;
-		_instance = NULL;
-	}
-}
-
 void	Server::start(void)
 {
 	pollfd	servfd = {_server_fd, POLLIN, 0};
@@ -61,7 +43,7 @@ void	Server::start(void)
 	_pollfds.push_back(servfd);
 
 	log(INFO_LISTEN);
-	while (_running)
+	while (true)
 	{
 		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 1)
 			throw std::runtime_error(ERR_POLL);
