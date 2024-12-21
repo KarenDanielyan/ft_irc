@@ -1,36 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Application.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 21:51:28 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/25 13:56:55 by kdaniely         ###   ########.fr       */
+/*   Created: 2024/12/21 14:53:12 by kdaniely          #+#    #+#             */
+/*   Updated: 2024/12/21 14:53:59 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
 #include "Application.hpp"
 
-int	main(int ac, char **av)
-{
-	Application*	app;
+Application*	Application::_instance = NULL;
 
-	if (ac != 3)
-		std::cout << USAGE_MSG << std::endl;
-	else
-	{
-		app = Application::getInstance(av[1], av[2]);
-		try
-		{
-			app->run();
-		}
-		catch (std::exception &e)
-		{
-			std::cout << e.what() << std::endl;
-		}
-	}
-	Application::destroyInstance();
-	return (0);
-}
+
