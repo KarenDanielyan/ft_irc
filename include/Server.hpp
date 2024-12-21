@@ -43,8 +43,6 @@ private:
 	int				_server_fd;
 	unsigned short	_port;
 
-	const std::string	_passwd;
-
 	std::vector<pollfd>		_pollfds;
 	std::map<int, Client*>	_clients;
 
@@ -60,7 +58,7 @@ public:
 	typedef std::vector<pollfd>::iterator		pollfds_iterator_t;
 	typedef std::map<int, Client*>::iterator	clients_iterator_t;
 
-	Server(std::string const & port, std::string const & password);
+	Server(unsigned short port);
 	~Server();
 
 

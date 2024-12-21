@@ -22,7 +22,6 @@ private:
 	static Application*	_instance;
 	Server*				_serv;
 
-	unsigned short		_port;
 	std::string			_password;
 
 	Application(std::string const & port, \

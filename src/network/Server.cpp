@@ -14,18 +14,15 @@
 #include "Client.hpp"
 #include "utils.hpp"
 
-Server::Server(std::string const & port, std::string const & password): \
-		_passwd(password)
+Server::Server(unsigned short port): _port(port)
 {
-	int	p;
+	pollfd	servfd;
 
-	if (port.find_first_not_of("0123456789") != port.npos)
-		throw std::runtime_error(ERR_PNAN);
-	p = std::atoi(port.c_str());
-	if (p <= 1023 || p >= UINT16_MAX)
-		throw std::runtime_error(ERR_PINV);
-	_port = static_cast<unsigned short>(p);
 	_server_fd = newSocket();
+	servfd.fd = _server_fd;
+	servfd.events = POLLIN;
+	servfd.revents = 0;
+	_pollfds.push_back(servfd);
 }
 
 Server::~Server(void)
@@ -38,10 +35,6 @@ Server::~Server(void)
 
 void	Server::start(void)
 {
-	pollfd	servfd = {_server_fd, POLLIN, 0};
-
-	_pollfds.push_back(servfd);
-
 	log(INFO_LISTEN);
 	while (true)
 	{
