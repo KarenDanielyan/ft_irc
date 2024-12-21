@@ -1,5 +1,5 @@
 #include "../include/Command.hpp"
-
+//done
 Who::Who(Server* server): Command(server)
 {
 }
@@ -14,17 +14,25 @@ void Who::implement(IRCClient* client, std::vector<std::string> arg)
 	(void)arg;
 	// if (arg.empty())
 	// {
-	// 	//print for who -------- only the IRCClient
+	// 	int i = -1;
+	// 	while (_server._clients[++i])
+	// 	{
+	// 		_server._clients[i].getNickname();
+	// 		_server._clients[i].getUsername();
+	// 		_server._clients[i].getRealname();
+	// 	}
 	// }
 	// std::string mask = arg[0];
 	// Channel *channel = _server.channels.find(mask);
 	// if (channel)
 	// {
-	// 	// print channels IRCClients
-	// }
-
-	// if (getIRCClient(mask))
+		// print with checking is it in the cheannel
+		// or print chanels clients if the channel stores clients
+	// } else if (getIRCClient(mask))
 	// {
-	// 	//reply-> nickname
-	// }
+	// 	clients.getNickname();
+	// 	client.getUsername();
+	// 	clients.getRealname();
+	// } else 
+		// throw ReplyException(ERR_NOSUCHNICK(mask));
 }

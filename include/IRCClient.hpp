@@ -22,7 +22,7 @@ private:
 	std::string	_nickname;
 	std::string	_username;
 	std::string	_realname;
-	Channel		*_channel;
+	// Channel		*_channel;
 public:
 	enum	e_ClientState
 	{
@@ -31,8 +31,11 @@ public:
 		DISCONNECTED
 	};
 	IRCClient(int fd, char *hostname, unsigned short port);
-
-	~IRCClient();
+	std::string getNickname(){
+		return this->_nickname;
+	}
+	void setNickname(std::string nick){ _nickname = nick;}
+	~IRCClient() {};
 };
 
 #endif

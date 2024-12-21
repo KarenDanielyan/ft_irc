@@ -4,7 +4,7 @@ BUILD	=	build
 
 INCLUDE	=	include
 
-SUBDIRS =	network commands
+SUBDIRS =	network commands application
 
 SRC		=	src
 
@@ -12,6 +12,8 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			main.cpp utils.cpp) \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
 			Server.cpp Client.cpp) \
+			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
+			IRCClient.cpp) \
 			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
 			CommandHandler.cpp Cap.cpp Invite.cpp Join.cpp \
 			Kick.cpp Mode.cpp Nick.cpp Notice.cpp \

@@ -18,22 +18,31 @@
 int	main(int ac, char **av)
 {
 	Server*	serv;
-CommandHandler* command;
-	Client* client;
+	CommandHandler* command;
+	IRCClient* client;
 
 	if (ac != 3)
 		std::cout << USAGE_MSG << std::endl;
 	else
 	{
-std::vector<std::string> args(av, av + ac);
+		std::vector<std::string> args(av, av + ac);
 
 		serv = Server::getInstance(av[1], av[2]);
-command = new CommandHandler(serv);
+		command = new CommandHandler(serv);
 		const std::string host = "hostname";
-		client = new Client(1, host.c_str(), 8888);
+		// IRCClient(int fd, char *hostname, unsigned short port);
+
+		client = new IRCClient(1, const_cast<char*>(host.c_str()), 8888);
+		client->setNickname("marihovh");
 		try
 		{
-			command->Handler(client, args, "PASS");
+			std::vector<std::string> arg;
+			arg.push_back("PRIVMSG");
+			arg.push_back("#wef");
+			arg.push_back("es");
+
+
+			command->Handler(client, arg, "Topic");
 			// serv->start();
 		}
 		catch (std::exception &e)
