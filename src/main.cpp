@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <iostream>
+#include <stdexcept>
 #include "Application.hpp"
 
 int	main(int ac, char **av)
@@ -21,12 +22,12 @@ int	main(int ac, char **av)
 		std::cout << USAGE_MSG << std::endl;
 	else
 	{
-		app = Application::getInstance(av[1], av[2]);
 		try
 		{
+			app = Application::getInstance(av[1], av[2]);
 			app->run();
 		}
-		catch (std::exception &e)
+		catch (const std::exception &e)
 		{
 			std::cout << e.what() << std::endl;
 		}
