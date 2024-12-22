@@ -112,6 +112,8 @@ void	Server::onClientRequest(pollfd& fd)
 	std::string	input;
 
 	input = readMessage(fd.fd, is_closed);
+	// IRCParser parser.client = -;
+	parser.parseMessage(imput);
 	if (is_closed == true)
 		fd.revents = POLLHUP;
 	else

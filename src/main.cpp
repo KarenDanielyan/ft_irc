@@ -10,43 +10,76 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
+// #include "Server.hpp"
 #include <iostream>
 
-#include "IRCParser.h"
+#include "../include/Parser.hpp"
 
-int main()
-{
-	IRCParser parser;
-	std::vector<std::string> testMessages = {
-		"@time=12345;key=value :source PRIVMSG #channel :Hello, world!",
-		"NICK new_user",
-		"JOIN #channel1,#channel2",
-		"PRIVMSG #channel :Hello there!",
-		"PART #channel",
-		"PONG server1"
-	};
-	for (const auto& message : testMessages)
-	{
-		try {
-			parser.parseMessage(message);
-			const IRCMessage& ircMessage = parser.getMessage();
-			std::cout << "Parsed message:\n";
-			std::cout << "Command: " << ircMessage._command << "\n";
-			std::cout << "Source: " << ircMessage._source << "\n";
-			std::cout << "Tags: \n";
-			for (const auto& tag : ircMessage._tags) {
-				std::cout << "  " << tag.first << "=" << tag.second << "\n";
-			}
-			std::cout << "Parameters: \n";
-			for (const auto& param : ircMessage._parameters) {
-				std::cout << "  " << param << "\n";
-			}
-			std::cout << std::endl;
-		} catch (const std::invalid_argument& e) {
-			std::cout << "Error parsing message: " << e.what() << std::endl;
-		}
-	}
+#include <iostream>
+#include <string>
+#include <stdexcept>
 
-	return 0;
+int main() {
+    IRCParser parser;
+
+    std::cout << "Enter IRC command lines to parse (type 'exit' to quit):\n";
+
+    while (true) {
+        std::string input;
+        std::cout << "> ";
+        std::getline(std::cin, input);
+
+        if (input == "exit") {
+            break;
+        }
+
+        try {
+            parser.parseMessage(input);
+            const IRCMessage& message = parser.getMessage();
+
+            // Display parsed results
+            std::cout << "Parsed IRC Message:\n";
+
+            // Tags
+            if (!message._tags.empty()) {
+                std::cout << "Tags:\n";
+                for (const auto& [key, value] : message._tags) {
+                    std::cout << "  " << key << " = " << value << "\n";
+                }
+            } else {
+                std::cout << "Tags: None\n";
+            }
+
+            // Source
+            if (!message._source.empty()) {
+                std::cout << "Source: " << message._source << "\n";
+            } else {
+                std::cout << "Source: None\n";
+            }
+
+            // Command
+            std::cout << "Command: " << message._command << "\n";
+
+            // Parameters
+            if (!message._parameters.empty()) {
+                std::cout << "Parameters:\n";
+                for (const auto& param : message._parameters) {
+                    std::cout << "  " << param << "\n";
+                }
+            } else {
+                std::cout << "Parameters: None\n";
+            }
+
+            // Validate Command
+            std::cout << "Validating Command...\n";
+            parser.validateCommand();
+            std::cout << "Command validation passed.\n";
+
+        } catch (const std::exception& e) {
+            std::cerr << "Error parsing message: " << e.what() << "\n";
+        }
+    }
+
+    std::cout << "Exiting program.\n";
+    return 0;
 }
