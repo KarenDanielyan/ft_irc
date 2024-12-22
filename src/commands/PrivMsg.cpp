@@ -1,6 +1,6 @@
-#include "../include/Command.hpp"
+#include "Command.hpp"
 
-//done
+//done done
 //<target>{,<target>} <text to be sent>
 
 PrivMsg::PrivMsg(Server* server): Command(server)
@@ -13,8 +13,6 @@ PrivMsg::~PrivMsg()
 
 void PrivMsg::implement(IRCClient* client, std::vector<std::string> arg)
 {
-	(void)client;
-	(void)arg;
 	if (arg.size() < 2 || arg[0].empty() || arg[1].empty()) {
 		throw ReplyException(ERR_NEEDMOREPARAMS(client->getNickname() + "PRIVMSG"));
 		return;
@@ -28,14 +26,14 @@ void PrivMsg::implement(IRCClient* client, std::vector<std::string> arg)
 	}
 	if (target[0] == '#')
 	{
-		std::string channel = target.substr(1);
-		// Channel* channel = ----.getChannel();
-		if (channel.empty())
+		std::string name = target.substr(1);
+		Channel* channel = aplication.getChannel(name);
+		if (!channel)
 		{
 			throw ReplyException(ERR_NOSUCHCHANNEL("PRIVMSG"));
 			return ;
 		}
-		// std::vector<std::string> nicknames = channel.getNicknames();
+		std::vector<std::string> nicknames = channel.getNicknames();
 		std::vector<std::string>::iterator	i;
 			
 		for (i = nicknames.begin(); i != nicknames.end(); i++)
@@ -43,17 +41,16 @@ void PrivMsg::implement(IRCClient* client, std::vector<std::string> arg)
 				break;
 		if (i == nicknames.end())
 		{
-			throw ReplyException(ERR_CANNOTSENDTOCHAN("channel"));
+			throw ReplyException(ERR_CANNOTSENDTOCHAN(channel->getNmae()));
 			return ;
 		}
-		//channel.broadcast()            need the definition of method
+		channel.broadcast(message);
 		return ;
 	}
-	std::string dest = target;
-	// Client *dest = _server->getClient(target);
-	if (dest.empty()) {
+	Client *dest = _server->getClient(target);
+	if (!dest) {
 		throw ReplyException(ERR_NOSUCHNICK(client->getNickname()));
 		return;
 	}
-	std::cout << "To client" +  message << std::endl;
+	client->SendMessage(client, message);
 }
