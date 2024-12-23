@@ -66,34 +66,37 @@ int IRCParser::parseMessage(const std::string& rawMessage)
 
 	_message = IRCMessage();
 
-	if (!message.empty() && message[0] == '@') {
+	if (!message.empty() && message[0] == '@')
+	{
 		size_t spacePos = message.find(' ');
-		if (spacePos == std::string::npos) {
+		if (spacePos == std::string::npos)
 			throw std::invalid_argument("Invalid IRC message: Tags not followed by a space.");
-		}
 		_message._tags = parseTags(message.substr(1, spacePos - 1));
 		message = message.substr(spacePos + 1);
 	}
 
-	if (!message.empty() && message[0] == ':') {
+	if (!message.empty() && message[0] == ':')
+	{
 		size_t spacePos = message.find(' ');
-		if (spacePos == std::string::npos) {
+		if (spacePos == std::string::npos)
 			throw std::invalid_argument("Invalid IRC message: Missing command after source.");
-		}
 		_message._source = message.substr(1, spacePos - 1);
 		message = message.substr(spacePos + 1);
 	}
 
 	size_t spacePos = message.find(' ');
-	if (spacePos == std::string::npos) {
+	if (spacePos == std::string::npos)
+	{
 		_message._command = message;
 		_message._parameters.clear();
-	} else {
+	}
+	else
+	{
 		_message._command = message.substr(0, spacePos);
 		_message._parameters = parseParameters(message.substr(spacePos + 1));
 	}
 
-   return validateCommand();
+	return validateCommand();
 }
 
 std::vector<std::string> parseParameters(const std::string& params)
@@ -102,9 +105,11 @@ std::vector<std::string> parseParameters(const std::string& params)
 	std::istringstream stream(params);
 	std::string param;
 
-	while (std::getline(stream, param, ' ')) {
+	while (std::getline(stream, param, ' '))
+	{
 		if (!param.empty()) {
-			if (param[0] == ':') {
+			if (param[0] == ':')
+			{
 				parameters.push_back(param.substr(1) + stream.str().substr(stream.tellg()));
 				break;
 			}
@@ -120,15 +125,14 @@ std::map<std::string, std::string> parseTags(const std::string& tags)
 	std::istringstream tagStream(tags);
 	std::string tag;
 
-	while (std::getline(tagStream, tag, ';')) {
+	while (std::getline(tagStream, tag, ';'))
+	{
 		size_t equalsPos = tag.find('=');
-		if (equalsPos != std::string::npos) {
+		if (equalsPos != std::string::npos)
 			tagMap[tag.substr(0, equalsPos)] = tag.substr(equalsPos + 1);
-		} else {
+		else
 			tagMap[tag] = "";
-		}
 	}
-
 	return tagMap;
 }
 
