@@ -40,15 +40,20 @@ CommandType getCommandType(const std::string command)
 
 int IRCParser::parseMessage(const std::string& rawMessage)
 {
-	if (rawMessage.length() > MAX_MESSAGE_LENGTH)
+	if (rawMessage.length == 0)
 	{
-
+		// some reply
 		return -1;
 	}
-	if (rawMessage.substr(rawMessage.length() - 2) != "\r\n")
+	else if (rawMessage.length() > MAX_MESSAGE_LENGTH)
 	{
-
-		return -2;
+		// some reply
+		return -1;
+	}
+	else if (rawMessage.substr(rawMessage.length() - 2) != "\r\n")
+	{
+		// wrong form of message
+		return -1;
 	}
 
 	std::string message = rawMessage;
@@ -215,7 +220,7 @@ int IRCParser::validateCommand()
 
 		case CMD_INVITE:
 			if (_message._tags.empty())
-				// ERR_NOSUCHCHANNEL()
+				ERR_NOSUCHCHANNEL(client->_channel);
 			break;
 		case CMD_JOIN:
 		case CMD_KICK:
@@ -238,9 +243,9 @@ int IRCParser::validateCommand()
 }
 
 
-IRCParser::IRCParser()
+IRCParser::IRCParser() : _message()
 {
-
+	// need to intilize client to
 }
 
 IRCParser::~IRCParser()

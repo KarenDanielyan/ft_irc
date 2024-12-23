@@ -3,9 +3,10 @@
 
 
 #include "IRCMessage.hpp"
+#include "IRCClient.hpp"
+#include "Server.hpp"
 #include <sstream>
 #define val "\\[]{}|_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
 
 enum CommandType
 {
@@ -32,8 +33,8 @@ enum CommandType
 class IRCParser
 {
 	private:
-		IRCMessage _message;
-
+		IRCMessage	_message;
+		IRCClient		*client;
 		std::map<std::string, std::string> parseTags(const std::string& rawTags);
 		std::vector<std::string> parseParameters(const std::string& rawParams);
 		std::string decodeEscaped(const std::string& rawValue);

@@ -18,31 +18,6 @@
 #include <stdexcept>
 
 
-int main()
-{
-	std::vector<std::string> testMessages = {
-		":nick!user@host PRIVMSG #channel :Hello, world!",
-		"PING :server1",
-		":server2 001 nick :Welcome to the IRC network, nick",
-		":nick!user@host JOIN #channel",
-		":nick!user@host PART #channel :Goodbye!",
-		":server2 NOTICE AUTH :*** Looking up your hostname...",
-		":nick!user@host QUIT :Quit: Leaving",
-		":nick!user@host NICK newnick",
-		":nick!user@host MODE #channel +o othernick",
-		":nick!user@host KICK #channel othernick :Reason for kick"
-	};
-
-	for (const auto& message : testMessages) {
-		std::cout << "Original Message: " << message << std::endl;
-		ParsedMessage parsedMessage = parseIRCMessage(message);
-		printParsedMessage(parsedMessage);
-		std::cout << "----------------------------------------" << std::endl;
-	}
-
-	return 0;
-}
-
 int main() {
 	IRCParser parser;
 
