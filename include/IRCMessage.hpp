@@ -5,6 +5,10 @@
 
 #define MAX_MESSAGE_LENGTH 512
 
+#include <map>
+#include <vector>
+#include <iostream>
+
 struct IRCMessage
 {
 	std::map<std::string, std::string> _tags;
