@@ -15,12 +15,18 @@
 // TODO: Add the parser and command handler on readiness
 # include "Server.hpp"
 # include "IRCClient.hpp"
+# include "Channel.hpp"
+
+struct	IRCDataContainer;
 
 class	Application
 {
 private:
 	static Application*	_instance;
 	Server*				_serv;
+
+	std::vector<IRCClient *>	_clients;
+	std::vector<Channel *>		_channels;
 
 	std::string			_password;
 

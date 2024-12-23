@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Application.hpp"
+#include "utils.hpp"
 
 Application*	Application::_instance = NULL;
 
@@ -48,5 +49,9 @@ Application*	Application::getInstance(std::string const & port, \
 
 void	Application::run()
 {
-	_serv->start();
+	log(INFO_LISTEN);
+	while (true)
+	{
+		_serv->polling();
+	}
 }
