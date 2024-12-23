@@ -243,7 +243,7 @@ int IRCParser::validateCommand()
 }
 
 
-IRCParser::IRCParser() : _message()
+IRCParser::IRCParser(IRCClient *client) : _client(&client),  _message()
 {
 	// need to intilize client to
 }

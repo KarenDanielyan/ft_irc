@@ -34,13 +34,13 @@ class IRCParser
 {
 	private:
 		IRCMessage	_message;
-		IRCClient		*client;
+		IRCClient	_*client;
 		std::map<std::string, std::string> parseTags(const std::string& rawTags);
 		std::vector<std::string> parseParameters(const std::string& rawParams);
 		std::string decodeEscaped(const std::string& rawValue);
 
 	public:
-		IRCParser();
+		IRCParser(IRCClient *client);
 		~IRCParser();
 
 		int parseMessage(const std::string& rawMessage);
