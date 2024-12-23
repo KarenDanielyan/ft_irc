@@ -62,7 +62,7 @@ public:
 	~Server();
 
 
-	void	polling(void);
+	void	start(void);
 	
 	void	reply(int rcode);
 

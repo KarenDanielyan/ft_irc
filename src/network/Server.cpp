@@ -33,29 +33,33 @@ Server::~Server(void)
 		delete it->second;
 }
 
-void	Server::polling(void)
+void	Server::start(void)
 {
-	if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 1)
-		throw std::runtime_error(ERR_POLL);
-	for (pollfds_iterator_t it = _pollfds.begin(); it != _pollfds.end(); it++)
+	log(INFO_LISTEN);
+	while (true)
 	{
-		if (it->revents == 0)
-			continue ;
-		if (it->revents & POLLIN)
+		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 1)
+			throw std::runtime_error(ERR_POLL);
+		for (pollfds_iterator_t it = _pollfds.begin(); it != _pollfds.end(); it++)
 		{
-			/* If new client connects */
-			if (it->fd == _server_fd)
+			if (it->revents == 0)
+				continue ;
+			if (it->revents & POLLIN)
 			{
-				onClientConnect();
-				break;
+				/* If new client connects */
+				if (it->fd == _server_fd)
+				{
+					onClientConnect();
+					break;
+				}
+				onClientRequest(*it);
 			}
-			onClientRequest(*it);
-		}
-		if (it->revents & POLLHUP)
-		{
-			onClientDisconnect(*it);
-			_pollfds.erase(it);
-			break ;
+			if (it->revents & POLLHUP)
+			{
+				onClientDisconnect(*it);
+				_pollfds.erase(it);
+				break ;
+			}
 		}
 	}
 }
