@@ -1,5 +1,5 @@
 #include "../include/Command.hpp"
-//done
+//done done
 User::User(Server* server): Command(server)
 {
 }
@@ -10,17 +10,17 @@ User::~User()
 
 void User::implement(IRCClient* client, std::vector<std::string> arg)
 {
-	(void)client;
-	(void)arg;
-	// if (is registred)
-	// {
-	// 	reply->ERR_ALREADYREGISTERED
-	// }
-
-	// if (arg.size() < 4)
-	// {
-	// 	reply->ERR_NEEDMOREPARAMS
-	// }
-	// clinet->setUsername(arg[0]);
-	// IRCClient->setRealName(arg[3]);
+	if (arg.size() < 4)
+	{
+		throw ReplyException(ERR_NEEDMOREPARAMS("USER"));
+		return ;
+	}
+	if (client->getState() == LIVE)
+	{
+		throw ReplyException(ERR_ALREADYREGISTERED(client->getUsername()));
+		return ;
+	}
+	clinet->setUsername(arg[0]);
+	client->setRealName(arg[3]);
+	client->SendMessage(client, RPL_WELCOME(application->getName(), client->getUsername()));
 }
