@@ -81,8 +81,6 @@ void	Server::onClientDisconnect(pollfd& fd)
 	}
 }
 
-void	broadcast(std::vector<pollfd> _pollfds, std::string msg);
-
 /*
  * TODO:	As any communication is triggered by the client only, when handling
  *			client requests, we can let know of the status of the proccess
@@ -103,14 +101,7 @@ void	Server::onClientRequest(pollfd& fd)
 	if (is_closed == true)
 		fd.revents = POLLHUP;
 	else
-		broadcast(this->_pollfds, input);
-}
-
-void	broadcast(std::vector<pollfd> _pollfds, std::string msg)
-{
-	for (size_t i = 1; i < _pollfds.size(); i++)
-		send(_pollfds[i].fd, msg.c_str(), msg.length(), 0);
-	std::cout << msg;
+		broadcast(input);
 }
 
 void	Server::onClientConnect(void)
@@ -202,4 +193,16 @@ int	Server::newSocket()
 		throw e;
 	}
 	return (sockfd);
+}
+
+void	Server::reply(Client* to, std::string const & message)
+{
+	send(to->getFd(), message.c_str(), message.length(), 0);
+}
+
+void	Server::broadcast(std::string const & message)
+{
+	for (size_t i = 1; i < _pollfds.size(); i++)
+		send(_pollfds[i].fd, message.c_str(), message.length(), 0);
+	std::cout << message;
 }

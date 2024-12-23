@@ -37,7 +37,16 @@
 # include "defines.hpp"
 # include "Client.hpp"
 
-class	Server
+class	ITransport
+{
+public:
+	virtual void	reply(Client* to, std::string const & message) = 0;
+	virtual void	broadcast(std::string const & message) = 0;
+
+	virtual ~ITransport() {}
+};
+
+class	Server: public ITransport
 {
 private:
 	int				_server_fd;
@@ -61,12 +70,11 @@ public:
 	Server(unsigned short port);
 	~Server();
 
-
 	void	start(void);
 	
-	void	reply(int rcode);
+	void	reply(Client* to, std::string const & message);
 
-	void	send(Client* to, std::string const & message);
+	void	broadcast(std::string const & message);
 };
 
 #endif
