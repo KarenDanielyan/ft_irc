@@ -20,18 +20,19 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			Part.cpp Pass.cpp Ping.cpp Pong.cpp \
 			PrivMsg.cpp Quit.cpp Topic.cpp User.cpp \
 			Who.cpp)
+
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			defines.hpp \
 			Server.hpp Client.hpp Connection.hpp \
-			Application.hpp Channel.hpp, Command.hpp \
+			Application.hpp Channel.hpp Command.hpp \
 			CommandHandler.hpp)
-
-DEP		=	$(INC) Makefile
 
 OBJS	=	$(foreach dir, $(SUBDIRS), \
 			$(patsubst $(SRC)/$(dir)/%.cpp, $(BUILD)/%.o, \
 			$(filter $(SRC)/$(dir)/%.cpp, $(SRCS)))) \
 			$(patsubst %.cpp, $(BUILD)/%.o, main.cpp utils.cpp)
+
+DEP		=	$(INC) Makefile
 
 # Compilation Options
 
