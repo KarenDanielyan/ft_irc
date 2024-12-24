@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Application.hpp"
+#include "utils.hpp"
 
 Application*	Application::_instance = NULL;
 
@@ -24,7 +25,7 @@ Application::Application(std::string const & port, \
 	p = std::atoi(port.c_str());
 	if (p <= 1023 || p >= UINT16_MAX)
 		throw std::runtime_error(ERR_PINV);
-	_serv = new Server(static_cast<unsigned short>(p));
+	_serv = new Server(static_cast<unsigned short>(p), _rqueue);
 }
 
 Application::~Application(void)
@@ -42,6 +43,15 @@ void	Application::destroyInstance(void)
 	_instance = NULL;
 }
 
+void	Application::process(void)
+{
+	while (_rqueue.size() != 0)
+	{
+		// TODO: Add Presentation layer and application layer methods.
+		_rqueue.pop();
+	}
+}
+
 Application*	Application::getInstance(std::string const & port, \
 								std::string const & password)
 {
@@ -52,5 +62,10 @@ Application*	Application::getInstance(std::string const & port, \
 
 void	Application::run()
 {
-	_serv->start();
+	log(INFO_LISTEN);
+	while(true)
+	{
+		_serv->handlePollEvents();
+		process();
+	}
 }
