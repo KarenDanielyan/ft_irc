@@ -10,18 +10,16 @@ Invite::~Invite()
 {
 }
 
-void Invite::implement(IRCClient* client, std::vector<std::string> arg)
+void Invite::implement(Client* client, std::vector<std::string> arg)
 {
-	(void)client;
-	(void)arg;
 	if (_arg.size() < 2)
 	{
 		throw ReplyException(NEEDMOREPARAMS());
 		return ;
 	}
 
-	IRCClient* clientToInvite = _server->getUser(arg[0]);
-	Channel* channelToInvite = _server->getChannel(arg[1]);
+	Client* clientToInvite = application->getClient(arg[0]);
+	Channel* channelToInvite = application->getChannel(arg[1]);
 
 	if (!clientToInvite)
 	{
@@ -33,17 +31,14 @@ void Invite::implement(IRCClient* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_NOSUCHCHANNEL(arg[1]));
 		return ;
 	}
-	if (!client->getOpPerm())
+	if (!channelToInvite->isInvited(client))
 	{
 		throw ReplyException(ERR_CHANOPRIVSNEEDED(client));
 		return ;
 	}
-	if (_server->getClient(clientToInvite))
+	if (application->getClient(clientToInvite))
 	{
-		throw ReplyException(ERR_USERONCHANNEL(clientToInvite));
+		throw ReplyException(ERR_USERONCHANNEL(channelToInvite->getName()));
 		return ;
 	}
-	// if ()
-	// check if the _IRCClient has the permision to invite
-	// 
 }
