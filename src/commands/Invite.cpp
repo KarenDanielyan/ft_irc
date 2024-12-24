@@ -1,4 +1,4 @@
-#include "../include/Command.hpp"
+#include "Command.hpp"
 
 //INVITE <nickname> <channel>
 
@@ -43,7 +43,7 @@ void Invite::implement(IRCClient* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_USERONCHANNEL(clientToInvite));
 		return ;
 	}
-	if ()
+	// if ()
 	// check if the _IRCClient has the permision to invite
 	// 
 }

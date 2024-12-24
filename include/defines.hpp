@@ -51,5 +51,7 @@
 # define ERR_CHANOPRIVSNEEDED(target) (std::string("482 ") + "Error:  " + target + " :You're not channel operator")
 # define ERR_USERNOTINCHANNEL(target) (std::string("441 ") + "Error:  " + target + " :They aren't on that channel")
 /*command reply*/
-# define RPL_CHANNELMODEIS(client, channel, mode, argument) (std::string("324 ") + client + " " + channel + " " +mode + " " +argument)
+# define RPL_CHANNELMODEIS(channel, mode, argument) (std::string("324 ") + " " + channel + " " +mode + " " +argument)
+# define RPL_WELCOME(networkname, nick) (std::string("001 ") + " :Welcome to the " + networkname + " Network, " + nick)
+# define RPL_PING(message) (std::string("001 ") + " :PING " + message)
 #endif

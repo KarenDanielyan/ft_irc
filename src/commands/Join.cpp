@@ -1,4 +1,4 @@
-#include "../include/Command.hpp"
+#include "Command.hpp"
 
 // JOIN <channel>{,<channel>} [<key>{,<key>}]
 
@@ -10,10 +10,8 @@ Join::~Join()
 {
 }
 
-void Join::implement(IRCClient* client, std::vector<std::string> arg)
+void Join::implement(Client* client, std::vector<std::string> arg)
 {
-	(void)client;
-	(void)arg;
 	if (arg.empty())
 	{
 		throw ReplyException(ERR_NEEDMOREPARAMS("JOIN"));
@@ -21,11 +19,14 @@ void Join::implement(IRCClient* client, std::vector<std::string> arg)
 	}
 	std::string name = arg[0];
 	std::string pass = arg.size() > 1 ? arg[1] : "";
-	Channel *channel = _server.getChannel(name);
+	Channel *channel = application.getChannel(name);
 	//if the client is on the channel
-	// if (!channel)
-		// create channel name
-		// set client as admin
+	if (!channel)
+	{
+		application->createChannel(name, pass);
+		new_channel = application.getChannel(name);
+		new_channel->addCLient(client);
+	}
 	if (channel->InviteOnly())
 	{
 		throw ReplyException(ERR_INVITEONLYCHAN(name));

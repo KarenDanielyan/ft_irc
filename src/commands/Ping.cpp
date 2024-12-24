@@ -1,4 +1,4 @@
-#include "../include/Command.hpp"
+#include "Command.hpp"
 
 Ping::Ping(Server* server): Command(server)
 {
@@ -8,17 +8,17 @@ Ping::~Ping()
 {
 }
 
-void Ping::implement(IRCClient* client, std::vector<std::string> arg)
+void Ping::implement(Client* client, std::vector<std::string> arg)
 {
-	(void)client;
-	(void)arg;
 	if (arg.empty()) {
-		throw ReplyException(ERR_NEEDMOREPARAMS("PONG"));
+		throw ReplyException(ERR_NEEDMOREPARAMS("PING"));
 		return;
 	}
-	throw ReplyException(arg[0]); // or somehow to server
+	std::string message = "";
+	for (unsigned long i = 1; i < arg.size(); i++)
+	{
+		message += arg[i];
+		message += " ";
+	}
+	throw ReplyException(RPL_PING(message));
 }
-
-
-
-// do we need ??
