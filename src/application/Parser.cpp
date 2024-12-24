@@ -1,6 +1,6 @@
 #include "../include/Parser.hpp"
 
-CommandType IRCParser::getCommandType(const std::string command)
+CommandType Parser::getCommandType(const std::string command)
 {
 	if (command == "INVITE")
 		return CMD_INVITE;
@@ -36,7 +36,7 @@ CommandType IRCParser::getCommandType(const std::string command)
 		return CMD_UNKNOWN;
 }
 
-int IRCParser::parseMessage(const std::string& rawMessage)
+int Parser::parseMessage(const std::string& rawMessage)
 {
 	if (rawMessage.length() == 0 )
 		return IGNOR_MESSAGE;
@@ -74,12 +74,12 @@ int IRCParser::parseMessage(const std::string& rawMessage)
 	return VALID_MESSAGE;
 }
 
-const IRCMessage& IRCParser::getMessage() const
+const IRCMessage& Parser::getMessage() const
 {
 	return _message;
 }
 
-std::vector<std::string> IRCParser::parseParameters(const std::string& rawParams)
+std::vector<std::string> Parser::parseParameters(const std::string& rawParams)
 {
 	std::vector<std::string> parameters;
 	std::istringstream stream(rawParams);
@@ -100,7 +100,7 @@ std::vector<std::string> IRCParser::parseParameters(const std::string& rawParams
 	return parameters;
 }
 
-std::string IRCParser::decodeEscaped(const std::string& rawValue)
+std::string Parser::decodeEscaped(const std::string& rawValue)
 {
 	std::string decoded;
 	for (size_t i = 0; i < rawValue.size(); ++i)
@@ -131,12 +131,12 @@ std::string IRCParser::decodeEscaped(const std::string& rawValue)
 }
 
 
-IRCParser::IRCParser() : _message()
+Parser::Parser() : _message()
 {
 	// need to intilize client to
 }
 
-IRCParser::~IRCParser()
+Parser::~Parser()
 {
 	
 }
