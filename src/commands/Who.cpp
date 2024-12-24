@@ -13,7 +13,7 @@ void Who::implement(IRCClient* client, std::vector<std::string> arg)
 	int i;
 	if (arg.empty())
 	{
-		std::vector<IRCClient*> clients = channel.getClients();
+		std::vector<Client*> clients = channel->getClients();
 		i = -1;
 		while (clients[++i])
 		{
@@ -31,7 +31,7 @@ void Who::implement(IRCClient* client, std::vector<std::string> arg)
 			throw ReplyException(ERR_NOSUCHCHAN(mask));
 			return ;
 		}
-		std::vector<IRCClient*> clients = channel.getClients();
+		std::vector<Client*> clients = channel->getClients();
 		i = -1;
 		while (clients[++i])
 		{
@@ -40,12 +40,12 @@ void Who::implement(IRCClient* client, std::vector<std::string> arg)
 		}
 		return ;
 	}
-	IRCClient toPrint = application.getClient(mask);
+	Client toPrint = application->getClient(mask);
 	if (!toPrint)
 	{
 		throw ReplyException(ERR_NOSUCHNICK(mask));
 		return ;
 	}
-	SendMessage(client, RPL_WHOREPLY(toPrint.getNickname(), \
+	application->SendMessage(client, RPL_WHOREPLY(toPrint.getNickname(), \
 			toPrint.getUsername(), toPrint.getRealname()));
 }
