@@ -27,9 +27,11 @@ enum CommandType
 	CMD_UNKNOWN
 };
 
+#define IGNOR_MESSAGE -1
 #define VALID_MESSAGE 1
-#define IGNOR_MESSAGE 417
+#define MESSAGE_TO_LONG 417
 #define UNKOWN_CMD 0
+
 class IRCParser
 {
 	private:
