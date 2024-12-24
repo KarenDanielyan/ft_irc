@@ -7,7 +7,7 @@ Channel::Channel(std::string name, std::string topic): _name(name), \
 
 Channel::~Channel()
 {
-	std::vector<IRCClient*>::iterator it;
+	std::vector<Client*>::iterator it;
 	for (it = _clients.begin(); it != _clients.end(); ++it)
 		delete *it;
 	_clients.clear();
@@ -38,7 +38,7 @@ int Channel::getLimit() const
 	return _clientLimit;
 }
 
-std::vector<IRCClient*> Channel::getClients() const {
+std::vector<Client*> Channel::getClients() const {
 	return _clients;
 }
 
@@ -54,33 +54,33 @@ void Channel::setTopic(std::string topic) {
 	_topic = topic;
 }
 
-void Channel::addClient(IRCClient *client)
+void Channel::addClient(Client *client)
 {
 	_clients.push_back(client);
 }
 
-void Channel::addOperator(IRCClient *client)
+void Channel::addOperator(Client *client)
 {
 	_clients.push_back(client);
 }
 
-bool Channel::isExist(IRCClient* client) const
+bool Channel::isExist(Client* client) const
 {
 	return std::find(_clients.begin(), _clients.end(), client) != _clients.end();
 }
 
-void Channel::removeClient(IRCClient* client)
+void Channel::removeClient(Client* client)
 {
-	std::vector<IRCClient*>::iterator it = std::find(_clients.begin(), _clients.end(), client);
+	std::vector<Client*>::iterator it = std::find(_clients.begin(), _clients.end(), client);
 	if (it != _clients.end()) {
 		_clients.erase(it);
 		delete client;
 	}
 }
 
-void Channel::removeOperator(IRCClient* client)
+void Channel::removeOperator(Client* client)
 {
-	std::vector<IRCClient*>::iterator it = std::find(_clients.begin(), _clients.end(), client);
+	std::vector<Client*>::iterator it = std::find(_clients.begin(), _clients.end(), client);
 	if (it != _clients.end()) {
 		_clients.erase(it);
 		delete client;
@@ -90,7 +90,7 @@ void Channel::removeOperator(IRCClient* client)
 std::vector<std::string> Channel::getNicknames() const
 {
 	std::vector<std::string> nicknames;
-	for (const IRCClient& client : clients)
+	for (const Client& client : clients)
 		nicknames.push_back(client.getNickname());
 	return nicknames;
 }
@@ -105,7 +105,7 @@ void Channel::setOnlyInvite(bool OnlyInvite)
 	_onlyInvite = OnlyInvite;
 }
 
-bool Channel::isOperator(IRCClient client)
+bool Channel::isOperator(Client client)
 {
 	return std::find(_operators.begin(), _operators.end(), client);
 }
@@ -116,4 +116,14 @@ void Channel::broadcast(std::string message) const
 	i = -1;
 	while (clients[++i])
 		SendMessage(client, message);
+}
+
+bool Channel::isInvited(Client client)
+{
+	return std::find(_inviteList.begin(), _inviteList.end(), client) != _inviteList.end();
+}
+
+void Channel::setInvite(Client *client)
+{
+	_inviteList.push_back(client);
 }

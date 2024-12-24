@@ -13,6 +13,9 @@
 #ifndef CHANNEL_HPP
 # define CHANNEL_HPP
 
+#include "Client.hpp"
+class Client;
+
 class Channel
 {
 	private:
@@ -21,8 +24,9 @@ class Channel
 		std::string _name; // without #
 		std::string _topic;
 		std::string _password;
-		std::vector<IRCClient* > _clients;
-		std::vector<IRCClient* > _operators;
+		std::vector<Client* > _clients;
+		std::vector<Client* > _inviteList;
+		std::vector<Client* > _operators;
 	public:
 		Channel(std::string name, std::string topic);
 		~Channel();
@@ -31,9 +35,9 @@ class Channel
 		std::string getTopic() const;
 		std::string getPass() const;
 		std::vector<std::string> getNicknames() const;
-		std::vector<IRCClient*> getClients() const;
-        int getClientCount() const;
-        int getLimit() const;
+		std::vector<Client*> getClients() const;
+		int getClientCount() const;
+		int getLimit() const;
 
 		/*setters*/
 		void setName(std::string name);
@@ -41,14 +45,15 @@ class Channel
 		void setTopic(std::string topic);
 		void setLimit(unsigned long limit);
 		void setOnlyInvite(bool OnlyInvite);
-		void addOperator(IRCClient *client);
+		void addOperator(Client *client);
+		void setInvite(Client *client);
 
+		void removeClient(Client *client);
 
-		void removeClient(IRCClient *client);
-		void addClient(IRCClient *client);
-		void removeClient(IRCClient *client);
-		bool isExist(IRCClient client);
-		bool isOperator(IRCClient client);
+		void addClient(Client *client);
+		bool isExist(Client client);
+		bool isInvited(Client client);
+		bool isOperator(Client client);
 		void broadcast() const;
 };
 
