@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/21 18:01:05 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/24 20:33:23 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	Server::onClientRequest(pollfd& fd)
 	std::string	input;
 
 	input = readMessage(fd.fd, is_closed);
-	if (is_closed == true)
+		if (is_closed == true)
 		fd.revents = POLLHUP;
 	else
 	{

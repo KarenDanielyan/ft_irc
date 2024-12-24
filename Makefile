@@ -4,7 +4,7 @@ BUILD	=	build
 
 INCLUDE	=	include
 
-SUBDIRS =	network application
+SUBDIRS =	network commands application
 
 SRC		=	src
 
@@ -13,11 +13,18 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
 			Server.cpp Connection.cpp) \
 			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
-			Client.cpp Application.cpp)
-
+			Client.cpp Application.cpp) \
+			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
+			CommandHandler.cpp Cap.cpp Invite.cpp Join.cpp \
+			Kick.cpp Mode.cpp Nick.cpp Notice.cpp \
+			Part.cpp Pass.cpp Ping.cpp Pong.cpp \
+			PrivMsg.cpp Quit.cpp Topic.cpp User.cpp \
+			Who.cpp)
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
-			defines.hpp Application.hpp \
-			Server.hpp Connection.hpp Client.hpp)
+			defines.hpp \
+			Server.hpp Client.hpp Connection.hpp \
+			Application.hpp Channel.hpp, Command.hpp \
+			CommandHandler.hpp)
 
 DEP		=	$(INC) Makefile
 
@@ -30,7 +37,7 @@ OBJS	=	$(foreach dir, $(SUBDIRS), \
 
 CXX			=	c++
 
-CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g -fsanitize=address
+CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 #-g -fsanitize=address
 
 INCFLAGS	=	-I $(INCLUDE)
 

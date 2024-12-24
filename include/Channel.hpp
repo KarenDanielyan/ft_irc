@@ -10,8 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+<<<<<<<< HEAD:include/Channel.hpp
 #ifndef CHANNEL_HPP
 # define CHANNEL_HPP
+========
+#include "IRCClient.hpp"
+
+IRCClient::IRCClient(int fd, char *hostname, unsigned short port): \
+	Client(fd, hostname, port)
+{
+
+}
+>>>>>>>> commands:src/application/IRCClient.cpp
 
 class	Channel
 {
