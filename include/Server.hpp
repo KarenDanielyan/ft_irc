@@ -38,7 +38,7 @@
 # include "defines.hpp"
 # include "Connection.hpp"
 
-struct	RequestDataContainer
+struct	RequestData
 {
 	Connection*	who;
 	std::string	what;
@@ -55,6 +55,10 @@ public:
 
 class	Server: public ITransport
 {
+public:
+	typedef std::queue<RequestData>					RequestDataContainer;
+	typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
+	typedef std::map<int, Connection*>::iterator	connection_iterator_t;
 private:
 	int									_server_fd;
 	unsigned short						_port;
@@ -62,7 +66,7 @@ private:
 	std::vector<pollfd>					_pollfds;
 	std::map<int, Connection*>			_connections;
 
-	std::queue<RequestDataContainer>&	_rqueue;
+	std::queue<RequestData>&	_rqueue;
 
 	std::string	readMessage(int fd, bool &is_closed);
 
@@ -72,10 +76,7 @@ private:
 	void	onClientDisconnect(pollfd& fd);
 	void	onClientRequest(pollfd&fd);
 public:
-	typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
-	typedef std::map<int, Connection*>::iterator	connection_iterator_t;
-
-	Server(unsigned short port, std::queue<RequestDataContainer>& rqueue);
+	Server(unsigned short port, std::queue<RequestData>& rqueue);
 	~Server();
 
 	void	handlePollEvents(void);
@@ -84,7 +85,7 @@ public:
 
 	void	broadcast(std::string const & message);
 
-	const RequestDataContainer *	hasPendingRequest(void);
+	const RequestData *	hasPendingRequest(void);
 };
 
 #endif

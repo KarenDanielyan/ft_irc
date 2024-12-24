@@ -18,12 +18,16 @@
 # include "Channel.hpp"
 # include "Client.hpp"
 
-struct	RequestDataContainer;
+struct	RequestData;
 
 class	Application
 {
+public:
+	typedef std::vector<Channel*>::iterator		channel_iterator_t;
+	typedef std::map<int, Client*>::iterator	clients_iterator_t;
+	typedef std::queue<RequestData>				RequestDataContainer;
 private:
-	const RequestDataContainer*	_container;
+	const RequestData*	_container;
 	static Application*			_instance;
 	Server*						_serv;
 
@@ -31,7 +35,7 @@ private:
 	std::vector<Channel *>		_channels;
 	std::map<int, Client*>		_clients;
 
-	std::queue<RequestDataContainer>	_rqueue;
+	RequestDataContainer	_rqueue;
 
 	Application(std::string const & port, \
 			 std::string const & password);
@@ -39,9 +43,6 @@ private:
 
 	void	process(void);
 public:
-	typedef std::vector<Channel*>::iterator				channel_iterator_t;
-	typedef std::map<int, Client*>::iterator			clients_iterator_t;
-
 	static Application*	getInstance(std::string const & port, \
 						std::string const & password);
 	static void			destroyInstance(void);

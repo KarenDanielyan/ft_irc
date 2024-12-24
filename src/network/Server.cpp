@@ -14,7 +14,7 @@
 #include "Connection.hpp"
 #include "utils.hpp"
 
-Server::Server(unsigned short port, std::queue<RequestDataContainer>& rqueue): \
+Server::Server(unsigned short port, std::queue<RequestData>& rqueue): \
 	_port(port), _rqueue(rqueue)
 {
 	pollfd	servfd;
@@ -91,8 +91,8 @@ void	Server::onClientDisconnect(pollfd& fd)
 
 void	Server::onClientRequest(pollfd& fd)
 {
-	bool					is_closed = false;
-	RequestDataContainer	cont;
+	bool		is_closed = false;
+	RequestData	cont;
 	std::string	input;
 
 	input = readMessage(fd.fd, is_closed);
