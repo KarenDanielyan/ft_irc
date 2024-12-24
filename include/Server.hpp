@@ -65,7 +65,7 @@ private:
 	void	onClientRequest(pollfd&fd);
 public:
 	typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
-	typedef std::map<int, Connection*>::iterator	clients_iterator_t;
+	typedef std::map<int, Connection*>::iterator	connection_iterator_t;
 
 	Server(unsigned short port);
 	~Server();

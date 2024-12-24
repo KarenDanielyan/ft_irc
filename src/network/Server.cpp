@@ -29,7 +29,7 @@ Server::~Server(void)
 {
 	for (pollfds_iterator_t it = _pollfds.begin(); it != _pollfds.end(); it++)
 		close(it->fd);
-	for (clients_iterator_t it = _connections.begin(); it != _connections.end(); it++)
+	for (connection_iterator_t it = _connections.begin(); it != _connections.end(); it++)
 		delete it->second;
 }
 
@@ -66,7 +66,7 @@ void	Server::start(void)
 
 void	Server::onClientDisconnect(pollfd& fd)
 {
-	clients_iterator_t	it = _connections.find(fd.fd);
+	connection_iterator_t	it = _connections.find(fd.fd);
 
 	if (it != _connections.end())
 	{
@@ -101,7 +101,9 @@ void	Server::onClientRequest(pollfd& fd)
 	if (is_closed == true)
 		fd.revents = POLLHUP;
 	else
+	{
 		broadcast(input);
+	}
 }
 
 void	Server::onClientConnect(void)

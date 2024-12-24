@@ -14,20 +14,26 @@
 
 // TODO: Add the parser and command handler on readiness
 # include "Server.hpp"
+# include "Channel.hpp"
 # include "Client.hpp"
 
 class	Application
 {
 private:
-	static Application*	_instance;
-	Server*				_serv;
+	static Application*		_instance;
+	Server*					_serv;
 
-	std::string			_password;
+	std::string				_password;
+	std::vector<Channel *>	_channels;
+	std::map<int, Client*>	_clients;
 
 	Application(std::string const & port, \
 			 std::string const & password);
 	~Application();
 public:
+	typedef std::vector<Channel*>::iterator		channel_iterator_t;
+	typedef std::map<int, Client*>::iterator	clients_iterator_t;
+
 	static Application*	getInstance(std::string const & port, \
 						std::string const & password);
 	static void			destroyInstance(void);

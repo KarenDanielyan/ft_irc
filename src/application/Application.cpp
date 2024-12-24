@@ -30,6 +30,10 @@ Application::Application(std::string const & port, \
 Application::~Application(void)
 {
 	delete _serv;
+	for (channel_iterator_t i = _channels.begin(); i != _channels.end(); i++)
+		delete *i;
+	for (clients_iterator_t i = _clients.begin(); i != _clients.end(); i++)
+		delete i->second;
 }
 
 void	Application::destroyInstance(void)
