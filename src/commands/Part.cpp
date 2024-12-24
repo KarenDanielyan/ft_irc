@@ -9,7 +9,7 @@ Part::~Part()
 {
 }
 
-void Part::implement(IRCClient* client, std::vector<std::string> arg)
+void Part::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arguments.empty())
 	{

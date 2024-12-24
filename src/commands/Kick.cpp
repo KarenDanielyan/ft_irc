@@ -8,7 +8,7 @@ Kick::~Kick()
 {
 }
 //<channel> <user> *( "," <user> ) [<comment>]
-void Kick::implement(IRCClient* client, std::vector<std::string> arg)
+void Kick::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.size() < 2)
 	{
@@ -27,7 +27,7 @@ void Kick::implement(IRCClient* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_NOSUCHCHANNEL("KICK"));
 		return ;
 	}
-	IRCClient *dest = application->getClient(target);
+	Client *dest = application->getClient(target);
 	if (!dest)
 	{
 		throw ReplyException(ERR_NOSUCHNICK(client->getNickname()));

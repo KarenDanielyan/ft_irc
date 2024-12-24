@@ -8,7 +8,7 @@ Pong::~Pong()
 {
 }
 
-void Pong::implement(IRCClient* client, std::vector<std::string> arg)
+void Pong::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.empty())
 	{

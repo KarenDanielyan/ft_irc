@@ -8,7 +8,7 @@ Topic::~Topic()
 {
 }
 
-void Topic::implement(IRCClient* client, std::vector<std::string> arg)
+void Topic::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.size() < 1)
 	{
@@ -16,7 +16,7 @@ void Topic::implement(IRCClient* client, std::vector<std::string> arg)
 		return ;
 	}
 	std::string name = arg[0][0] == '#' ? arg[0].substr(1) : "";
-	Channel* channel = application.getChannel(name);
+	Channel* channel = application->getChannel(name);
 	if (!channel)
 	{
 		throw ReplyException(ERR_NOSUCHCHANNEL("TOPIC"));
@@ -33,7 +33,7 @@ void Topic::implement(IRCClient* client, std::vector<std::string> arg)
 		return ;
 	}
 	if (arg[1])
-		channel.setTopic(arg[1]);
+		channel->setTopic(arg[1]);
 	else
 		SendMessage(client, channel->getTopic());
 }

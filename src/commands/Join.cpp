@@ -10,7 +10,7 @@ Join::~Join()
 {
 }
 
-void Join::implement(IRCClient* client, std::vector<std::string> arg)
+void Join::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.empty())
 	{
@@ -19,11 +19,13 @@ void Join::implement(IRCClient* client, std::vector<std::string> arg)
 	}
 	std::string name = arg[0];
 	std::string pass = arg.size() > 1 ? arg[1] : "";
-	Channel *channel = _server.getChannel(name);
+	Channel *channel = application.getChannel(name);
 	//if the client is on the channel
 	if (!channel)
 	{
-		application->
+		application->createChannel(name, pass);
+		new_channel = application.getChannel(name);
+		new_channel->addCLient(client);
 	}
 	if (channel->InviteOnly())
 	{

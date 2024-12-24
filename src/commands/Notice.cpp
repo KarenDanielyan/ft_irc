@@ -8,7 +8,7 @@ Notice::~Notice()
 {
 }
 
-void Notice::implement(IRCClient* client, std::vector<std::string> arg)
+void Notice::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.size() < 2 || arg[0].empty() || arg[1].empty())
 		return;
@@ -25,8 +25,7 @@ void Notice::implement(IRCClient* client, std::vector<std::string> arg)
 		Channel* channel = application.getChannel(name);
 		if (!channel)
 			return ;
-		IRCClient toPrint = application.getClient(client);
-		if (!toPrint)
+		if (!channel.isExist(target))
 			return ;
 		channel.broadcast(message);
 		return ;
@@ -34,5 +33,5 @@ void Notice::implement(IRCClient* client, std::vector<std::string> arg)
 	Client *dest = _server->getClient(target);
 	if (!dest)
 		return;
-	client->SendMessage(client, message);
+	SendMessage(client, message);
 }

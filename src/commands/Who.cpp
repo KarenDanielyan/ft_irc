@@ -8,7 +8,7 @@ Who::~Who()
 {
 }
 
-void Who::implement(IRCClient* client, std::vector<std::string> arg)
+void Who::implement(Client* client, std::vector<std::string> arg)
 {
 	int i;
 	if (arg.empty())
@@ -46,6 +46,6 @@ void Who::implement(IRCClient* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_NOSUCHNICK(mask));
 		return ;
 	}
-	application->SendMessage(client, RPL_WHOREPLY(toPrint.getNickname(), \
+	SendMessage(client, RPL_WHOREPLY(toPrint.getNickname(), \
 			toPrint.getUsername(), toPrint.getRealname()));
 }

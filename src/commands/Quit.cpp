@@ -8,7 +8,7 @@ Quit::~Quit()
 {
 }
 
-void Quit::implement(IRCClient* client, std::vector<std::string> arg)
+void Quit::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg[0][0] == ":")
 		reason = arg[0].substr(1);

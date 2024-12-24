@@ -8,7 +8,7 @@ Nick::~Nick()
 {
 }
 
-void Nick::implement(IRCClient* client, std::vector<std::string> arg)
+void Nick::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.empty() || arg[0].empty())
 	{
@@ -20,7 +20,7 @@ void Nick::implement(IRCClient* client, std::vector<std::string> arg)
 	Client *new_client = application->getClient(nickname);
 	if (new_client && new_client != client)
 	{
-		client->ReplyMsg(ERR_NICKNAMEINUSE(client->getNickname(), nickname));
+		throw ReplyException(ERR_NICKNAMEINUSE(client->getNickname(), nickname));
 		return;
 	}
 	// application->setClient(client); .....

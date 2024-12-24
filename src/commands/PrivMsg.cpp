@@ -11,7 +11,7 @@ PrivMsg::~PrivMsg()
 {
 }
 
-void PrivMsg::implement(IRCClient* client, std::vector<std::string> arg)
+void PrivMsg::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.size() < 2 || arg[0].empty() || arg[1].empty()) {
 		throw ReplyException(ERR_NEEDMOREPARAMS(client->getNickname() + "PRIVMSG"));
@@ -27,7 +27,7 @@ void PrivMsg::implement(IRCClient* client, std::vector<std::string> arg)
 	if (target[0] == '#')
 	{
 		std::string name = target.substr(1);
-		Channel* channel = aplication.getChannel(name);
+		Channel* channel = aplication->getChannel(name);
 		if (!channel)
 		{
 			throw ReplyException(ERR_NOSUCHCHANNEL("PRIVMSG"));
@@ -41,7 +41,7 @@ void PrivMsg::implement(IRCClient* client, std::vector<std::string> arg)
 		channel.broadcast(message);
 		return ;
 	}
-	IRCClient *dest = _server->getClient(target);
+	Client *dest = _server->getClient(target);
 	if (!dest) {
 		throw ReplyException(ERR_NOSUCHNICK(client->getNickname()));
 		return;

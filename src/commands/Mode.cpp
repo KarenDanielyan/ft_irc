@@ -10,7 +10,7 @@ Mode::~Mode()
 {
 }
 
-void Mode::implement(IRCClient* client, std::vector<std::string> arg)
+void Mode::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.size() < 2 || arg[0].empty())
 	{
@@ -50,7 +50,7 @@ void Mode::implement(IRCClient* client, std::vector<std::string> arg)
 				channel.broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel, (plus ? "+k" : "-k")));
 				break;
 			case 'o':
-				IRCClient operator = channel->isExist(mode_arg);
+				Client operator = channel->isExist(mode_arg);
 				if (!operator)
 				{
 					throw ReplyException(ERR_NOSUCHNICK(mode_arg));

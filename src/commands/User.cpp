@@ -8,7 +8,7 @@ User::~User()
 {
 }
 
-void User::implement(IRCClient* client, std::vector<std::string> arg)
+void User::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.size() < 4)
 	{
@@ -22,5 +22,5 @@ void User::implement(IRCClient* client, std::vector<std::string> arg)
 	}
 	clinet->setUsername(arg[0]);
 	client->setRealName(arg[3]);
-	client->SendMessage(client, RPL_WELCOME(application->getName(), client->getUsername()));
+	SendMessage(client, RPL_WELCOME(application->getName(), client->getUsername()));
 }

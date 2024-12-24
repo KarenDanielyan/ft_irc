@@ -8,7 +8,7 @@ Ping::~Ping()
 {
 }
 
-void Ping::implement(IRCClient* client, std::vector<std::string> arg)
+void Ping::implement(Client* client, std::vector<std::string> arg)
 {
 	if (arg.empty()) {
 		throw ReplyException(ERR_NEEDMOREPARAMS("PING"));
