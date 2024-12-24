@@ -33,13 +33,7 @@ void PrivMsg::implement(IRCClient* client, std::vector<std::string> arg)
 			throw ReplyException(ERR_NOSUCHCHANNEL("PRIVMSG"));
 			return ;
 		}
-		std::vector<std::string> nicknames = channel.getNicknames();
-		std::vector<std::string>::iterator	i;
-			
-		for (i = nicknames.begin(); i != nicknames.end(); i++)
-			if (*i == client->getNickname())
-				break;
-		if (i == nicknames.end())
+		if (!channel.isExist(target))
 		{
 			throw ReplyException(ERR_CANNOTSENDTOCHAN(channel->getNmae()));
 			return ;
@@ -47,10 +41,10 @@ void PrivMsg::implement(IRCClient* client, std::vector<std::string> arg)
 		channel.broadcast(message);
 		return ;
 	}
-	Client *dest = _server->getClient(target);
+	IRCClient *dest = _server->getClient(target);
 	if (!dest) {
 		throw ReplyException(ERR_NOSUCHNICK(client->getNickname()));
 		return;
 	}
-	client->SendMessage(client, message);
+	SendMessage(dest, message);
 }

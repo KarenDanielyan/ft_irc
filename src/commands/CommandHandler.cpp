@@ -1,4 +1,4 @@
-#include "../include/CommandHandler.hpp"
+#include "CommandHandler.hpp"
 
 CommandHandler::CommandHandler(Server *server) : _server(server)
 {

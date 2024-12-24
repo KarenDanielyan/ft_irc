@@ -1,4 +1,4 @@
-#include "../include/Command.hpp"
+#include "Command.hpp"
 //done done
 User::User(Server* server): Command(server)
 {

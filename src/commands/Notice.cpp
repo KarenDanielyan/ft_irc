@@ -23,9 +23,9 @@ void Notice::implement(IRCClient* client, std::vector<std::string> arg)
 	{
 		std::string name = target.substr(1);
 		Channel* channel = application.getChannel(name);
-		if (channel.empty())
+		if (!channel)
 			return ;
-		sIRCClient toPrint = application.getClient(client);
+		IRCClient toPrint = application.getClient(client);
 		if (!toPrint)
 			return ;
 		channel.broadcast(message);

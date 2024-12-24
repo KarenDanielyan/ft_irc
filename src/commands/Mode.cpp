@@ -17,9 +17,14 @@ void Mode::implement(IRCClient* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_NEEDMOREPARAMS("MODE"));
 		return;
 	}
+	if (!channel->isOperator(client))
+	{
+		throw ReplyException(ERR_CHANOPRIVSNEEDED(client->getNickname()));
+		return ;
+	}
 	std::string target = arg[0].substr(1);
+	std::string mode_str = arg[1];
 	std::string mode_arg = arg[2];
-	std::string channel = target.substr(1);
 	Channel* channel = aplication.getChannel(target);
 	if (!channel)
 	{
@@ -27,7 +32,7 @@ void Mode::implement(IRCClient* client, std::vector<std::string> arg)
 		return ;
 	}
 	int i = 0;
-	while (arg[++i])
+	while (arg[1][++i])
 	{
 		bool plus = (arg[i++] == '+');
 		switch (arg[i])
@@ -45,10 +50,16 @@ void Mode::implement(IRCClient* client, std::vector<std::string> arg)
 				channel.broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel, (plus ? "+k" : "-k")));
 				break;
 			case 'o':
+				IRCClient operator = channel->isExist(mode_arg);
+				if (!operator)
+				{
+					throw ReplyException(ERR_NOSUCHNICK(mode_arg));
+					return;
+				}
 				if (plus)
-					channel.addOperator(mode_arg);
+					channel.addOperator(operator);
 				else
-					chennel.removeOperator(mode_arg);
+					chennel.removeOperator(operator);
 				channel.broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel, (plus ? "+o" : "-o")));
 				break;
 			case 'l':

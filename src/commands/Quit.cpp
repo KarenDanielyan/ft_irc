@@ -1,4 +1,4 @@
-#include "../include/Command.hpp"
+#include "Command.hpp"
 
 Quit::Quit(Server* server): Command(server)
 {

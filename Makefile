@@ -13,7 +13,7 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
 			Server.cpp Client.cpp) \
 			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
-			IRCClient.cpp) \
+			IRCClient.cpp Channel.cpp) \
 			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
 			CommandHandler.cpp Cap.cpp Invite.cpp Join.cpp \
 			Kick.cpp Mode.cpp Nick.cpp Notice.cpp \

@@ -20,7 +20,7 @@ void Pass::implement(IRCClient* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_ALREADYREGISTERED(client->getNickname()));
 		return ;
 	}
-	if (_server->getPassword() != arg[0])
+	if (->getPassword() != arg[0])
 	{
 		throw ReplyException(ERR_PASSWDMISMATCH(client->getNickname()));
 		return ;

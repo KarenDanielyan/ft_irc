@@ -1,4 +1,4 @@
-#include "../include/Command.hpp"
+#include "Command.hpp"
 // done done
 Topic::Topic(Server* server): Command(server)
 {

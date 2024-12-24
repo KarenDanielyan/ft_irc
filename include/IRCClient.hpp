@@ -22,7 +22,8 @@ private:
 	std::string	_nickname;
 	std::string	_username;
 	std::string	_realname;
-	// Channel		*_channel;
+	e_ClientState _state;
+	Channel		*_channel;
 public:
 	enum	e_ClientState
 	{
@@ -35,6 +36,7 @@ public:
 		return this->_nickname;
 	}
 	void setNickname(std::string nick){ _nickname = nick;}
+	e_ClientState getState() const;
 	~IRCClient() {};
 };
 

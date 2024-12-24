@@ -13,18 +13,19 @@ void Who::implement(IRCClient* client, std::vector<std::string> arg)
 	int i;
 	if (arg.empty())
 	{
+		std::vector<IRCClient*> clients = channel.getClients();
 		i = -1;
-		while (application._clients[++i])
+		while (clients[++i])
 		{
-			SendMessage(client, RPL_WHOREPLY(application._clients[i].getNickname(), \
-				application._clients[i].getUsername(), application._clients[i].getRealname()));
+			SendMessage(client, RPL_WHOREPLY(clients[i].getNickname(), \
+				clients[i].getUsername(), clients[i].getRealname()));
 		}
 		return ;
 	}
 	std::string mask = arg[0];
 	if (target[0] == '#')
 	{
-		Channel *channel = application.channels.find(mask);
+		Channel *channel = application->getChannel(mask);
 		if (!channel)
 		{
 			throw ReplyException(ERR_NOSUCHCHAN(mask));
