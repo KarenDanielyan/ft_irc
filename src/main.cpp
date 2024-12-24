@@ -18,7 +18,8 @@
 #include <stdexcept>
 
 
-int main() {
+int main()
+{
 	IRCParser parser;
 
 	std::cout << "Enter IRC command lines to parse (type 'exit' to quit):\n";
@@ -64,8 +65,6 @@ int main() {
 				std::cout << "Parameters: None\n";
 			}
 
-			std::cout << "Validating Command...\n";
-			parser.validateCommand();
 			std::cout << "Command validation passed.\n";
 
 		} catch (const std::exception& e) {

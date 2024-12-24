@@ -41,7 +41,7 @@ Server::~Server(void)
 Server*	Server::getInstance(std::string const & port, std::string const & password)
 {
 	if (_instance == NULL)
-		_instance = new Server(port, password);
+		_instance = new Server(port, password);±
 	return (_instance);
 }
 
@@ -112,8 +112,6 @@ void	Server::onClientRequest(pollfd& fd)
 	std::string	input;
 
 	input = readMessage(fd.fd, is_closed);
-	// IRCParser parser.client = -;
-	parser.parseMessage(imput);
 	if (is_closed == true)
 		fd.revents = POLLHUP;
 	else

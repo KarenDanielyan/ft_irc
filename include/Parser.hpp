@@ -3,14 +3,12 @@
 
 
 #include "IRCMessage.hpp"
-#include "IRCClient.hpp"
 #include "Server.hpp"
 #include <sstream>
 #define val "\\[]{}|_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 enum CommandType
 {
-	CMD_CAP,
 	CMD_INVITE,
 	CMD_JOIN,
 	CMD_KICK,
@@ -29,24 +27,23 @@ enum CommandType
 	CMD_UNKNOWN
 };
 
-
+#define VALID_MESSAGE 1
+#define IGNOR_MESSAGE 417
+#define UNKOWN_CMD 0
 class IRCParser
 {
 	private:
 		IRCMessage	_message;
-		IRCClient	_*client;
-		std::map<std::string, std::string> parseTags(const std::string& rawTags);
-		std::vector<std::string> parseParameters(const std::string& rawParams);
-		std::string decodeEscaped(const std::string& rawValue);
-
 	public:
-		IRCParser(IRCClient *client);
+		IRCParser();
 		~IRCParser();
-
-		int parseMessage(const std::string& rawMessage);
-		const IRCMessage& getMessage() const;
-		int validateCommand();
-		void processCommand() const;
+	public:
+		CommandType					getCommandType(const std::string command);
+		std::vector<std::string>	parseParameters(const std::string& rawParams);
+		std::string 				decodeEscaped(const std::string& rawValue);
+		int 						parseMessage(const std::string& rawMessage);
+		const IRCMessage& 			getMessage() const;
+		// void 						processCommand() const;
 };
 
 #endif
