@@ -41,4 +41,6 @@ void Invite::implement(Client* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_USERONCHANNEL(channelToInvite->getName()));
 		return ;
 	}
+	channel->setInvite(clientToInvite);
+	SendMessage(clientTooInvite, RPL_INVITING(clientToInvite->getNickname(), channelToInvite->getName()));
 }
