@@ -21,6 +21,7 @@
 # include <cstdio>
 # include <vector>
 # include <map>
+# include <queue>
 
 # include <stdint.h>
 # include <unistd.h>
@@ -37,6 +38,12 @@
 # include "defines.hpp"
 # include "Connection.hpp"
 
+struct	RequestDataContainer
+{
+	Connection*	who;
+	std::string	what;
+};
+
 class	ITransport
 {
 public:
@@ -49,12 +56,13 @@ public:
 class	Server: public ITransport
 {
 private:
-	int				_server_fd;
-	unsigned short	_port;
+	int									_server_fd;
+	unsigned short						_port;
 
-	std::vector<pollfd>			_pollfds;
-	std::map<int, Connection*>	_connections;
+	std::vector<pollfd>					_pollfds;
+	std::map<int, Connection*>			_connections;
 
+	std::queue<RequestDataContainer>&	_rqueue;
 
 	std::string	readMessage(int fd, bool &is_closed);
 
@@ -67,14 +75,16 @@ public:
 	typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
 	typedef std::map<int, Connection*>::iterator	connection_iterator_t;
 
-	Server(unsigned short port);
+	Server(unsigned short port, std::queue<RequestDataContainer>& rqueue);
 	~Server();
 
-	void	start(void);
+	void	handlePollEvents(void);
 	
 	void	reply(Connection* to, std::string const & message);
 
 	void	broadcast(std::string const & message);
+
+	const RequestDataContainer *	hasPendingRequest(void);
 };
 
 #endif

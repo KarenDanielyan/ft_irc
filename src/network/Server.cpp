@@ -14,7 +14,8 @@
 #include "Connection.hpp"
 #include "utils.hpp"
 
-Server::Server(unsigned short port): _port(port)
+Server::Server(unsigned short port, std::queue<RequestDataContainer>& rqueue): \
+	_port(port), _rqueue(rqueue)
 {
 	pollfd	servfd;
 
@@ -33,33 +34,29 @@ Server::~Server(void)
 		delete it->second;
 }
 
-void	Server::start(void)
+void	Server::handlePollEvents(void)
 {
-	log(INFO_LISTEN);
-	while (true)
+	if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 1)
+		throw std::runtime_error(ERR_POLL);
+	for (pollfds_iterator_t it = _pollfds.begin(); it != _pollfds.end(); it++)
 	{
-		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 1)
-			throw std::runtime_error(ERR_POLL);
-		for (pollfds_iterator_t it = _pollfds.begin(); it != _pollfds.end(); it++)
+		if (it->revents == 0)
+			continue ;
+		if (it->revents & POLLIN)
 		{
-			if (it->revents == 0)
-				continue ;
-			if (it->revents & POLLIN)
+			/* If new client connects */
+			if (it->fd == _server_fd)
 			{
-				/* If new client connects */
-				if (it->fd == _server_fd)
-				{
-					onClientConnect();
-					break;
-				}
-				onClientRequest(*it);
+				onClientConnect();
+				break;
 			}
-			if (it->revents & POLLHUP)
-			{
-				onClientDisconnect(*it);
-				_pollfds.erase(it);
-				break ;
-			}
+			onClientRequest(*it);
+		}
+		if (it->revents & POLLHUP)
+		{
+			onClientDisconnect(*it);
+			_pollfds.erase(it);
+			break ;
 		}
 	}
 }
@@ -94,7 +91,8 @@ void	Server::onClientDisconnect(pollfd& fd)
 
 void	Server::onClientRequest(pollfd& fd)
 {
-	bool		is_closed = false;
+	bool					is_closed = false;
+	RequestDataContainer	cont;
 	std::string	input;
 
 	input = readMessage(fd.fd, is_closed);
@@ -102,7 +100,9 @@ void	Server::onClientRequest(pollfd& fd)
 		fd.revents = POLLHUP;
 	else
 	{
-		broadcast(input);
+		cont.who = _connections[fd.fd];
+		cont.what = input;
+		_rqueue.push(cont);
 	}
 }
 
