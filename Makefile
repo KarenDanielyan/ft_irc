@@ -11,13 +11,13 @@ SRC		=	src
 SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			main.cpp utils.cpp) \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
-			Server.cpp Client.cpp) \
+			Server.cpp Connection.cpp) \
 			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
 			IRCClient.cpp Application.cpp)
 
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			defines.hpp Application.hpp \
-			Server.hpp Client.hpp IRCClient.hpp)
+			Server.hpp Connection.hpp IRCClient.hpp)
 
 DEP		=	$(INC) Makefile
 

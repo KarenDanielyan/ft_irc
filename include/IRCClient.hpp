@@ -6,17 +6,17 @@
 /*   By: kdaniely <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:13:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/25 15:14:20 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/24 16:31:26 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IRCCLIENT_HPP
 # define IRCCLIENT_HPP
 
-# include "Client.hpp"
+# include "Connection.hpp"
 # include "Channel.hpp"
 
-class	IRCClient : public Client
+class	IRCClient : public Connection
 {
 private:
 	std::string	_nickname;

@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.cpp                                         :+:      :+:    :+:   */
+/*   Connection.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 00:16:22 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/25 15:51:17 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/24 16:27:58 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Client.hpp"
+#include "Connection.hpp"
 
-Client::Client(int fd, char *hostname, unsigned short port): \
+Connection::Connection(int fd, char *hostname, unsigned short port): \
 	_fd(fd), _hostname(hostname), _port(port) {}
 
-Client::~Client(void) {}
+Connection::~Connection(void) {}
 
-std::string const & Client::getHostname(void) const
+std::string const & Connection::getHostname(void) const
 {
 	return (_hostname);
 }
 
-unsigned short Client::getPort(void) const
+unsigned short Connection::getPort(void) const
 {
 	return (_port);
 }
 
-int	Client::getFd(void) const
+int	Connection::getFd(void) const
 {
 	return (_fd);
 }

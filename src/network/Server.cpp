@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "Server.hpp"
-#include "Client.hpp"
+#include "Connection.hpp"
 #include "utils.hpp"
 
 Server::Server(unsigned short port): _port(port)
@@ -29,7 +29,7 @@ Server::~Server(void)
 {
 	for (pollfds_iterator_t it = _pollfds.begin(); it != _pollfds.end(); it++)
 		close(it->fd);
-	for (clients_iterator_t it = _clients.begin(); it != _clients.end(); it++)
+	for (clients_iterator_t it = _connections.begin(); it != _connections.end(); it++)
 		delete it->second;
 }
 
@@ -66,14 +66,14 @@ void	Server::start(void)
 
 void	Server::onClientDisconnect(pollfd& fd)
 {
-	clients_iterator_t	it = _clients.find(fd.fd);
+	clients_iterator_t	it = _connections.find(fd.fd);
 
-	if (it != _clients.end())
+	if (it != _connections.end())
 	{
-		Client	*c = _clients.find(fd.fd)->second;
-		char	log_message[NI_MAXHOST + 1024];
+		Connection	*c = _connections.find(fd.fd)->second;
+		char		log_message[NI_MAXHOST + 1024];
 
-		_clients.erase(fd.fd);
+		_connections.erase(fd.fd);
 		sprintf(log_message, "%s:%d disconnected to the server.", \
 			c->getHostname().c_str(), c->getPort());
 		log(log_message);
@@ -111,7 +111,7 @@ void	Server::onClientConnect(void)
 	socklen_t	sa_len;
 	char		hostname[NI_MAXHOST];
 	char		log_message[NI_MAXHOST + 1024];
-	Client		*c;
+	Connection	*c;
 
 	sa_len = sizeof(sa);
 	fd = accept(_server_fd, (SA*)(&sa), &sa_len);
@@ -126,8 +126,8 @@ void	Server::onClientConnect(void)
 	{
 		throw std::runtime_error(ERR_HOSTNAME);
 	}
-	c = new Client(fd, hostname, ntohs(sa.sin_port));
-	_clients[fd] = c;
+	c = new Connection(fd, hostname, ntohs(sa.sin_port));
+	_connections[fd] = c;
 	sprintf(log_message, "%s:%d connected to the server.", \
 		c->getHostname().c_str(), c->getPort());
 	log(log_message);
@@ -195,7 +195,7 @@ int	Server::newSocket()
 	return (sockfd);
 }
 
-void	Server::reply(Client* to, std::string const & message)
+void	Server::reply(Connection* to, std::string const & message)
 {
 	send(to->getFd(), message.c_str(), message.length(), 0);
 }

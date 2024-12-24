@@ -35,12 +35,12 @@
 # include <arpa/inet.h>
 
 # include "defines.hpp"
-# include "Client.hpp"
+# include "Connection.hpp"
 
 class	ITransport
 {
 public:
-	virtual void	reply(Client* to, std::string const & message) = 0;
+	virtual void	reply(Connection* to, std::string const & message) = 0;
 	virtual void	broadcast(std::string const & message) = 0;
 
 	virtual ~ITransport() {}
@@ -52,8 +52,8 @@ private:
 	int				_server_fd;
 	unsigned short	_port;
 
-	std::vector<pollfd>		_pollfds;
-	std::map<int, Client*>	_clients;
+	std::vector<pollfd>			_pollfds;
+	std::map<int, Connection*>	_connections;
 
 
 	std::string	readMessage(int fd, bool &is_closed);
@@ -64,15 +64,15 @@ private:
 	void	onClientDisconnect(pollfd& fd);
 	void	onClientRequest(pollfd&fd);
 public:
-	typedef std::vector<pollfd>::iterator		pollfds_iterator_t;
-	typedef std::map<int, Client*>::iterator	clients_iterator_t;
+	typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
+	typedef std::map<int, Connection*>::iterator	clients_iterator_t;
 
 	Server(unsigned short port);
 	~Server();
 
 	void	start(void);
 	
-	void	reply(Client* to, std::string const & message);
+	void	reply(Connection* to, std::string const & message);
 
 	void	broadcast(std::string const & message);
 };

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.hpp                                         :+:      :+:    :+:   */
+/*   Connection.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:02:33 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/25 15:15:55 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/24 16:28:01 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * NOTE: Never modify this class.
 */
 
-class	Client
+class	Connection
 {
 protected:
 	int				_fd;
@@ -29,8 +29,8 @@ protected:
 	unsigned short	_port;
 
 public:
-	Client(int fd, char *hostname, unsigned short port);
-	virtual ~Client();
+	Connection(int fd, char *hostname, unsigned short port);
+	virtual ~Connection();
 
 	std::string const &	getHostname(void) const;
 	unsigned short		getPort(void) const;
