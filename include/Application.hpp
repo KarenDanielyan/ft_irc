@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:02:37 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/24 16:28:00 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/24 17:08:07 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef APPLICATION_HPP
@@ -14,7 +14,7 @@
 
 // TODO: Add the parser and command handler on readiness
 # include "Server.hpp"
-# include "IRCClient.hpp"
+# include "Client.hpp"
 
 class	Application
 {
