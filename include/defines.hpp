@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/23 18:48:20 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/24 20:40:39 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 # define HOSTNAME "127.0.0.1"
 
 # define BUFFER_SIZE 80
-
-/* To be used later if we want */
-# define MSG_SIZE 512
 
 # define USAGE_MSG "Usage: ./ircserv <port> <password>"
 
