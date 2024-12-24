@@ -38,8 +38,10 @@ CommandType IRCParser::getCommandType(const std::string command)
 
 int IRCParser::parseMessage(const std::string& rawMessage)
 {
-	if (rawMessage.length() == 0 || rawMessage.length() > MAX_MESSAGE_LENGTH)
+	if (rawMessage.length() == 0 )
 		return IGNOR_MESSAGE;
+	else if ( rawMessage.length() > MAX_MESSAGE_LENGTH)
+		return MESSAGE_TO_LONG;
 	else if (rawMessage.substr(rawMessage.length() - 2) != "\r\n")
 		return IGNOR_MESSAGE;
 
