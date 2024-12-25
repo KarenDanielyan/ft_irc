@@ -33,6 +33,8 @@ private:
 	static Application*			_instance;
 	Server*						_serv;
 
+	CommandHandler				_handler;
+	Parser						_parser;
 
 	std::string					_password;
 	std::vector<Channel *>		_channels;

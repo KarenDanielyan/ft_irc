@@ -22,10 +22,13 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			Who.cpp)
 
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
-			defines.hpp \
-			Server.hpp Client.hpp Connection.hpp \
-			Application.hpp Channel.hpp Command.hpp \
-			CommandHandler.hpp Parser.hpp)
+			defines.hpp utils.hpp \
+			Command.hpp CommandHandler.hpp Parser.hpp \
+			IRCMessage.hpp) \
+			$(patsubst %.hpp, $(INCLUDE)/network/%.hpp, \
+			Connection.hpp Server.hpp) \
+			$(patsubst %.hpp, $(INCLUDE)/application/%.hpp, \
+			Application.hpp Channel.hpp Client.hpp)
 
 OBJS	=	$(foreach dir, $(SUBDIRS), \
 			$(patsubst $(SRC)/$(dir)/%.cpp, $(BUILD)/%.o, \
@@ -40,7 +43,7 @@ CXX			=	c++
 
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 #-g -fsanitize=address
 
-INCFLAGS	=	-I $(INCLUDE)
+INCFLAGS	=	-I $(INCLUDE) -I$(INCLUDE)/application -I$(INCLUDE)/network
 
 # Colors
 

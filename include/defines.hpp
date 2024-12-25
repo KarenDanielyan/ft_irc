@@ -67,7 +67,4 @@
 
 // Nick reply
 # define ERR_ERRONEUSNICKNAME(nick) (std::string("432")) + " :Erroneus nickname"
-# define ERR_NONICKNAMEGIVEN(nick) (std::string"421") + " :No nickname given" 
-# define 
-
 #endif

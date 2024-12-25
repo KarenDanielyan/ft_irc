@@ -11,15 +11,11 @@
 # include "Command.hpp"
 # include "utils.hpp"
 
-class Server;
-class Client;
-class Command;
-
 class CommandHandler
 {
 	private:
 		ITransport* _server;
-		std::vector<Channel *>				_channels;
+		std::vector<Channel *>&				_channels;
 		std::map<int, Client *>&			_clients;
 		std::map<std::string, Command *>	_commands;
 	public:
