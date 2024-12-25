@@ -33,16 +33,17 @@ void PrivMsg::implement(Client* client, std::vector<std::string> arg)
 			throw ReplyException(ERR_NOSUCHCHANNEL("PRIVMSG"));
 			return ;
 		}
-		if (!channel.isExist(target))
+		if (!channel->isExist(*client))
 		{
-			throw ReplyException(ERR_CANNOTSENDTOCHAN(channel->getNmae()));
+			throw ReplyException(ERR_CANNOTSENDTOCHAN(channel->getName()));
 			return ;
 		}
-		channel.broadcast(message);
+		channel->broadcast(message);
 		return ;
 	}
-	Client *dest = _server->getClient(target);
-	if (!dest) {
+	Client *dest = application->getClient(target);
+	if (!dest)
+	{
 		throw ReplyException(ERR_NOSUCHNICK(client->getNickname()));
 		return;
 	}

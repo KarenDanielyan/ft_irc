@@ -35,7 +35,7 @@
 # define ERR_ADDRBIND "Error: failed to assign a name to a socket!"
 # define ERR_CREFUSED "Error: connection refused!"
 # define ERR_POLL "Error: polling failed!"
-# define ERR_HOSTNAME "Error: cannot retrieve hostname of the IRCClient!"
+# define ERR_HOSTNAME "Error: cannot retrieve hostname of the Client!"
 
 /*error reply*/
 # define ERR_ALREADYREGISTERED(target) (std::string("462 ") + "Error: " + target + " :You may not reregister")
@@ -50,8 +50,18 @@
 # define ERR_NOTONCHANNEL(target) (std::string("442 ") + "Error:  " + target + " :You're not on that channel")
 # define ERR_CHANOPRIVSNEEDED(target) (std::string("482 ") + "Error:  " + target + " :You're not channel operator")
 # define ERR_USERNOTINCHANNEL(target) (std::string("441 ") + "Error:  " + target + " :They aren't on that channel")
+# define ERR_USERONCHANNEL(target) (std::string("443 ") + target + " :is already on channel")
+# define ERR_INVITEONLYCHAN(target) (std::string("473 ") + target + " :Cannot join channel (+i)")
+# define ERR_CHANNELISFULL(target) (std::string("471 ") + target + " :Cannot join channel (+l)")
+# define ERR_BADCHANNELKEY(target) (std::string("471 ") + target + " :Cannot join channel (+k)")
+# define ERR_USERSDONTMATCH() (std::string("502 ") + " :Cant change mode for other users")
+
 /*command reply*/
-# define RPL_CHANNELMODEIS(channel, mode, argument) (std::string("324 ") + " " + channel + " " +mode + " " +argument)
-# define RPL_WELCOME(networkname, nick) (std::string("001 ") + " :Welcome to the " + networkname + " Network, " + nick)
+# define RPL_CHANNELMODEIS(channel, mode, argument) (std::string("324 ") + " " + channel + " "  +mode + " " +argument)
+# define RPL_WELCOME( nick) (std::string("001 ") + " :Welcome to the IRC  Network, " + nick)
 # define RPL_PING(message) (std::string("001 ") + " :PING " + message)
+# define RPL_INVITING(nick, channel) (std::string("341 ") + " " + nick + " " + channel)
+# define RPL_ENDOFNAMES(channel) (std::string("366 ") + channel + " :End of /NAMES list")
+# define RPL_NAMREPLY(channel, nick) (std::string("353 ") + channel + " :" + nick)
+# define RPL_WHOREPLY(nick, username, realname) (std::string("352 ") + nick + " " + username + " " + realname)
 #endif

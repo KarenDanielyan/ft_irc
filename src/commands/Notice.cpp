@@ -25,12 +25,12 @@ void Notice::implement(Client* client, std::vector<std::string> arg)
 		Channel* channel = application.getChannel(name);
 		if (!channel)
 			return ;
-		if (!channel.isExist(target))
+		if (!channel->isExist(*client))
 			return ;
-		channel.broadcast(message);
+		channel->broadcast(message);
 		return ;
 	}	
-	Client *dest = _server->getClient(target);
+	Client *dest = application->getClient(target);
 	if (!dest)
 		return;
 	SendMessage(client, message);

@@ -8,9 +8,9 @@ Cap::~Cap()
 {
 }
 
-void Cap::implement(IRCClient *IRCClient, std::vector<std::string> arg)
+void Cap::implement(Client *Client, std::vector<std::string> arg)
 {
-	(void)IRCClient;
+	(void)Client;
 	(void)arg;
 	throw ReplyException(ERR_UNKNOWNCOMMAND("CAP"));
 }

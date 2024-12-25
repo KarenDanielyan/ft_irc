@@ -12,9 +12,9 @@ Invite::~Invite()
 
 void Invite::implement(Client* client, std::vector<std::string> arg)
 {
-	if (_arg.size() < 2)
+	if (arg.size() < 2)
 	{
-		throw ReplyException(NEEDMOREPARAMS());
+		throw ReplyException(ERR_NEEDMOREPARAMS("PASS"));
 		return ;
 	}
 
@@ -31,9 +31,9 @@ void Invite::implement(Client* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_NOSUCHCHANNEL(arg[1]));
 		return ;
 	}
-	if (!channelToInvite->isInvited(client))
+	if (!channelToInvite->isInvited(*client))
 	{
-		throw ReplyException(ERR_CHANOPRIVSNEEDED(client));
+		throw ReplyException(ERR_CHANOPRIVSNEEDED(client->getNickname()));
 		return ;
 	}
 	if (application->getClient(clientToInvite))
@@ -41,6 +41,6 @@ void Invite::implement(Client* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_USERONCHANNEL(channelToInvite->getName()));
 		return ;
 	}
-	channel->setInvite(clientToInvite);
-	SendMessage(clientTooInvite, RPL_INVITING(clientToInvite->getNickname(), channelToInvite->getName()));
+	channelToInvite->setInvite(clientToInvite);
+	SendMessage(clientToInvite, RPL_INVITING(clientToInvite->getNickname(), channelToInvite->getName()));
 }

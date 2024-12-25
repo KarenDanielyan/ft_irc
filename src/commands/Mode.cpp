@@ -17,15 +17,15 @@ void Mode::implement(Client* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_NEEDMOREPARAMS("MODE"));
 		return;
 	}
-	if (!channel->isOperator(client))
-	{
-		throw ReplyException(ERR_CHANOPRIVSNEEDED(client->getNickname()));
-		return ;
-	}
 	std::string target = arg[0].substr(1);
 	std::string mode_str = arg[1];
 	std::string mode_arg = arg[2];
 	Channel* channel = aplication.getChannel(target);
+	if (!channel->isOperator(*client))
+	{
+		throw ReplyException(ERR_CHANOPRIVSNEEDED(client->getNickname()));
+		return ;
+	}
 	if (!channel)
 	{
 		throw ReplyException(ERR_NOSUCHCHANNEL("MODE"));
@@ -34,37 +34,36 @@ void Mode::implement(Client* client, std::vector<std::string> arg)
 	int i = 0;
 	while (arg[1][++i])
 	{
-		bool plus = (arg[i++] == '+');
-		switch (arg[i])
+		bool plus = (arg[1][i++] == '+');
+		switch (arg[1][i])
 		{
 			case 'i':
-				channel.setOnlyInvite(plus);
-				channel.broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel, (plus ? "+i" : "-i")));
+				channel->setOnlyInvite(plus);
+				channel->broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel->getName(), (plus ? "+i" : "-i")));
 				break;
 			case 't':
-				channel.setTopic(plus ? mode_arg : "");
-				channel.broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel, (plus ? "+t" : "-t")));
+				channel->setTopic(plus ? mode_arg : "");
+				channel->broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel->getName(), (plus ? "+t" : "-t")));
 				break;
 			case 'k':
-				channel.setPassword(plus ? mode_arg : "");
-				channel.broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel, (plus ? "+k" : "-k")));
+				channel->setPassword(plus ? mode_arg : "");
+				channel->broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel->getName(), (plus ? "+k" : "-k")));
 				break;
 			case 'o':
-				Client operator = channel->isExist(mode_arg);
-				if (!operator)
+				if (target != client->getNickname())
 				{
-					throw ReplyException(ERR_NOSUCHNICK(mode_arg));
+					throw ReplyException(ERR_USERSDONTMATCH());
 					return;
 				}
 				if (plus)
-					channel.addOperator(operator);
+					channel->addOperator(client);
 				else
-					chennel.removeOperator(operator);
-				channel.broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel, (plus ? "+o" : "-o")));
+					channel->removeOperator(client);
+				channel->broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel->getName(), (plus ? "+o" : "-o")));
 				break;
 			case 'l':
-				channel.setLimit(plus ? std::stol(mode_arg) : 0);
-				channel.broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel, (plus ? "+l" : "-l")));
+				channel->setLimit(plus ? std::stol(mode_arg) : 0);
+				channel->broadcast(RPL_CHANNELMODEIS(client->getNickname(), channel->getName(), (plus ? "+l" : "-l")));
 				break;
 			default:
 				break;

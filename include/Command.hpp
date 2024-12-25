@@ -14,8 +14,8 @@ class Command
 		Command(Server* server): _server(server){};
 		virtual ~Command(){};
 
-		virtual void validate(Client *Client, std::vector<std::string> arg){};
-		virtual void implement(Client *Client, std::vector<std::string> arg) = 0;
+		virtual void validate(Client *client, std::vector<std::string> arg){(void)client; (void)arg;};
+		virtual void implement(Client *client, std::vector<std::string> arg) = 0;
 };
 
 class Cap: public Command

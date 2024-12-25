@@ -20,5 +20,5 @@ void Ping::implement(Client* client, std::vector<std::string> arg)
 		message += arg[i];
 		message += " ";
 	}
-	throw ReplyException(RPL_PING(message));
+	sendMessage(client, RPL_PING(message));
 }

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IRCCLIENT_HPP
-# define IRCCLIENT_HPP
+#ifndef Client_HPP
+# define Client_HPP
 
 # include "Connection.hpp"
 # include "Channel.hpp"

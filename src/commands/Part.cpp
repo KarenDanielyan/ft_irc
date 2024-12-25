@@ -11,7 +11,7 @@ Part::~Part()
 
 void Part::implement(Client* client, std::vector<std::string> arg)
 {
-	if (arguments.empty())
+	if (arg.empty())
 	{
 		throw ReplyException(ERR_NEEDMOREPARAMS("PART"));
 		return;
@@ -26,9 +26,9 @@ void Part::implement(Client* client, std::vector<std::string> arg)
 	}
 	if (!client->getChannel() || client->getChannel()->getName() != name)
 	{
-		throw ReplyException(ERR_NOTONCHANNEL(client->getNickname));
+		throw ReplyException(ERR_NOTONCHANNEL(client->getNickname()));
 		return;
 	}
 	channel->removeClient(client);
-	channel->broadcast(client, client->getNickname() + " PART " + channel->getName())
+	channel->broadcast(client->getNickname() + " PART " + channel->getName());
 }

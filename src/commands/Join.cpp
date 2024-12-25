@@ -19,15 +19,15 @@ void Join::implement(Client* client, std::vector<std::string> arg)
 	}
 	std::string name = arg[0];
 	std::string pass = arg.size() > 1 ? arg[1] : "";
-	Channel *channel = application.getChannel(name);
+	Channel *channel = application->getChannel(name);
 	//if the client is on the channel
 	if (!channel)
 	{
-		application->createChannel(name, pass);
-		new_channel = application.getChannel(name);
-		new_channel->addCLient(client);
+		application->addChannel(name, pass);
+		new_channel = application->getChannel(name);
+		new_channel->addClient(client);
 	}
-	if (channel->InviteOnly())
+	if (channel->isInviteOnly())
 	{
 		throw ReplyException(ERR_INVITEONLYCHAN(name));
 		return ;
@@ -42,16 +42,18 @@ void Join::implement(Client* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_BADCHANNELKEY(name));
 		return ;
 	}
-	if (channel->isExist(user))
+	if (channel->isExist(*client))
 	{
 		throw ReplyException(ERR_USERONCHANNEL(client->getNickname()));
 		return ;
 	}
+	sendMessage(client, client->getNickname() + " Joined " + channel->getName() + " channel");
 	//print about channel
-	std::vector<User *> users = channel->getUsers();
-	for (std::vector<User *>::iterator it = users.begin(); it != users.end(); ++it)
-		//print to user RPL_NAMREPLY(user->getNickname(), name, " ", (*it)->getNickname()));
-	if (channel->getTopic != "")
-		//print to user RPL_TOPIC(user->getNickname(), name, channel->getTopic()));
-	channel->addCLient(client);
+	std::vector<Client *> clients = channel->getClients();
+	for (std::vector<Client *>::iterator it = clients.begin(); it != clients.end(); ++it)
+		sendMessage(client, RPL_NAMREPLY(channel->getName(), (*it)->getNickname()));
+	sendMessage(client, RPL_ENDOFNAMES(channel->getName()));
+	if (channel->getTopic() != "")
+		sendMessage(client, "Topic of channel: " + channel->getTopic());
+	channel->addClient(client);
 }

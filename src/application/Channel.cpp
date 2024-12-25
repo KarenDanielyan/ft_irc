@@ -23,7 +23,7 @@ std::string Channel::getTopic() const
 	return _topic;
 }
 
-std::string Channel::getPass() const 
+std::string Channel::getPassword() const 
 {
 	return _password;
 }
@@ -46,7 +46,7 @@ void Channel::setName(std::string name) {
 	_name = name;
 }
 
-void Channel::setPass(std::string pass) {
+void Channel::setPassword(std::string pass) {
 	_password = pass;
 }
 
@@ -126,4 +126,18 @@ bool Channel::isInvited(Client client)
 void Channel::setInvite(Client *client)
 {
 	_inviteList.push_back(client);
+}
+
+bool Channel::isInviteOnly()
+{
+	return _inviteList.empty();
+}
+
+void Channel::removeOperator(Client *client)
+{
+	std::vector<Client*>::iterator it = std::find(_operators.begin(), _operators.end(), client);
+	if (it != _operators.end()) {
+		_operators.erase(it);
+		delete client;
+	}
 }

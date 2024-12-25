@@ -22,17 +22,17 @@ void Topic::implement(Client* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_NOSUCHCHANNEL("TOPIC"));
 		return ;
 	}
-	if (!channel.isExist(client))
+	if (!channel->isExist(*client))
 	{
 		throw ReplyException(ERR_NOTONCHANNEL(client->getNickname()));
 		return ;
 	}
-	if (!client->getOpPerm())
+	if (!channel->isOperator(*client))
 	{
-		throw ReplyException(ERR_CHANOPRIVSNEEDED(client));
+		throw ReplyException(ERR_CHANOPRIVSNEEDED(client->getNickname()));
 		return ;
 	}
-	if (arg[1])
+	if (!arg[1].empty())
 		channel->setTopic(arg[1]);
 	else
 		SendMessage(client, channel->getTopic());

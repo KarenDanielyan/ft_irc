@@ -20,7 +20,7 @@ CommandHandler::CommandHandler(Server *server) : _server(server)
 	_commands["WHO"] = new Who(server);
 }
 
-void CommandHandler::Handler(IRCClient* client, std::vector<std::string> arg, std::string cmd)
+void CommandHandler::Handler(Client* client, std::vector<std::string> arg, std::string cmd)
 {
 	std::map<std::string, Command*>::iterator it = _commands.find(cmd);
 	if (it == _commands.end())

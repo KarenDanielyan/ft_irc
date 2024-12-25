@@ -20,7 +20,7 @@ void User::implement(Client* client, std::vector<std::string> arg)
 		throw ReplyException(ERR_ALREADYREGISTERED(client->getUsername()));
 		return ;
 	}
-	clinet->setUsername(arg[0]);
-	client->setRealName(arg[3]);
-	SendMessage(client, RPL_WELCOME(application->getName(), client->getUsername()));
+	client->setUsername(arg[0]);
+	client->setRealname(arg[3]);
+	SendMessage(client, RPL_WELCOME(client->getUsername()));
 }

@@ -33,7 +33,7 @@ class Channel
 		/*getters*/
 		std::string getName() const;
 		std::string getTopic() const;
-		std::string getPass() const;
+		std::string getPassword() const;
 		std::vector<std::string> getNicknames() const;
 		std::vector<Client*> getClients() const;
 		int getClientCount() const;
@@ -41,7 +41,7 @@ class Channel
 
 		/*setters*/
 		void setName(std::string name);
-		void setPass(std::string pass);
+		void setPassword(std::string pass);
 		void setTopic(std::string topic);
 		void setLimit(unsigned long limit);
 		void setOnlyInvite(bool OnlyInvite);
@@ -49,12 +49,14 @@ class Channel
 		void setInvite(Client *client);
 
 		void removeClient(Client *client);
+		void removeOperator(Client *client);
 
 		void addClient(Client *client);
 		bool isExist(Client client);
 		bool isInvited(Client client);
 		bool isOperator(Client client);
-		void broadcast() const;
+		bool isInviteOnly();
+		void broadcast(std::string message) const;
 };
 
 #endif
