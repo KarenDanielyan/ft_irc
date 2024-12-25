@@ -8,157 +8,172 @@
 
 class Command
 {
-	protected:
-		Server* _server;
 	public:
-		Command(Server* server): _server(server){};
+		Command(){};
 		virtual ~Command(){};
 
 		virtual void validate(Client *client, std::vector<std::string> arg){(void)client; (void)arg;};
-		virtual void implement(Client *client, std::vector<std::string> arg) = 0;
+		virtual void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels) = 0;
 };
 
 class Cap: public Command
 {
 	public:
-		Cap(Server *server);
+		Cap();
 		~Cap();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Invite: public Command
 {
 	public:
-		Invite(Server *server);
+		Invite();
 		~Invite();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Join: public Command
 {
 	public:
-		Join(Server *server);
+		Join();
 		~Join();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Kick: public Command
 {
 	public:
-		Kick(Server *server);
+		Kick();
 		~Kick();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Mode: public Command
 {
 	public:
-		Mode(Server *server);
+		Mode();
 		~Mode();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Nick: public Command
 {
 	public:
-		Nick(Server *server);
+		Nick();
 		~Nick();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Notice: public Command
 {
 	public:
-		Notice(Server *server);
+		Notice();
 		~Notice();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Part: public Command
 {
 	public:
-		Part(Server *server);
+		Part();
 		~Part();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Pass: public Command
 {
 	public:
-		Pass(Server *server);
+		Pass();
 		~Pass();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Ping: public Command
 {
 	public:
-		Ping(Server *server);
+		Ping();
 		~Ping();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Pong: public Command
 {
 	public:
-		Pong(Server *server);
+		Pong();
 		~Pong();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class PrivMsg: public Command
 {
 	public:
-		PrivMsg(Server *server);
+		PrivMsg();
 		~PrivMsg();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Quit: public Command
 {
 	public:
-		Quit(Server *server);
+		Quit();
 		~Quit();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Topic: public Command
 {
 	public:
-		Topic(Server *server);
+		Topic();
 		~Topic();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class User: public Command
 {
 	public:
-		User(Server *server);
+		User();
 		~User();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 
 class Who: public Command
 {
 	public:
-		Who(Server *server);
+		Who();
 		~Who();
 
-		void implement(Client *Client, std::vector<std::string> arg);
+		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
 #endif

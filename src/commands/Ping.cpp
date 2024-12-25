@@ -8,7 +8,8 @@ Ping::~Ping()
 {
 }
 
-void Ping::implement(Client* client, std::vector<std::string> arg)
+void Pingimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	if (arg.empty()) {
 		throw ReplyException(ERR_NEEDMOREPARAMS("PING"));

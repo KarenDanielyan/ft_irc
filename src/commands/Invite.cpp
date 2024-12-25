@@ -10,11 +10,12 @@ Invite::~Invite()
 {
 }
 
-void Invite::implement(Client* client, std::vector<std::string> arg)
+void Invite::implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	if (arg.size() < 2)
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("PASS"));
+		throw ReplyException(ERR_NEEDMOREPARAMS("INVITE"));
 		return ;
 	}
 

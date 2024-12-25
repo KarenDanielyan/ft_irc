@@ -8,7 +8,8 @@ Pong::~Pong()
 {
 }
 
-void Pong::implement(Client* client, std::vector<std::string> arg)
+void Pongimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	if (arg.empty())
 	{

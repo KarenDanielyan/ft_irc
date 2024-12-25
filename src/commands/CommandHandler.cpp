@@ -5,22 +5,22 @@ CommandHandler::CommandHandler(ITransport* server, \
 				std::vector<Channel *>& channels) : \
 	_server(server), _channels(channels), _clients(clients)
 {
-	_commands["CAP"] = new Cap(server);
-	_commands["INVITE"] = new Invite(server);
-	_commands["JOIN"] = new Join(server);
-	_commands["KICK"] = new Kick(server);
-	_commands["MODE"] = new Mode(server);
-	_commands["NICK"] = new Nick(server);
-	_commands["NOTICE"] = new Notice(server);
-	_commands["PART"] = new Part(server);
-	_commands["PASS"] = new Pass(server);
-	_commands["PING"] = new Ping(server);
-	_commands["PONG"] = new Pong(server);
-	_commands["PRIVMSG"] = new PrivMsg(server);
-	_commands["QUIT"] = new Quit(server);
-	_commands["TOPIC"] = new Topic(server);
-	_commands["USER"] = new User(server);
-	_commands["WHO"] = new Who(server);
+	_commands["CAP"] = new Cap();
+	_commands["INVITE"] = new Invite();
+	_commands["JOIN"] = new Join();
+	_commands["KICK"] = new Kick();
+	_commands["MODE"] = new Mode();
+	_commands["NICK"] = new Nick();
+	_commands["NOTICE"] = new Notice();
+	_commands["PART"] = new Part();
+	_commands["PASS"] = new Pass();
+	_commands["PING"] = new Ping();
+	_commands["PONG"] = new Pong();
+	_commands["PRIVMSG"] = new PrivMsg();
+	_commands["QUIT"] = new Quit();
+	_commands["TOPIC"] = new Topic();
+	_commands["USER"] = new User();
+	_commands["WHO"] = new Who();
 }
 
 void CommandHandler::Handler(Client* client, std::vector<std::string> arg, \
@@ -30,5 +30,5 @@ void CommandHandler::Handler(Client* client, std::vector<std::string> arg, \
 	if (it == _commands.end())
 		throw ReplyException(ERR_UNKNOWNCOMMAND(cmd));
 	else
-		_commands[cmd]->implement(client, arg);
+		_commands[cmd]->implement(client, arg, _client, _channels, _server);
 }

@@ -11,7 +11,8 @@ PrivMsg::~PrivMsg()
 {
 }
 
-void PrivMsg::implement(Client* client, std::vector<std::string> arg)
+void PrivMsgimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	if (arg.size() < 2 || arg[0].empty() || arg[1].empty()) {
 		throw ReplyException(ERR_NEEDMOREPARAMS(client->getNickname() + "PRIVMSG"));

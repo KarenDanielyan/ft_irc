@@ -12,7 +12,7 @@
 # include "utils.hpp"
 
 class Server;
-class CClient;
+class Client;
 class Command;
 
 class CommandHandler

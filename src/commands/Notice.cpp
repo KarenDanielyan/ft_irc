@@ -8,7 +8,8 @@ Notice::~Notice()
 {
 }
 
-void Notice::implement(Client* client, std::vector<std::string> arg)
+void Noticeimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	if (arg.size() < 2 || arg[0].empty() || arg[1].empty())
 		return;

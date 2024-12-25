@@ -8,7 +8,8 @@ Kick::~Kick()
 {
 }
 //<channel> <user> *( "," <user> ) [<comment>]
-void Kick::implement(Client* client, std::vector<std::string> arg)
+void Kickimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	if (arg.size() < 2)
 	{

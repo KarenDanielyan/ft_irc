@@ -8,7 +8,8 @@ Quit::~Quit()
 {
 }
 
-void Quit::implement(Client* client, std::vector<std::string> arg)
+void Quitimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	std::string reason;
 	if (arg[0][0] == ':')

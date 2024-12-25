@@ -10,7 +10,8 @@ Mode::~Mode()
 {
 }
 
-void Mode::implement(Client* client, std::vector<std::string> arg)
+void Modeimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	if (arg.size() < 2 || arg[0].empty())
 	{

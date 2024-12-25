@@ -8,7 +8,8 @@ Nick::~Nick()
 {
 }
 
-void Nick::implement(Client* client, std::vector<std::string> arg)
+void Nickimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	if (arg.empty() || arg[0].empty())
 	{

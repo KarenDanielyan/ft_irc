@@ -8,7 +8,8 @@ Who::~Who()
 {
 }
 
-void Who::implement(Client* client, std::vector<std::string> arg)
+void Whoimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	int i;
 	if (arg.empty())
