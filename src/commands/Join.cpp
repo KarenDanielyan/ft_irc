@@ -9,8 +9,13 @@ Join::Join(Server* server): Command(server)
 Join::~Join()
 {
 }
+void Join::validate(Client *client, std::vector<std::string> arg)
+{
+	std::string channel = IRCMessage.parameters[0]
+}
 
-void Joinimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
+
+void Join::implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
 				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
 {
 	if (arg.empty())

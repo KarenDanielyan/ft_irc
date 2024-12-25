@@ -64,4 +64,10 @@
 # define RPL_ENDOFNAMES(channel) (std::string("366 ") + channel + " :End of /NAMES list")
 # define RPL_NAMREPLY(channel, nick) (std::string("353 ") + channel + " :" + nick)
 # define RPL_WHOREPLY(nick, username, realname) (std::string("352 ") + nick + " " + username + " " + realname)
+
+// Nick reply
+# define ERR_ERRONEUSNICKNAME(nick) (std::string("432")) + " :Erroneus nickname"
+# define ERR_NONICKNAMEGIVEN(nick) (std::string"421") + " :No nickname given" 
+# define 
+
 #endif

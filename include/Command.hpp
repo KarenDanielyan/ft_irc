@@ -4,6 +4,7 @@
 #include "Server.hpp"
 #include "Client.hpp"
 #include "utils.hpp"
+#include "IRCMessage.hpp"
 #include <string>
 
 class Command
@@ -43,6 +44,7 @@ class Join: public Command
 		Join();
 		~Join();
 
+		void validate(Client *client, std::vector<std::string> arg);
 		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
 				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
@@ -73,6 +75,7 @@ class Nick: public Command
 		Nick();
 		~Nick();
 
+		void validate(Client *client, std::vector<std::string> arg);
 		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
 				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
