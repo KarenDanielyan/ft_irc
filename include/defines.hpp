@@ -67,7 +67,7 @@
 
 // Nick reply
 # define ERR_ERRONEUSNICKNAME(nick) (std::string("432")) + " :Erroneus nickname"
-# define ERR_NONICKNAMEGIVEN(nick) (std::string"421") + " :No nickname given" 
-# define 
+# define ERR_NONICKNAMEGIVEN(nick) (std::string("421")) + " :No nickname given" 
+# define ERR_BADCHANMASK(channel) (std::string("476")) " :Bad Channel Mask"
 
 #endif

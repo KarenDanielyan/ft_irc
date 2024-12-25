@@ -166,6 +166,7 @@ class User: public Command
 		User();
 		~User();
 
+		void validate(Client *client, std::vector<std::string> arg);
 		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
 				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
 };
