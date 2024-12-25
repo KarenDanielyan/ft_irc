@@ -11,15 +11,15 @@
 /* ************************************************************************** */
 
 #ifndef PARSER_HPP
-#define PARSER_HPP
+# define PARSER_HPP
 
-#include "IRCMessage.hpp"
-#include <sstream>
+# include "IRCMessage.hpp"
+# include <sstream>
 
-#define IGNOR_MESSAGE -1
-#define VALID_MESSAGE 1
-#define MESSAGE_TO_LONG 417
-#define UNKOWN_CMD 0
+# define IGNOR_MESSAGE -1
+# define VALID_MESSAGE 1
+# define MESSAGE_TO_LONG 417
+# define UNKOWN_CMD 0
 
 class Parser
 {
@@ -29,7 +29,6 @@ class Parser
 		Parser();
 		~Parser();
 	public:
-		CommandType					getCommandType(const std::string command);
 		std::vector<std::string>	parseParameters(const std::string& rawParams);
 		std::string 				decodeEscaped(const std::string& rawValue);
 		int 						parseMessage(const std::string& rawMessage);

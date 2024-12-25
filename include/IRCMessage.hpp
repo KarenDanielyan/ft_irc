@@ -2,12 +2,10 @@
 #define _message_
 
 
-
-#define MAX_MESSAGE_LENGTH 512
-
-#include <map>
-#include <vector>
-#include <iostream>
+# include "defines.hpp"
+# include <map>
+# include <vector>
+# include <iostream>
 
 struct IRCMessage
 {
