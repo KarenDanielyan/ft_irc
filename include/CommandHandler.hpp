@@ -18,13 +18,16 @@ class Command;
 class CommandHandler
 {
 	private:
-		Server* _server;
-        std::map<std::string, Command *> _commands;
+		ITransport* _server;
+		std::vector<Channel *>				_channels;
+		std::map<int, Client *>&			_clients;
+		std::map<std::string, Command *>	_commands;
 	public:
-		CommandHandler(Server* server);
+		CommandHandler(ITransport* server, std::map<int, Client*>& _clients, \
+				std::vector<Channel *>& _channels);
 		~CommandHandler();
 
-    void Handler(Client* Client, std::vector<std::string> arg, std::string cmd);
+	void Handler(Client* Client, std::vector<std::string> arg, std::string cmd);
 };
 
 #endif

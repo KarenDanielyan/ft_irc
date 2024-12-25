@@ -1,6 +1,9 @@
 #include "CommandHandler.hpp"
 
-CommandHandler::CommandHandler(Server *server) : _server(server)
+CommandHandler::CommandHandler(ITransport* server, \
+				std::map<int, Client*>& clients, \
+				std::vector<Channel *>& channels) : \
+	_server(server), _channels(channels), _clients(clients)
 {
 	_commands["CAP"] = new Cap(server);
 	_commands["INVITE"] = new Invite(server);
@@ -20,7 +23,8 @@ CommandHandler::CommandHandler(Server *server) : _server(server)
 	_commands["WHO"] = new Who(server);
 }
 
-void CommandHandler::Handler(Client* client, std::vector<std::string> arg, std::string cmd)
+void CommandHandler::Handler(Client* client, std::vector<std::string> arg, \
+							 std::string cmd)
 {
 	std::map<std::string, Command*>::iterator it = _commands.find(cmd);
 	if (it == _commands.end())
