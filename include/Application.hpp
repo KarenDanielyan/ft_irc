@@ -17,6 +17,8 @@
 # include "Server.hpp"
 # include "Channel.hpp"
 # include "Client.hpp"
+# include "CommandHandler.hpp"
+# include "Parser.hpp"
 
 struct	RequestData;
 
@@ -27,15 +29,16 @@ public:
 	typedef std::map<int, Client*>::iterator	clients_iterator_t;
 	typedef std::queue<RequestData>				RequestDataContainer;
 private:
-	const RequestData*	_container;
+	const RequestData*			_container;
 	static Application*			_instance;
 	Server*						_serv;
+
 
 	std::string					_password;
 	std::vector<Channel *>		_channels;
 	std::map<int, Client*>		_clients;
 
-	RequestDataContainer	_rqueue;
+	RequestDataContainer		_rqueue;
 
 	Application(std::string const & port, \
 			 std::string const & password);
