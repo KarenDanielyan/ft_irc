@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 20:09:45 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/24 21:01:04 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 03:26:06 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,27 @@
 
 # include <string>
 # include <vector>
+# include "Client.hpp"
+# include "Server.hpp"
 
 class Client;
 
 class Channel
 {
 	private:
-		unsigned long _clientLimit;
-		bool _onlyInvite;
-		std::string _name; // without #
-		std::string _topic;
-		std::string _password;
-		std::vector<Client* > _clients;
-		std::vector<Client* > _inviteList;
-		std::vector<Client* > _operators;
+		unsigned long			_clientLimit;
+		ITransport*				_server;			
+		bool					_onlyInvite;
+		std::string				_name;
+		std::string				_topic;
+		std::string				_password;
+		std::vector<Client* >	_clients;
+		std::vector<Client* >	_inviteList;
+		std::vector<Client* >	_operators;
+		Client*					_admin;
 	public:
-		Channel(std::string name, std::string topic);
+		Channel(std::string name, std::string topic, std::string pass, \
+			ITransport* server, Client* admin);
 		~Channel();
 		/*getters*/
 		std::string getName() const;
@@ -44,6 +49,7 @@ class Channel
 		/*setters*/
 		void setName(std::string name);
 		void setPassword(std::string pass);
+		void setAdmin(Client* admin);
 		void setTopic(std::string topic);
 		void setLimit(unsigned long limit);
 		void setOnlyInvite(bool OnlyInvite);
@@ -54,9 +60,9 @@ class Channel
 		void removeOperator(Client *client);
 
 		void addClient(Client *client);
-		bool isExist(Client client);
-		bool isInvited(Client client);
-		bool isOperator(Client client);
+		bool isExist(Client *client);
+		bool isInvited(Client* client);
+		bool isOperator(Client* client);
 		bool isInviteOnly();
 		void broadcast(std::string message) const;
 };

@@ -2,9 +2,10 @@
 
 CommandHandler::CommandHandler(ITransport* server, \
 				std::map<int, Client*>& clients, \
-				std::vector<Channel *>& channels) : \
-	_server(server), _channels(channels), _clients(clients)
+				std::vector<Channel *>& channels)
 {
+	_server = server;
+	_data = new DataContainer(clients, channels);
 	_commands["CAP"] = new Cap();
 	_commands["INVITE"] = new Invite();
 	_commands["JOIN"] = new Join();
@@ -23,12 +24,11 @@ CommandHandler::CommandHandler(ITransport* server, \
 	_commands["WHO"] = new Who();
 }
 
-void CommandHandler::Handler(Client* client, std::vector<std::string> arg, \
-							 std::string cmd)
+void CommandHandler::Handler(Client* client, IRCMessage message)
 {
-	std::map<std::string, Command*>::iterator it = _commands.find(cmd);
+	std::map<std::string, Command*>::iterator it = _commands.find(message._command);
 	if (it == _commands.end())
-		throw ReplyException(ERR_UNKNOWNCOMMAND(cmd));
+		throw ReplyException(ERR_UNKNOWNCOMMAND(message._command));
 	else
-		_commands[cmd]->implement(client, arg, _client, _channels, _server);
+		_commands[message._command]->implement(client, _server, _data, message);
 }

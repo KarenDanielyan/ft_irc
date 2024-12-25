@@ -1,7 +1,6 @@
 #ifndef _message_
 #define _message_
 
-
 # include "defines.hpp"
 # include <map>
 # include <vector>

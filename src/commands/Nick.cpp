@@ -1,6 +1,6 @@
 #include "Command.hpp"
 //done
-Nick::Nick(Server* server): Command(server)
+Nick::Nick()
 {
 }
 
@@ -8,22 +8,22 @@ Nick::~Nick()
 {
 }
 
-void Nickimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Nick::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	if (arg.empty() || arg[0].empty())
+	(void)server;
+	if (message._parameters.empty() || message._parameters[0].empty())
 	{
 		throw ReplyException(ERR_NONICKNAMEGIVEN("NICK"));
 		return ;
 	}
-	std::string nickname = arg[0];
+	std::string nickname = message._parameters[0];
 
-	Client *new_client = application->getClient(nickname);
+	Client *new_client = data->getClient(nickname);
 	if (new_client && new_client != client)
 	{
 		throw ReplyException(ERR_NICKNAMEINUSE(nickname));
 		return;
 	}
-	// application->setClient(client); .....
 	client->setNickname(nickname);
 }

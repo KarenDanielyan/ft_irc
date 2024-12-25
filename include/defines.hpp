@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/24 20:40:39 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 02:21:54 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define ERR_HOSTNAME "Error: cannot retrieve hostname of the Client!"
 
 /*error reply*/
-# define ERR_ALREADYREGISTERED(target) (std::string("462 ") + "Error: " + target + " :You may not reregister")
+# define ERR_ALREADYREGISTERED( target) (std::string("462 ") + "Error: " + target + " :You may not reregister")
 # define ERR_NEEDMOREPARAMS(target) (std::string("461 ") + "Error: " + target + " :Not enough parameters")
 # define ERR_NOSUCHNICK(target) (std::string("401 ") + "Error: " + target + " :No such nick/channel")
 # define ERR_NOSUCHCHANNEL(target) (std::string("403 ") + "Error: " + target + " :No such channel")

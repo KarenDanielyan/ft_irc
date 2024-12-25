@@ -1,7 +1,9 @@
 #include "Channel.hpp"
+// Channel(std::string name, std::string topic, std::string pass, \
+// 			ITransport* server);
 
-Channel::Channel(std::string name, std::string topic): _name(name), \
-	_topic(topic), _clientLimit(0), _password("")
+Channel::Channel(std::string name, std::string topic, std::string pass, ITransport* server, Client* admin): \
+	_server(server), _name(name), _topic(topic), _password(pass), _admin(admin)
 {
 }
 
@@ -11,6 +13,11 @@ Channel::~Channel()
 	for (it = _clients.begin(); it != _clients.end(); ++it)
 		delete *it;
 	_clients.clear();
+}
+
+void Channel::setAdmin(Client* admin)
+{
+	_admin = admin;
 }
 
 std::string Channel::getName() const
@@ -64,9 +71,12 @@ void Channel::addOperator(Client *client)
 	_clients.push_back(client);
 }
 
-bool Channel::isExist(Client* client) const
+bool Channel::isExist(Client *client)
 {
-	return std::find(_clients.begin(), _clients.end(), client) != _clients.end();
+	std::vector<Client*>::const_iterator it = std::find(_clients.begin(), _clients.end(), client);
+	if (it != _clients.end())
+		return false;
+	return true;
 }
 
 void Channel::removeClient(Client* client)
@@ -90,8 +100,9 @@ void Channel::removeOperator(Client* client)
 std::vector<std::string> Channel::getNicknames() const
 {
 	std::vector<std::string> nicknames;
-	for (const Client& client : clients)
-		nicknames.push_back(client.getNickname());
+	unsigned long i = 0;
+	while (i++ < _clients.size())
+		nicknames.push_back(_clients[i]->getNickname());
 	return nicknames;
 }
 
@@ -105,20 +116,19 @@ void Channel::setOnlyInvite(bool OnlyInvite)
 	_onlyInvite = OnlyInvite;
 }
 
-bool Channel::isOperator(Client client)
+bool Channel::isOperator(Client* client)
 {
-	return std::find(_operators.begin(), _operators.end(), client);
+	return std::find(_operators.begin(), _operators.end(), client) != _operators.end();
 }
-
 
 void Channel::broadcast(std::string message) const
 {
-	i = -1;
-	while (clients[++i])
-		SendMessage(client, message);
+	int i = -1;
+	while (_clients[++i])
+		_server->reply(_clients[i]->getConnection(), message);
 }
 
-bool Channel::isInvited(Client client)
+bool Channel::isInvited(Client* client)
 {
 	return std::find(_inviteList.begin(), _inviteList.end(), client) != _inviteList.end();
 }
@@ -131,13 +141,4 @@ void Channel::setInvite(Client *client)
 bool Channel::isInviteOnly()
 {
 	return _inviteList.empty();
-}
-
-void Channel::removeOperator(Client *client)
-{
-	std::vector<Client*>::iterator it = std::find(_operators.begin(), _operators.end(), client);
-	if (it != _operators.end()) {
-		_operators.erase(it);
-		delete client;
-	}
 }

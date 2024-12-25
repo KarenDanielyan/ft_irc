@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:31:10 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/23 17:49:40 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 03:28:29 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ struct	RequestData
 class	ITransport
 {
 public:
-	virtual void	reply(Connection* to, std::string const & message) = 0;
+	virtual void	reply(const Connection* to, std::string const & message) = 0;
 	virtual void	broadcast(std::string const & message) = 0;
 
 	virtual ~ITransport() {}
@@ -81,7 +81,7 @@ public:
 
 	void	handlePollEvents(void);
 	
-	void	reply(Connection* to, std::string const & message);
+	void	reply(const Connection* to, std::string const & message);
 
 	void	broadcast(std::string const & message);
 

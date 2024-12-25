@@ -8,10 +8,12 @@ Cap::~Cap()
 {
 }
 
-void Cap::implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Cap::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	(void)Client;
-	(void)arg;
+	(void)client;
+	(void)server;
+	(void)data;
+	(void)message;
 	throw ReplyException(ERR_UNKNOWNCOMMAND("CAP"));
 }

@@ -1,6 +1,6 @@
 #include "Command.hpp"
 //<target>{,<target>} <text to be sent>
-Notice::Notice(Server* server): Command(server)
+Notice::Notice()
 {
 }
 
@@ -8,31 +8,32 @@ Notice::~Notice()
 {
 }
 
-void Noticeimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Notice::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	if (arg.size() < 2 || arg[0].empty() || arg[1].empty())
+	if (message._parameters.size() < 2 || message._parameters[0].empty() || \
+			message._parameters[1].empty())
 		return;
-	std::string target = arg[0];
-	std::string message = "";
-	for (unsigned long i = 1; i < arg.size(); i++)
+	std::string target = message._parameters[0];
+	std::string msg = "";
+	for (unsigned long i = 1; i < message._parameters.size(); i++)
 	{
-		message += arg[i];
-		message += " ";
+		msg += message._parameters[i];
+		msg += " ";
 	}
 	if (target[0] == '#')
 	{
 		std::string name = target.substr(1);
-		Channel* channel = application.getChannel(name);
+		Channel* channel = data->getChannel(name);
 		if (!channel)
 			return ;
-		if (!channel->isExist(*client))
+		if (!channel->isExist(client))
 			return ;
-		channel->broadcast(message);
+		channel->broadcast(msg);
 		return ;
 	}	
-	Client *dest = application->getClient(target);
+	Client *dest = data->getClient(target);
 	if (!dest)
 		return;
-	SendMessage(client, message);
+	server->reply(client->getConnection(), msg);
 }

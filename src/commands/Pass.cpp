@@ -1,6 +1,6 @@
 #include "Command.hpp"
 //done
-Pass::Pass(Server* server): Command(server)
+Pass::Pass()
 {
 }
 
@@ -8,24 +8,27 @@ Pass::~Pass()
 {
 }
 
-void Passimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Pass::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	if (arg.empty())
-	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("PASS"));
-		return ;
-	}
-	if (client->getState() == LIVE)
-	{
-		throw ReplyException(ERR_ALREADYREGISTERED(client->getNickname()));
-		return ;
-	}
-	if (getPassword() != arg[0])
-	{
-		throw ReplyException(ERR_PASSWDMISMATCH(client->getNickname()));
-		return ;
-	}
-	client->setState(LOGIN);
+	(void)server;
+	(void)client;
+	(void)data;
+	(void)message;
+	// if (message._parameters.empty())
+	// {
+	// 	throw ReplyException(ERR_NEEDMOREPARAMS("PASS"));
+	// 	return ;
+	// }
+	// if (client->getState() == LIVE)
+	// {
+	// 	throw ReplyException(ERR_ALREADYREGISTERED(client->getNickname()));
+	// 	return ;
+	// }
+	// if (data->getPassword() != message._parameters[0])
+	// {
+	// 	throw ReplyException(ERR_PASSWDMISMATCH(client->getNickname()));
+	// 	return ;
+	// }
+	// client->setState(LOGIN);
 }
-

@@ -1,6 +1,6 @@
 #include "Command.hpp"
 // done done
-Topic::Topic(Server* server): Command(server)
+Topic::Topic()
 {
 }
 
@@ -8,33 +8,33 @@ Topic::~Topic()
 {
 }
 
-void Topicimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Topic::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	if (arg.size() < 1)
+	if (message._parameters.size() < 1)
 	{
 		throw ReplyException(ERR_NEEDMOREPARAMS("TOPIC"));
 		return ;
 	}
-	std::string name = arg[0][0] == '#' ? arg[0].substr(1) : "";
-	Channel* channel = application->getChannel(name);
+	std::string name = message._parameters[0].substr(1);
+	Channel* channel = data->getChannel(name);
 	if (!channel)
 	{
 		throw ReplyException(ERR_NOSUCHCHANNEL("TOPIC"));
 		return ;
 	}
-	if (!channel->isExist(*client))
+	if (!channel->isExist(client))
 	{
 		throw ReplyException(ERR_NOTONCHANNEL(client->getNickname()));
 		return ;
 	}
-	if (!channel->isOperator(*client))
+	if (!channel->isOperator(client))
 	{
 		throw ReplyException(ERR_CHANOPRIVSNEEDED(client->getNickname()));
 		return ;
 	}
-	if (!arg[1].empty())
-		channel->setTopic(arg[1]);
+	if (!message._parameters[1].empty())
+		channel->setTopic(message._parameters[1]);
 	else
-		SendMessage(client, channel->getTopic());
+		server->reply(client->getConnection(), channel->getTopic());
 }
