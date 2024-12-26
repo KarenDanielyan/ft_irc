@@ -13,7 +13,7 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
 			Server.cpp Connection.cpp) \
 			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
-			Client.cpp Channel.cpp Application.cpp Parser.cpp) \
+			Client.cpp Channel.cpp Application.cpp) \
 			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
 			CommandHandler.cpp Cap.cpp Invite.cpp Join.cpp \
 			Kick.cpp Mode.cpp Nick.cpp Notice.cpp \
@@ -45,7 +45,8 @@ CXX			=	c++
 
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 #-g -fsanitize=address
 
-INCFLAGS	=	-I $(INCLUDE) -I$(INCLUDE)/application -I$(INCLUDE)/network
+INCFLAGS	=	-I $(INCLUDE) -I$(INCLUDE)/application -I$(INCLUDE)/network \
+				-I$(INCLUDE)/commands -I$(INCLUDE)/data
 
 # Colors
 
