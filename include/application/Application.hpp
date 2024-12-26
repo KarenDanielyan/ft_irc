@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:02:37 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 21:25:40 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/27 00:22:33 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "Server.hpp"
 # include "Client.hpp"
 # include "Channel.hpp"
+# include "CommandHandler.hpp"
 
 class	Application
 {
@@ -26,6 +27,7 @@ private:
 	request_data_container_t	_requests;
 
 	Server*						_serv;
+	CommandHandler*				_handler;
 
 	std::string					_password;
 	std::vector<Channel *>		_channels;

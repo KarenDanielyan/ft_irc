@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Application.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:53:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/21 14:53:59 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/27 00:30:30 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ Application::Application(std::string const & port, \
 	if (p <= 1023 || p >= UINT16_MAX)
 		throw std::runtime_error(ERR_PINV);
 	_serv = new Server(static_cast<unsigned short>(p), _requests);
+	_handler = new CommandHandler(_serv, _clients, _channels);
 }
 
 Application::~Application(void)
