@@ -8,7 +8,7 @@ User::~User()
 {
 }
 
-void User::implement(Client *client, ITransport* server, DataContainer* data, \
+void User::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	(void)data;

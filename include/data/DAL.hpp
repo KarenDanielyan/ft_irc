@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DAL.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:33:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 23:36:36 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/27 02:02:23 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ class DAL
 		Channel*				getChannel(std::string name);
 		std::string const &		getPassword();
 
-		void					addChannel(std::string name, std::string pass);
+		void					addChannel(std::string name, std::string topic, \
+			std::string pass, Client* client);
+
 };
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DAL.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:33:34 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 23:35:21 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/27 02:03:36 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,11 @@ Channel* DAL::getChannel(std::string name)
 std::string const &	DAL::getPassword()
 {
 	return _password;
+}
+// data->addChannel(name, "", pass, client);
+
+void DAL::addChannel(std::string name, std::string topic, std::string pass, Client* admin)
+{
+	Channel *channel = new Channel(name, topic, pass, admin);
+	_channels.push_back(channel);
 }

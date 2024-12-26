@@ -8,7 +8,7 @@ Notice::~Notice()
 {
 }
 
-void Notice::implement(Client *client, ITransport* server, DataContainer* data, \
+void Notice::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	if (message._parameters.size() < 2 || message._parameters[0].empty() || \
@@ -29,7 +29,7 @@ void Notice::implement(Client *client, ITransport* server, DataContainer* data, 
 			return ;
 		if (!channel->isExist(client))
 			return ;
-		channel->broadcast(message._source + msg);
+		broadcast(server, channel, message._source + msg);
 		return ;
 	}	
 	Client *dest = data->getClient(target);

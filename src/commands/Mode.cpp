@@ -10,7 +10,7 @@ Mode::~Mode()
 {
 }
 
-void Mode::implement(Client *client, ITransport* server, DataContainer* data, \
+void Mode::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	(void)server;
@@ -42,19 +42,19 @@ void Mode::implement(Client *client, ITransport* server, DataContainer* data, \
 		{
 			case 'i':
 				channel->setOnlyInvite(plus);
-				channel->broadcast(RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
 					client->getNickname(), \
 					channel->getName(), (plus ? "+i" : "-i")));
 				break;
 			case 't':
 				channel->setTopic(plus ? mode_arg : "");
-				channel->broadcast(RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
 					client->getNickname(), \
 					channel->getName(), (plus ? "+t" : "-t")));
 				break;
 			case 'k':
 				channel->setPassword(plus ? mode_arg : "");
-				channel->broadcast(RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
 					client->getNickname(), \
 					channel->getName(), (plus ? "+k" : "-k")));
 				break;
@@ -68,13 +68,13 @@ void Mode::implement(Client *client, ITransport* server, DataContainer* data, \
 					channel->addOperator(client);
 				else
 					channel->removeOperator(client);
-				channel->broadcast(RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
 					client->getNickname(), \
 					channel->getName(), (plus ? "+o" : "-o")));
 				break;
 			case 'l':
 				channel->setLimit(plus ? std::stol(mode_arg) : 0);
-				channel->broadcast(RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
 					client->getNickname(), channel->getName(), \
 					(plus ? "+l" : "-l")));
 				break;

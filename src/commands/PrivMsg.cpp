@@ -11,7 +11,7 @@ PrivMsg::~PrivMsg()
 {
 }
 
-void PrivMsg::implement(Client *client, ITransport* server, DataContainer* data, \
+void PrivMsg::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	if (message._parameters.size() < 2 || message._parameters[0].empty() || \
@@ -43,7 +43,7 @@ void PrivMsg::implement(Client *client, ITransport* server, DataContainer* data,
 				channel->getName()));
 			return ;
 		}
-		channel->broadcast(msg);
+		broadcast(server, channel, msg);
 		return ;
 	}
 	Client *dest = data->getClient(target);

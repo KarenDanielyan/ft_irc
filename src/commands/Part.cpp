@@ -9,10 +9,9 @@ Part::~Part()
 {
 }
 
-void Part::implement(Client *client, ITransport* server, DataContainer* data, \
+void Part::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
-	(void)server;
 	if (message._parameters.empty())
 	{
 		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "PART"));
@@ -33,6 +32,6 @@ void Part::implement(Client *client, ITransport* server, DataContainer* data, \
 		return;
 	}
 	channel->removeClient(client);
-	channel->broadcast(message._source + \
+	broadcast(server, channel, message._source + \
 		client->getNickname() + " PART " + channel->getName());
 }

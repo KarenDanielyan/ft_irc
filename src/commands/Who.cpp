@@ -1,4 +1,4 @@
-#include "../include/Command.hpp"
+#include "Command.hpp"
 //done done
 Who::Who()
 {
@@ -8,7 +8,7 @@ Who::~Who()
 {
 }
 
-void Who::implement(Client *client, ITransport* server, DataContainer* data, \
+void Who::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	int i;

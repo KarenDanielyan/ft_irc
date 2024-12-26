@@ -8,7 +8,7 @@ Kick::~Kick()
 {
 }
 //<channel> <user> *( "," <user> ) [<comment>]
-void Kick::implement(Client *client, ITransport* server, DataContainer* data, \
+void Kick::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	(void)server;
@@ -47,7 +47,7 @@ void Kick::implement(Client *client, ITransport* server, DataContainer* data, \
 			client->getNickname()));
 		return ;
 	}
-	channel->broadcast(message._source + " from "+ channel->getName() \
+	broadcast(server, channel, message._source + " from "+ channel->getName() \
 		+ " removed " + dest->getNickname() + " " + msg);
 	channel->removeClient(dest);
 }

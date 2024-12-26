@@ -15,14 +15,14 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
 			Client.cpp Channel.cpp Application.cpp) \
 			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
-			CommandHandler.cpp IChannelCommand.cpp Cap.cpp) \
-			$(patsubst %.cpp, $(SRC)/data/%.cpp, \
-			DAL.cpp)
-#			Invite.cpp Join.cpp \
+			CommandHandler.cpp IChannelCommand.cpp Cap.cpp \
+			Invite.cpp Join.cpp \
 			Kick.cpp Mode.cpp Nick.cpp Notice.cpp \
 			Part.cpp Pass.cpp Ping.cpp Pong.cpp \
 			PrivMsg.cpp Quit.cpp Topic.cpp User.cpp \
-			Who.cpp)
+			Who.cpp) \
+			$(patsubst %.cpp, $(SRC)/data/%.cpp, \
+			DAL.cpp)
 
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			defines.hpp utils.hpp) \

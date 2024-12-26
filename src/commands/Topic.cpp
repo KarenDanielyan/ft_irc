@@ -8,7 +8,7 @@ Topic::~Topic()
 {
 }
 
-void Topic::implement(Client *client, ITransport* server, DataContainer* data, \
+void Topic::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	if (message._parameters.size() < 1)

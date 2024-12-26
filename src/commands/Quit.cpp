@@ -8,7 +8,7 @@ Quit::~Quit()
 {
 }
 
-void Quit::implement(Client *client, ITransport* server, DataContainer* data, \
+void Quit::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	(void)data;

@@ -9,13 +9,14 @@ Join::Join()
 Join::~Join()
 {
 }
-void Join::validate(Client *client, std::vector<std::string> arg)
-{
-	std::string channel = IRCMessage.parameters[0]
-}
+
+// void Join::validate(Client *client, std::vector<std::string> arg)
+// {
+// 	std::string channel = IRCMessage.parameters[0]
+// }
 
 
-void Join::implement(Client *client, ITransport* server, DataContainer* data, \
+void Join::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	if (message._parameters.empty())
@@ -29,10 +30,9 @@ void Join::implement(Client *client, ITransport* server, DataContainer* data, \
 	//if the client is on the channel
 	if (!channel)
 	{
-		data->addChannel(name, pass);
+		data->addChannel(name, "", pass, client);
 		Channel* new_channel = data->getChannel(name);
 		new_channel->addClient(client);
-		new_channel->setAdmin(client);
 	}
 	if (channel->isInviteOnly())
 	{
