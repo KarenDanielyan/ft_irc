@@ -15,7 +15,7 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
 			Client.cpp Channel.cpp Application.cpp) \
 			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
-			CommandHandler.cpp Command.cpp Cap.cpp) \
+			CommandHandler.cpp IChannelCommand.cpp Cap.cpp) \
 			$(patsubst %.cpp, $(SRC)/data/%.cpp, \
 			DAL.cpp)
 #			Invite.cpp Join.cpp \
