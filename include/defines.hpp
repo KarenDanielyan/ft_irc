@@ -6,12 +6,25 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 21:16:59 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:40:11 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINES_HPP
 # define DEFINES_HPP
+
+# include <map>
+# include <queue>
+# include <vector>
+# include <string>
+
+
+/* Forward declarations */
+struct	RequestData;
+struct	pollfd;
+class	Connection;
+class	Client;
+class	Channel;
 
 # define MAX_CONNECTIONS 1000
 # define HOSTNAME "127.0.0.1"
@@ -22,6 +35,13 @@
 
 # define SA struct sockaddr
 # define SA_IN struct sockaddr_in
+
+/* Type definitions */
+typedef std::queue<RequestData>					request_data_container_t;
+typedef std::map<int, Connection*>::iterator	connection_iterator_t;
+typedef std::vector<Channel*>::iterator			channel_iterator_t;
+typedef std::map<int, Client*>::iterator		clients_iterator_t;
+typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
 
 /* Info Messages */
 # define INFO_LISTEN "Server listens to any new connections..."
