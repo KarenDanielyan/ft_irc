@@ -26,7 +26,7 @@ INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			Command.hpp CommandHandler.hpp Parser.hpp \
 			IRCMessage.hpp) \
 			$(patsubst %.hpp, $(INCLUDE)/network/%.hpp, \
-			Connection.hpp Server.hpp) \
+			Connection.hpp Server.hpp ITransport.hpp) \
 			$(patsubst %.hpp, $(INCLUDE)/application/%.hpp, \
 			Application.hpp Channel.hpp Client.hpp)
 

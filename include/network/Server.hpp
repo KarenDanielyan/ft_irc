@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:31:10 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/10/23 17:49:40 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 14:59:21 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,13 @@
 
 # include <arpa/inet.h>
 
-# include "defines.hpp"
-# include "Connection.hpp"
+# include "ITransport.hpp"
+
 
 struct	RequestData
 {
 	Connection*	who;
 	std::string	what;
-};
-
-class	ITransport
-{
-public:
-	virtual void	reply(Connection* to, std::string const & message) = 0;
-	virtual void	broadcast(std::string const & message) = 0;
-
-	virtual ~ITransport() {}
 };
 
 class	Server: public ITransport
