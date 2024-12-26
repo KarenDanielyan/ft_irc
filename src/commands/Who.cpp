@@ -19,7 +19,7 @@ void Who::implement(Client *client, ITransport* server, DataContainer* data, \
 		while (clients[++i])
 		{
 			server->reply(client->getConnection(), \
-				RPL_WHOREPLY(clients[i]->getNickname(), \
+				RPL_WHOREPLY(message._source, clients[i]->getNickname(), \
 				clients[i]->getUsername(), clients[i]->getRealname()));
 		}
 		return ;
@@ -31,7 +31,7 @@ void Who::implement(Client *client, ITransport* server, DataContainer* data, \
 		Channel *channel = data->getChannel(mask);
 		if (!channel)
 		{
-			throw ReplyException(ERR_NOSUCHCHANNEL(mask));
+			throw ReplyException(ERR_NOSUCHCHANNEL(message._source, mask));
 			return ;
 		}
 		std::vector<Client*> clients = channel->getClients();
@@ -39,7 +39,7 @@ void Who::implement(Client *client, ITransport* server, DataContainer* data, \
 		while (clients[++i])
 		{
 			server->reply(client->getConnection(), \
-				RPL_WHOREPLY(clients[i]->getNickname(), \
+				RPL_WHOREPLY(message._source, clients[i]->getNickname(), \
 				clients[i]->getUsername(), clients[i]->getRealname()));
 		}
 		return ;
@@ -47,10 +47,10 @@ void Who::implement(Client *client, ITransport* server, DataContainer* data, \
 	Client *toPrint = data->getClient(mask);
 	if (!toPrint)
 	{
-		throw ReplyException(ERR_NOSUCHNICK(mask));
+		throw ReplyException(ERR_NOSUCHNICK(message._source, mask));
 		return ;
 	}
 	server->reply(client->getConnection(), \
-			RPL_WHOREPLY(toPrint->getNickname(), \
+			RPL_WHOREPLY(message._source, toPrint->getNickname(), \
 			toPrint->getUsername(), toPrint->getRealname()));
 }

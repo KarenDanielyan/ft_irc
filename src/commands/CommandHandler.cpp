@@ -28,7 +28,8 @@ void CommandHandler::Handler(Client* client, IRCMessage message)
 {
 	std::map<std::string, Command*>::iterator it = _commands.find(message._command);
 	if (it == _commands.end())
-		throw ReplyException(ERR_UNKNOWNCOMMAND(message._command));
+		throw ReplyException(ERR_UNKNOWNCOMMAND(message._source, \
+			message._command));
 	else
 		_commands[message._command]->implement(client, _server, _data, message);
 }

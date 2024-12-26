@@ -29,11 +29,11 @@ void Notice::implement(Client *client, ITransport* server, DataContainer* data, 
 			return ;
 		if (!channel->isExist(client))
 			return ;
-		channel->broadcast(msg);
+		channel->broadcast(message._source + msg);
 		return ;
 	}	
 	Client *dest = data->getClient(target);
 	if (!dest)
 		return;
-	server->reply(client->getConnection(), msg);
+	server->reply(client->getConnection(), (message._source + msg));
 }

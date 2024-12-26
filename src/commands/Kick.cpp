@@ -14,7 +14,7 @@ void Kick::implement(Client *client, ITransport* server, DataContainer* data, \
 	(void)server;
 	if (message._parameters.size() < 2)
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("KICK"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "KICK"));
 		return;
 	}
 	std::string name = message._parameters[0].substr(1);
@@ -26,25 +26,28 @@ void Kick::implement(Client *client, ITransport* server, DataContainer* data, \
 		msg += message._parameters[i];
 	if (!channel)
 	{
-		throw ReplyException(ERR_NOSUCHCHANNEL("KICK"));
+		throw ReplyException(ERR_NOSUCHCHANNEL(message._source, "KICK"));
 		return ;
 	}
 	Client *dest = data->getClient(target);
 	if (!dest)
 	{
-		throw ReplyException(ERR_NOSUCHNICK(client->getNickname()));
+		throw ReplyException(ERR_NOSUCHNICK(message._source, \
+			client->getNickname()));
 		return;
 	}
 	if (!dest->getChannel())
 	{
-		throw ReplyException(ERR_USERNOTINCHANNEL(dest->getNickname()));
+		throw ReplyException(ERR_USERNOTINCHANNEL(message._source, \
+			dest->getNickname()));
 	}
 	if (!channel->isOperator(client))
 	{
-		throw ReplyException(ERR_CHANOPRIVSNEEDED(client->getNickname()));
+		throw ReplyException(ERR_CHANOPRIVSNEEDED(message._source, \
+			client->getNickname()));
 		return ;
 	}
-	channel->broadcast("from "+ channel->getName() + " removed " + \
-		dest->getNickname() + " " + msg);
+	channel->broadcast(message._source + " from "+ channel->getName() \
+		+ " removed " + dest->getNickname() + " " + msg);
 	channel->removeClient(dest);
 }

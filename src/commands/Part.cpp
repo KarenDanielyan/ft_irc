@@ -15,7 +15,7 @@ void Part::implement(Client *client, ITransport* server, DataContainer* data, \
 	(void)server;
 	if (message._parameters.empty())
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("PART"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "PART"));
 		return;
 	}
 	std::string name = message._parameters[0].substr(1);
@@ -23,14 +23,16 @@ void Part::implement(Client *client, ITransport* server, DataContainer* data, \
 	Channel *channel = data->getChannel(name);
 	if (!channel)
 	{
-		throw ReplyException(ERR_NOSUCHCHANNEL(name));
+		throw ReplyException(ERR_NOSUCHCHANNEL(message._source, name));
 		return;
 	}
 	if (!client->getChannel() || client->getChannel()->getName() != name)
 	{
-		throw ReplyException(ERR_NOTONCHANNEL(client->getNickname()));
+		throw ReplyException(ERR_NOTONCHANNEL(message._source, \
+			client->getNickname()));
 		return;
 	}
 	channel->removeClient(client);
-	channel->broadcast(client->getNickname() + " PART " + channel->getName());
+	channel->broadcast(message._source + \
+		client->getNickname() + " PART " + channel->getName());
 }

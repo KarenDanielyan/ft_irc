@@ -14,7 +14,7 @@ void Ping::implement(Client *client, ITransport* server, DataContainer* data, \
 	(void)data;
 	if (message._parameters.empty())
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("PING"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "PING"));
 		return;
 	}
 	std::string msg = "";
@@ -23,5 +23,5 @@ void Ping::implement(Client *client, ITransport* server, DataContainer* data, \
 		msg += message._parameters[i];
 		msg += " ";
 	}
-	server->reply(client->getConnection(), RPL_PING(msg));
+	server->reply(client->getConnection(), RPL_PING(message._source, msg));
 }

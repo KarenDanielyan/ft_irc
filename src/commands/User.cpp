@@ -14,15 +14,17 @@ void User::implement(Client *client, ITransport* server, DataContainer* data, \
 	(void)data;
 	if (message._parameters.size() < 4)
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("USER"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "USER"));
 		return ;
 	}
 	if (client->getState() == Client::LIVE)
 	{
-		throw ReplyException(ERR_ALREADYREGISTERED(client->getUsername()));
+		throw ReplyException(ERR_ALREADYREGISTERED(message._source, \
+			client->getUsername()));
 		return ;
 	}
 	client->setUsername(message._parameters[0]);
 	client->setRealname(message._parameters[3]);
-	server->reply(client->getConnection(), RPL_WELCOME(client->getUsername()));
+	server->reply(client->getConnection(), \
+		RPL_WELCOME(message._source, client->getUsername()));
 }
