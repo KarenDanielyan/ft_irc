@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:16:27 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/24 17:06:54 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:38:00 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ void	Client::setUsername(std::string const & username)
 void	Client::setRealname(std::string const & realname)
 {
 	_realname = realname;
+}
+
+void	Client::setState(Client::ClientState state)
+{
+	_state = state;
 }
 
 void	Client::join(Channel* channel)

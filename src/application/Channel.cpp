@@ -1,9 +1,7 @@
 #include "Channel.hpp"
-// Channel(std::string name, std::string topic, std::string pass, \
-// 			ITransport* server);
 
-Channel::Channel(std::string name, std::string topic, std::string pass, ITransport* server, Client* admin): \
-	_server(server), _name(name), _topic(topic), _password(pass), _admin(admin)
+Channel::Channel(std::string name, std::string topic, std::string pass, Client* admin): \
+	_name(name), _topic(topic), _password(pass), _admin(admin)
 {
 }
 
@@ -119,13 +117,6 @@ void Channel::setOnlyInvite(bool OnlyInvite)
 bool Channel::isOperator(Client* client)
 {
 	return std::find(_operators.begin(), _operators.end(), client) != _operators.end();
-}
-
-void Channel::broadcast(std::string message) const
-{
-	int i = -1;
-	while (_clients[++i])
-		_server->reply(_clients[i]->getConnection(), message);
 }
 
 bool Channel::isInvited(Client* client)

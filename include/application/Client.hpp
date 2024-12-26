@@ -14,9 +14,8 @@
 # define Client_HPP
 
 # include "Connection.hpp"
-# include "Channel.hpp"
 
-class Channel;
+class	Channel;
 
 class	Client
 {
@@ -52,7 +51,7 @@ public:
 	void	setNickname(std::string const & nickname);
 	void	setUsername(std::string const & username);
 	void	setRealname(std::string const & realname);
-	void 	setState(int state);
+	void 	setState(Client::ClientState state);
 	~Client();
 };
 
