@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:13:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/24 20:32:06 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 15:51:41 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "Connection.hpp"
 # include "Channel.hpp"
+
+class Channel;
 
 class	Client
 {
@@ -39,6 +41,7 @@ public:
 	std::string const &	getNickname(void) const;
 	std::string const &	getUsername(void) const;
 	std::string const &	getRealname(void) const;
+	ClientState const &	getState(void) const;
 
 	const Channel*		getChannel(void) const;
 	const Connection*	getConnection(void) const;
@@ -49,6 +52,7 @@ public:
 	void	setNickname(std::string const & nickname);
 	void	setUsername(std::string const & username);
 	void	setRealname(std::string const & realname);
+	void 	setState(int state);
 	~Client();
 };
 

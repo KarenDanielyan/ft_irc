@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/24 20:40:39 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:16:59 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,30 @@
 # define ERR_HOSTNAME "Error: cannot retrieve hostname of the Client!"
 
 /*error reply*/
-# define ERR_ALREADYREGISTERED(target) (std::string("462 ") + "Error: " + target + " :You may not reregister")
-# define ERR_NEEDMOREPARAMS(target) (std::string("461 ") + "Error: " + target + " :Not enough parameters")
-# define ERR_NOSUCHNICK(target) (std::string("401 ") + "Error: " + target + " :No such nick/channel")
-# define ERR_NOSUCHCHANNEL(target) (std::string("403 ") + "Error: " + target + " :No such channel")
-# define ERR_NONICKNAMEGIVEN(target) (std::string("431 ") + "Error: " + target + " :No nickname given")
-# define ERR_NICKNAMEINUSE(target) (std::string("433 ") + "Error: " + target + " :Nickname is already in use")
-# define ERR_PASSWDMISMATCH(target) (std::string("464 ") + "Error: " + target + " :Password incorrect")
-# define ERR_UNKNOWNCOMMAND(target) (std::string("421 ") + "Error:  " + target + " :Unknown command")
-# define ERR_CANNOTSENDTOCHAN(target) (std::string("404 ") + "Error:  " + target + " :Cannot send to channel")
-# define ERR_NOTONCHANNEL(target) (std::string("442 ") + "Error:  " + target + " :You're not on that channel")
-# define ERR_CHANOPRIVSNEEDED(target) (std::string("482 ") + "Error:  " + target + " :You're not channel operator")
-# define ERR_USERNOTINCHANNEL(target) (std::string("441 ") + "Error:  " + target + " :They aren't on that channel")
-# define ERR_USERONCHANNEL(target) (std::string("443 ") + target + " :is already on channel")
-# define ERR_INVITEONLYCHAN(target) (std::string("473 ") + target + " :Cannot join channel (+i)")
-# define ERR_CHANNELISFULL(target) (std::string("471 ") + target + " :Cannot join channel (+l)")
-# define ERR_BADCHANNELKEY(target) (std::string("471 ") + target + " :Cannot join channel (+k)")
-# define ERR_USERSDONTMATCH() (std::string("502 ") + " :Cant change mode for other users")
+# define ERR_ALREADYREGISTERED(source, target) (source + std::string(" 462 ") + "Error: " + target + " :You may not reregister")
+# define ERR_NEEDMOREPARAMS(source, target) (source + std::string(" 461 ") + "Error: " + target + " :Not enough parameters")
+# define ERR_NOSUCHNICK(source, target) (source + std::string(" 401 ") + "Error: " + target + " :No such nick/channel")
+# define ERR_NOSUCHCHANNEL(source, target) (source + std::string(" 403 ") + "Error: " + target + " :No such channel")
+# define ERR_NONICKNAMEGIVEN(source, target) (source + std::string(" 431 ") + "Error: " + target + " :No nickname given")
+# define ERR_NICKNAMEINUSE(source, target) (source + std::string(" 433 ") + "Error: " + target + " :Nickname is already in use")
+# define ERR_PASSWDMISMATCH(source, target) (source + std::string(" 464 ") + "Error: " + target + " :Password incorrect")
+# define ERR_UNKNOWNCOMMAND(source, target) (source + std::string(" 421 ") + "Error:  " + target + " :Unknown command")
+# define ERR_CANNOTSENDTOCHAN(source, target) (source + std::string(" 404 ") + "Error:  " + target + " :Cannot send to channel")
+# define ERR_NOTONCHANNEL(source, target) (source + std::string(" 442 ") + "Error:  " + target + " :You're not on that channel")
+# define ERR_CHANOPRIVSNEEDED(source, target) (source + std::string(" 482 ") + "Error:  " + target + " :You're not channel operator")
+# define ERR_USERNOTINCHANNEL(source, target) (source + std::string(" 441 ") + "Error:  " + target + " :They aren't on that channel")
+# define ERR_USERONCHANNEL(source, target) (source + std::string(" 443 ") + target + " :is already on channel")
+# define ERR_INVITEONLYCHAN(source, target) (source + std::string(" 473 ") + target + " :Cannot join channel (+i)")
+# define ERR_CHANNELISFULL(source, target) (source + std::string(" 471 ") + target + " :Cannot join channel (+l)")
+# define ERR_BADCHANNELKEY(source, target) (source + std::string(" 471 ") + target + " :Cannot join channel (+k)")
+# define ERR_USERSDONTMATCH(source) (source + std::string(" 502 ") + " :Cant change mode for other users")
 
 /*command reply*/
-# define RPL_CHANNELMODEIS(channel, mode, argument) (std::string("324 ") + " " + channel + " "  +mode + " " +argument)
-# define RPL_WELCOME( nick) (std::string("001 ") + " :Welcome to the IRC  Network, " + nick)
-# define RPL_PING(message) (std::string("001 ") + " :PING " + message)
-# define RPL_INVITING(nick, channel) (std::string("341 ") + " " + nick + " " + channel)
-# define RPL_ENDOFNAMES(channel) (std::string("366 ") + channel + " :End of /NAMES list")
-# define RPL_NAMREPLY(channel, nick) (std::string("353 ") + channel + " :" + nick)
-# define RPL_WHOREPLY(nick, username, realname) (std::string("352 ") + nick + " " + username + " " + realname)
-
-// Nick reply
-# define ERR_ERRONEUSNICKNAME(nick) (std::string("432")) + " :Erroneus nickname"
+# define RPL_CHANNELMODEIS(source, channel, mode, argument) (source + std::string(" 324 ") + " " + channel + " "  +mode + " " +argument)
+# define RPL_WELCOME(source, nick) (source + std::string(" 001 ") + " :Welcome to the IRC  Network, " + nick)
+# define RPL_PING(source, message) (source + std::string(" 001 ") + " :PING " + message)
+# define RPL_INVITING(source, nick, channel) (source + std::string(" 341 ") + " " + nick + " " + channel)
+# define RPL_ENDOFNAMES(source, channel) (source + std::string(" 366 ") + channel + " :End of /NAMES list")
+# define RPL_NAMREPLY(source, channel, nick) (source + std::string(" 353 ") + channel + " :" + nick)
+# define RPL_WHOREPLY(source, nick, username, realname) (source + std::string(" 352 ") + nick + " " + username + " " + realname)
 #endif

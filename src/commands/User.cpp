@@ -1,6 +1,6 @@
 #include "Command.hpp"
 //done done
-User::User(Server* server): Command(server)
+User::User()
 {
 }
 
@@ -8,20 +8,23 @@ User::~User()
 {
 }
 
-void Userimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void User::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	if (arg.size() < 4)
+	(void)data;
+	if (message._parameters.size() < 4)
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("USER"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "USER"));
 		return ;
 	}
-	if (client->getState() == LIVE)
+	if (client->getState() == Client::LIVE)
 	{
-		throw ReplyException(ERR_ALREADYREGISTERED(client->getUsername()));
+		throw ReplyException(ERR_ALREADYREGISTERED(message._source, \
+			client->getUsername()));
 		return ;
 	}
-	client->setUsername(arg[0]);
-	client->setRealname(arg[3]);
-	SendMessage(client, RPL_WELCOME(client->getUsername()));
+	client->setUsername(message._parameters[0]);
+	client->setRealname(message._parameters[3]);
+	server->reply(client->getConnection(), \
+		RPL_WELCOME(message._source, client->getUsername()));
 }

@@ -1,6 +1,6 @@
 #include "Command.hpp"
 //done
-Kick::Kick(Server* server): Command(server)
+Kick::Kick()
 {
 }
 
@@ -8,41 +8,46 @@ Kick::~Kick()
 {
 }
 //<channel> <user> *( "," <user> ) [<comment>]
-void Kickimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Kick::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	if (arg.size() < 2)
+	(void)server;
+	if (message._parameters.size() < 2)
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("KICK"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "KICK"));
 		return;
 	}
-	std::string name = arg[0].substr(1);
-	std::string target = arg[1];
-	std::string message = "";
-	Channel* channel = aplication->getChannel(name);
+	std::string name = message._parameters[0].substr(1);
+	std::string target = message._parameters[1];
+	std::string msg = "Reason: ";
+	Channel* channel = data->getChannel(name);
 	unsigned long i = 1;
-	while (++i <= arg.size())
-		message += arg[i];
+	while (++i <= message._parameters.size())
+		msg += message._parameters[i];
 	if (!channel)
 	{
-		throw ReplyException(ERR_NOSUCHCHANNEL("KICK"));
+		throw ReplyException(ERR_NOSUCHCHANNEL(message._source, "KICK"));
 		return ;
 	}
-	Client *dest = application->getClient(target);
+	Client *dest = data->getClient(target);
 	if (!dest)
 	{
-		throw ReplyException(ERR_NOSUCHNICK(client->getNickname()));
+		throw ReplyException(ERR_NOSUCHNICK(message._source, \
+			client->getNickname()));
 		return;
 	}
 	if (!dest->getChannel())
 	{
-		throw ReplyException(ERR_USERNOTINCHANNEL(dest->getNickname()));
+		throw ReplyException(ERR_USERNOTINCHANNEL(message._source, \
+			dest->getNickname()));
 	}
-	if (!channel->isOperator(*client))
+	if (!channel->isOperator(client))
 	{
-		throw ReplyException(ERR_CHANOPRIVSNEEDED(client->getNickname()));
+		throw ReplyException(ERR_CHANOPRIVSNEEDED(message._source, \
+			client->getNickname()));
 		return ;
 	}
-	channel->broadcast("from "+ channel->getName() + " removed " + dest->getNickname());
+	channel->broadcast(message._source + " from "+ channel->getName() \
+		+ " removed " + dest->getNickname() + " " + msg);
 	channel->removeClient(dest);
 }

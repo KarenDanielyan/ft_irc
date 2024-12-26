@@ -1,6 +1,6 @@
 #include "../include/Command.hpp"
 //done done
-Who::Who(Server* server): Command(server)
+Who::Who()
 {
 }
 
@@ -8,46 +8,49 @@ Who::~Who()
 {
 }
 
-void Whoimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Who::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
 	int i;
-	if (arg.empty())
+	if (message._parameters.empty())
 	{
-		std::vector<Client*> clients = application->getClients();
+		std::vector<Client*> clients = data->getClients();
 		i = -1;
 		while (clients[++i])
 		{
-			SendMessage(client, RPL_WHOREPLY(clients[i]->getNickname(), \
+			server->reply(client->getConnection(), \
+				RPL_WHOREPLY(message._source, clients[i]->getNickname(), \
 				clients[i]->getUsername(), clients[i]->getRealname()));
 		}
 		return ;
 	}
-	std::string mask = arg[0];
+	std::string mask = message._parameters[0];
 	if (mask[0] == '#')
 	{
 		mask = mask.substr(1);
-		Channel *channel = application->getChannel(mask);
+		Channel *channel = data->getChannel(mask);
 		if (!channel)
 		{
-			throw ReplyException(ERR_NOSUCHCHANNEL(mask));
+			throw ReplyException(ERR_NOSUCHCHANNEL(message._source, mask));
 			return ;
 		}
 		std::vector<Client*> clients = channel->getClients();
 		i = -1;
 		while (clients[++i])
 		{
-			SendMessage(client, RPL_WHOREPLY(clients[i]->getNickname(), \
+			server->reply(client->getConnection(), \
+				RPL_WHOREPLY(message._source, clients[i]->getNickname(), \
 				clients[i]->getUsername(), clients[i]->getRealname()));
 		}
 		return ;
 	}
-	Client *toPrint = application->getClient(mask);
+	Client *toPrint = data->getClient(mask);
 	if (!toPrint)
 	{
-		throw ReplyException(ERR_NOSUCHNICK(mask));
+		throw ReplyException(ERR_NOSUCHNICK(message._source, mask));
 		return ;
 	}
-	SendMessage(client, RPL_WHOREPLY(toPrint->getNickname(), \
+	server->reply(client->getConnection(), \
+			RPL_WHOREPLY(message._source, toPrint->getNickname(), \
 			toPrint->getUsername(), toPrint->getRealname()));
 }

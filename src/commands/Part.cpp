@@ -1,7 +1,7 @@
 #include "Command.hpp"
 
 //<channel>{,<channel>} [<reason>]
-Part::Part(Server* server): Command(server)
+Part::Part()
 {
 }
 
@@ -9,27 +9,30 @@ Part::~Part()
 {
 }
 
-void Partimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Part::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	if (arg.empty())
+	(void)server;
+	if (message._parameters.empty())
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("PART"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "PART"));
 		return;
 	}
-	std::string name = arg[0].substr(1);
+	std::string name = message._parameters[0].substr(1);
 
-	Channel *channel = application->getChannel(name);
+	Channel *channel = data->getChannel(name);
 	if (!channel)
 	{
-		throw ReplyException(ERR_NOSUCHCHANNEL(name));
+		throw ReplyException(ERR_NOSUCHCHANNEL(message._source, name));
 		return;
 	}
 	if (!client->getChannel() || client->getChannel()->getName() != name)
 	{
-		throw ReplyException(ERR_NOTONCHANNEL(client->getNickname()));
+		throw ReplyException(ERR_NOTONCHANNEL(message._source, \
+			client->getNickname()));
 		return;
 	}
 	channel->removeClient(client);
-	channel->broadcast(client->getNickname() + " PART " + channel->getName());
+	channel->broadcast(message._source + \
+		client->getNickname() + " PART " + channel->getName());
 }

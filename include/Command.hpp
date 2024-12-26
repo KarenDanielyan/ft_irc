@@ -1,11 +1,15 @@
 #ifndef COMMAND_HPP
 # define COMMAND_HPP
 
-#include "Server.hpp"
-#include "Client.hpp"
-#include "utils.hpp"
-#include "IRCMessage.hpp"
-#include <string>
+# include "Server.hpp"
+# include "Client.hpp"
+# include "utils.hpp"
+# include "IRCMessage.hpp"
+# include "CommandHandler.hpp"
+# include "Application.hpp"
+# include <string>
+
+class DataContainer;
 
 class Command
 {
@@ -13,9 +17,10 @@ class Command
 		Command(){};
 		virtual ~Command(){};
 
-		virtual void validate(Client *client, std::vector<std::string> arg){(void)client; (void)arg;};
-		virtual void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels) = 0;
+		virtual void validate(Client *client, IRCMessage message)
+		{(void)client; (void)message;}
+		virtual void implement(Client *client, ITransport* server, \
+			DataContainer* data, IRCMessage message) = 0;
 };
 
 class Cap: public Command
@@ -24,8 +29,8 @@ class Cap: public Command
 		Cap();
 		~Cap();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Invite: public Command
@@ -34,8 +39,8 @@ class Invite: public Command
 		Invite();
 		~Invite();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Join: public Command
@@ -44,9 +49,8 @@ class Join: public Command
 		Join();
 		~Join();
 
-		void validate(Client *client, std::vector<std::string> arg);
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Kick: public Command
@@ -55,8 +59,8 @@ class Kick: public Command
 		Kick();
 		~Kick();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Mode: public Command
@@ -65,8 +69,8 @@ class Mode: public Command
 		Mode();
 		~Mode();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Nick: public Command
@@ -75,9 +79,8 @@ class Nick: public Command
 		Nick();
 		~Nick();
 
-		void validate(Client *client, std::vector<std::string> arg);
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Notice: public Command
@@ -86,8 +89,8 @@ class Notice: public Command
 		Notice();
 		~Notice();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Part: public Command
@@ -96,8 +99,8 @@ class Part: public Command
 		Part();
 		~Part();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Pass: public Command
@@ -106,8 +109,8 @@ class Pass: public Command
 		Pass();
 		~Pass();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Ping: public Command
@@ -116,8 +119,8 @@ class Ping: public Command
 		Ping();
 		~Ping();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Pong: public Command
@@ -126,8 +129,8 @@ class Pong: public Command
 		Pong();
 		~Pong();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class PrivMsg: public Command
@@ -136,8 +139,8 @@ class PrivMsg: public Command
 		PrivMsg();
 		~PrivMsg();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Quit: public Command
@@ -146,8 +149,8 @@ class Quit: public Command
 		Quit();
 		~Quit();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Topic: public Command
@@ -156,8 +159,8 @@ class Topic: public Command
 		Topic();
 		~Topic();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class User: public Command
@@ -166,8 +169,8 @@ class User: public Command
 		User();
 		~User();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 
 class Who: public Command
@@ -176,7 +179,7 @@ class Who: public Command
 		Who();
 		~Who();
 
-		void implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels);
+		void implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message);
 };
 #endif

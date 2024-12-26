@@ -2,9 +2,10 @@
 
 CommandHandler::CommandHandler(ITransport* server, \
 				std::map<int, Client*>& clients, \
-				std::vector<Channel *>& channels) : \
-	_server(server), _channels(channels), _clients(clients)
+				std::vector<Channel *>& channels)
 {
+	_server = server;
+	_data = new DataContainer(clients, channels);
 	_commands["CAP"] = new Cap();
 	_commands["INVITE"] = new Invite();
 	_commands["JOIN"] = new Join();
@@ -23,12 +24,60 @@ CommandHandler::CommandHandler(ITransport* server, \
 	_commands["WHO"] = new Who();
 }
 
-void CommandHandler::Handler(Client* client, std::vector<std::string> arg, \
-							 std::string cmd)
+void CommandHandler::Handler(Client* client, IRCMessage message)
 {
-	std::map<std::string, Command*>::iterator it = _commands.find(cmd);
+	std::map<std::string, Command*>::iterator it = _commands.find(message._command);
 	if (it == _commands.end())
-		throw ReplyException(ERR_UNKNOWNCOMMAND(cmd));
+		throw ReplyException(ERR_UNKNOWNCOMMAND(message._source, \
+			message._command));
 	else
-		_commands[cmd]->implement(client, arg, _client, _channels, _server);
+		_commands[message._command]->implement(client, _server, _data, message);
+}
+
+DataContainer::DataContainer(std::map<int, Client *>& clients, \
+		std::vector<Channel *>& channels): _clients(clients), _channels(channels)
+{
+}
+
+DataContainer::~DataContainer()
+{
+}
+
+Client*	DataContainer::getClient(std::string nick)
+{
+	for (Application::clients_iterator_t it = _clients.begin(); \
+		it != _clients.end(); ++it)
+	{
+		if (it->second->getNickname() == nick)
+			return it->second;
+	}
+	return NULL;
+}
+
+std::vector<Client *> DataContainer::getClients(void)
+{
+	std::vector<Client*> clientList;
+
+	for (std::map<int, Client*>::iterator it = _clients.begin(); \
+		it != _clients.end(); ++it)
+	{
+		clientList.push_back(it->second);
+	}
+	return clientList;
+}
+
+Channel* DataContainer::getChannel(std::string name)
+{
+	for (std::vector<Channel*>::iterator it = _channels.begin(); \
+		it != _channels.end(); ++it)
+	{
+		if ((*it)->getName() == name)
+			return (*it);
+	}
+	return NULL;
+}
+
+std::string const &	DataContainer::getPassword()
+{
+	return _password;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:31:10 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 14:59:21 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:17:26 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ public:
 
 	void	handlePollEvents(void);
 	
-	void	reply(Connection* to, std::string const & message);
+	void	reply(const Connection* to, std::string const & message);
 
 	void	broadcast(std::string const & message);
 

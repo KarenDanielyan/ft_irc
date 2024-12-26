@@ -1,6 +1,6 @@
 #include "Command.hpp"
 
-Pong::Pong(Server* server): Command(server)
+Pong::Pong()
 {
 }
 
@@ -8,19 +8,20 @@ Pong::~Pong()
 {
 }
 
-void Pongimplement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Pong::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	if (arg.empty())
+	(void)data;
+	if (message._parameters.empty())
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("PONG"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "PONG"));
 		return;
 	}
-	std::string message = "";
-	for (unsigned long i = 1; i < arg.size(); i++)
+	std::string msg = "";
+	for (unsigned long i = 1; i < message._parameters.size(); i++)
 	{
-		message += arg[i];
-		message += " ";
+		msg += message._parameters[i];
+		msg += " ";
 	}
-	sendMessage(client, RPL_PING(message));
+	server->reply(client->getConnection(), RPL_PING(message._source, msg));
 }

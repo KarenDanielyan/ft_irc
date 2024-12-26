@@ -2,7 +2,7 @@
 
 // JOIN <channel>{,<channel>} [<key>{,<key>}]
 
-Join::Join(Server* server): Command(server)
+Join::Join()
 {
 }
 
@@ -15,51 +15,63 @@ void Join::validate(Client *client, std::vector<std::string> arg)
 }
 
 
-void Join::implement(Client *client, std::vector<std::string> arg ,ITransport* server, \
-				std::map<int, Client*>& _clients, std::vector<Channel *>& _channels)
+void Join::implement(Client *client, ITransport* server, DataContainer* data, \
+			IRCMessage message)
 {
-	if (arg.empty())
+	if (message._parameters.empty())
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS("JOIN"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "JOIN"));
 		return ;
 	}
-	std::string name = arg[0];
-	std::string pass = arg.size() > 1 ? arg[1] : "";
-	Channel *channel = application->getChannel(name);
+	std::string name = message._parameters[0];
+	std::string pass = message._parameters.size() > 1 ? message._parameters[1] : "";
+	Channel *channel = data->getChannel(name);
 	//if the client is on the channel
 	if (!channel)
 	{
-		application->addChannel(name, pass);
-		new_channel = application->getChannel(name);
+		data->addChannel(name, pass);
+		Channel* new_channel = data->getChannel(name);
 		new_channel->addClient(client);
+		new_channel->setAdmin(client);
 	}
 	if (channel->isInviteOnly())
 	{
-		throw ReplyException(ERR_INVITEONLYCHAN(name));
+		throw ReplyException(ERR_INVITEONLYCHAN(message._source, name));
 		return ;
 	}
 	if (channel->getLimit() >= channel->getClientCount())
 	{
-		throw ReplyException(ERR_CHANNELISFULL(name));
+		throw ReplyException(ERR_CHANNELISFULL(message._source, name));
 		return ;
 	}
-	if (channel->getPass() != pass)
+	if (channel->getPassword() != pass)
 	{
-		throw ReplyException(ERR_BADCHANNELKEY(name));
+		throw ReplyException(ERR_BADCHANNELKEY(message._source, name));
 		return ;
 	}
-	if (channel->isExist(*client))
+	if (channel->isExist(client))
 	{
-		throw ReplyException(ERR_USERONCHANNEL(client->getNickname()));
+		throw ReplyException(ERR_USERONCHANNEL(message._source, \
+			client->getNickname()));
 		return ;
 	}
-	sendMessage(client, client->getNickname() + " Joined " + channel->getName() + " channel");
+	server->reply(client->getConnection(), message._source + \
+		client->getNickname() + " Joined " + \
+		channel->getName() + " channel");
 	//print about channel
 	std::vector<Client *> clients = channel->getClients();
-	for (std::vector<Client *>::iterator it = clients.begin(); it != clients.end(); ++it)
-		sendMessage(client, RPL_NAMREPLY(channel->getName(), (*it)->getNickname()));
-	sendMessage(client, RPL_ENDOFNAMES(channel->getName()));
+	for (std::vector<Client *>::iterator it = clients.begin(); \
+			it != clients.end(); ++it)
+	{
+		server->reply(client->getConnection(), RPL_NAMREPLY(message._source, \
+			channel->getName(), \
+			(*it)->getNickname()));
+	}
+	server->reply(client->getConnection(), RPL_ENDOFNAMES(message._source, \
+		channel->getName()));
+
 	if (channel->getTopic() != "")
-		sendMessage(client, "Topic of channel: " + channel->getTopic());
+		server->reply(client->getConnection(), message._source + \
+			" Topic of channel: " + channel->getTopic());
 	channel->addClient(client);
 }
