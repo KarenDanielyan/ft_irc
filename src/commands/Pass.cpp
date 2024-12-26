@@ -15,20 +15,20 @@ void Pass::implement(Client *client, ITransport* server, DataContainer* data, \
 	(void)client;
 	(void)data;
 	(void)message;
-	// if (message._parameters.empty())
-	// {
-	// 	throw ReplyException(ERR_NEEDMOREPARAMS("PASS"));
-	// 	return ;
-	// }
-	// if (client->getState() == LIVE)
-	// {
-	// 	throw ReplyException(ERR_ALREADYREGISTERED(client->getNickname()));
-	// 	return ;
-	// }
-	// if (data->getPassword() != message._parameters[0])
-	// {
-	// 	throw ReplyException(ERR_PASSWDMISMATCH(client->getNickname()));
-	// 	return ;
-	// }
-	// client->setState(LOGIN);
+	if (message._parameters.empty())
+	{
+		throw ReplyException(ERR_NEEDMOREPARAMS("PASS"));
+		return ;
+	}
+	if (client->getState() == Client::LIVE)
+	{
+		throw ReplyException(ERR_ALREADYREGISTERED(client->getNickname()));
+		return ;
+	}
+	if (data->getPassword() != message._parameters[0])
+	{
+		throw ReplyException(ERR_PASSWDMISMATCH(client->getNickname()));
+		return ;
+	}
+	client->setState(Client::LOGIN);
 }

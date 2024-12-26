@@ -6,7 +6,7 @@
 /*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:13:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 02:52:32 by mariam           ###   ########.fr       */
+/*   Updated: 2024/12/26 15:51:41 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ public:
 	std::string const &	getNickname(void) const;
 	std::string const &	getUsername(void) const;
 	std::string const &	getRealname(void) const;
+	ClientState const &	getState(void) const;
 
 	const Channel*		getChannel(void) const;
-	ClientState			getState(void) const;
 	const Connection*	getConnection(void) const;
 
 	void	join(Channel* channel);
@@ -52,6 +52,7 @@ public:
 	void	setNickname(std::string const & nickname);
 	void	setUsername(std::string const & username);
 	void	setRealname(std::string const & realname);
+	void 	setState(int state);
 	~Client();
 };
 

@@ -18,18 +18,20 @@ class Command;
 class DataContainer
 {
 	private:
-		std::vector<Channel *>&				_channels;
 		std::map<int, Client *>&			_clients;
+		std::vector<Channel *>&				_channels;
 		std::string							_password;
 	public:
 		DataContainer(std::map<int, Client *>& clients, \
-			std::vector<Channel *> channels);
+			std::vector<Channel *>& channels);
 		~DataContainer();
-		Client* getClient(std::string nick);
-		std::vector<Client *> getClients(void);
-		Channel* getChannel(std::string name);
-		void addChannel(std::string name, std::string pass);
-		void addClient();
+
+		Client*					getClient(std::string nick);
+		std::vector<Client *>	getClients(void);
+		Channel*				getChannel(std::string name);
+		std::string const &		getPassword();
+
+		void					addChannel(std::string name, std::string pass);
 };
 
 class CommandHandler

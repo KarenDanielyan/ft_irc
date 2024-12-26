@@ -17,11 +17,11 @@ void User::implement(Client *client, ITransport* server, DataContainer* data, \
 		throw ReplyException(ERR_NEEDMOREPARAMS("USER"));
 		return ;
 	}
-	// if (client->getState() == LIVE)
-	// {
-	// 	throw ReplyException(ERR_ALREADYREGISTERED(client->getUsername()));
-	// 	return ;
-	// }
+	if (client->getState() == Client::LIVE)
+	{
+		throw ReplyException(ERR_ALREADYREGISTERED(client->getUsername()));
+		return ;
+	}
 	client->setUsername(message._parameters[0]);
 	client->setRealname(message._parameters[3]);
 	server->reply(client->getConnection(), RPL_WELCOME(client->getUsername()));
