@@ -22,8 +22,10 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			Who.cpp)
 
 INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
-			defines.hpp utils.hpp \
-			Command.hpp CommandHandler.hpp Parser.hpp \
+			defines.hpp utils.hpp) \
+			$(patsubst %.hpp, $(INCLUDE)/commands/%.hpp, \
+			Command.hpp CommandHandler.hpp) \
+			$(patsubst %.hpp, $(INCLUDE)/data/%.hpp, \
 			IRCMessage.hpp) \
 			$(patsubst %.hpp, $(INCLUDE)/network/%.hpp, \
 			Connection.hpp Server.hpp ITransport.hpp) \
