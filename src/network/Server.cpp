@@ -12,10 +12,11 @@
 
 #include "Server.hpp"
 #include "Connection.hpp"
+#include "defines.hpp"
 #include "utils.hpp"
 
-Server::Server(unsigned short port, std::queue<RequestData>& rqueue): \
-	_port(port), _rqueue(rqueue)
+Server::Server(unsigned short port, request_data_container_t& requests): \
+	_port(port), _rqueue(requests)
 {
 	pollfd	servfd;
 
@@ -197,7 +198,7 @@ int	Server::newSocket()
 	return (sockfd);
 }
 
-void	Server::reply(Connection* to, std::string const & message)
+void	Server::reply(const Connection* to, std::string const & message)
 {
 	send(to->getFd(), message.c_str(), message.length(), 0);
 }

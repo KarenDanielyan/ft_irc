@@ -25,7 +25,7 @@ Application::Application(std::string const & port, \
 	p = std::atoi(port.c_str());
 	if (p <= 1023 || p >= UINT16_MAX)
 		throw std::runtime_error(ERR_PINV);
-	_serv = new Server(static_cast<unsigned short>(p), _rqueue);
+	_serv = new Server(static_cast<unsigned short>(p), _requests);
 }
 
 Application::~Application(void)
@@ -45,10 +45,11 @@ void	Application::destroyInstance(void)
 
 void	Application::process(void)
 {
-	while (_rqueue.size() != 0)
+	while (_requests.size() != 0)
 	{
 		// TODO: Add Presentation layer and application layer methods.
-		_rqueue.pop();
+		std::cout << _requests.front().what;
+		_requests.pop();
 	}
 }
 

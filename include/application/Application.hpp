@@ -3,44 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   Application.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:02:37 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 03:21:37 by mariam           ###   ########.fr       */
+/*   Updated: 2024/12/26 21:25:40 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef APPLICATION_HPP
 # define APPLICATION_HPP
 
-// TODO: Add the parser and command handler on readiness
+# include "defines.hpp"
 # include "Server.hpp"
-# include "Channel.hpp"
 # include "Client.hpp"
-# include "CommandHandler.hpp"
-# include "Parser.hpp"
-
-struct	RequestData;
+# include "Channel.hpp"
 
 class	Application
 {
-public:
-	typedef std::vector<Channel*>::iterator		channel_iterator_t;
-	typedef std::map<int, Client*>::iterator	clients_iterator_t;
-	typedef std::queue<RequestData>				RequestDataContainer;
 private:
-	const RequestData*			_container;
 	static Application*			_instance;
-	Server*						_serv;
 
-	CommandHandler				_handler;
-	Parser						_parser;
+	request_data_container_t	_requests;
+
+	Server*						_serv;
 
 	std::string					_password;
 	std::vector<Channel *>		_channels;
 	std::map<int, Client*>		_clients;
 
-	RequestDataContainer		_rqueue;
 
 	Application(std::string const & port, \
 			 std::string const & password);

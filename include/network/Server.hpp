@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:31:10 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 21:17:26 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:39:35 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # include <arpa/inet.h>
 
 # include "ITransport.hpp"
+# include "defines.hpp"
 
 
 struct	RequestData
@@ -47,7 +48,6 @@ struct	RequestData
 class	Server: public ITransport
 {
 public:
-	typedef std::queue<RequestData>					RequestDataContainer;
 	typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
 	typedef std::map<int, Connection*>::iterator	connection_iterator_t;
 private:
@@ -57,7 +57,7 @@ private:
 	std::vector<pollfd>					_pollfds;
 	std::map<int, Connection*>			_connections;
 
-	std::queue<RequestData>&	_rqueue;
+	request_data_container_t&			_rqueue;
 
 	std::string	readMessage(int fd, bool &is_closed);
 
