@@ -4,7 +4,7 @@ BUILD	=	build
 
 INCLUDE	=	include
 
-SUBDIRS =	network commands application
+SUBDIRS =	network commands application data
 
 SRC		=	src
 
@@ -15,7 +15,10 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
 			Client.cpp Channel.cpp Application.cpp) \
 			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
-			CommandHandler.cpp Cap.cpp Invite.cpp Join.cpp \
+			CommandHandler.cpp Command.cpp Cap.cpp) \
+			$(patsubst %.cpp, $(SRC)/data/%.cpp, \
+			DAL.cpp)
+#			Invite.cpp Join.cpp \
 			Kick.cpp Mode.cpp Nick.cpp Notice.cpp \
 			Part.cpp Pass.cpp Ping.cpp Pong.cpp \
 			PrivMsg.cpp Quit.cpp Topic.cpp User.cpp \
@@ -26,7 +29,7 @@ INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			$(patsubst %.hpp, $(INCLUDE)/commands/%.hpp, \
 			Command.hpp CommandHandler.hpp) \
 			$(patsubst %.hpp, $(INCLUDE)/data/%.hpp, \
-			IRCMessage.hpp) \
+			IRCMessage.hpp DAL.hpp) \
 			$(patsubst %.hpp, $(INCLUDE)/network/%.hpp, \
 			Connection.hpp Server.hpp ITransport.hpp) \
 			$(patsubst %.hpp, $(INCLUDE)/application/%.hpp, \

@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 20:09:45 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 21:29:34 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/27 00:03:26 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ class Client;
 
 class Channel
 {
+public:
+	typedef std::vector<Client*>::iterator	clientlist_iterator_t;
 private:
 	unsigned long			_clientLimit;
 	bool					_onlyInvite;

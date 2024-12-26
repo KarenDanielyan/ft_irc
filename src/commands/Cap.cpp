@@ -1,14 +1,10 @@
 #include "Command.hpp"
 
-Cap::Cap(): Command()
-{
-}
+Cap::Cap() {}
 
-Cap::~Cap()
-{
-}
+Cap::~Cap() {}
 
-void Cap::implement(Client *client, ITransport* server, DataContainer* data, \
+void Cap::implement(Client *client, ITransport* server, DAL* data, \
 			IRCMessage message)
 {
 	(void)client;
