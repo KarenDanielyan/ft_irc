@@ -74,7 +74,7 @@ public:
 	
 	void	reply(const Connection* to, std::string const & message);
 
-	void	broadcast(std::string const & message);
+	void	broadcast(Connection* sender, std::string const & message);
 
 	const RequestData *	hasPendingRequest(void);
 };

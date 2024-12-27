@@ -21,7 +21,7 @@ class	ITransport
 {
 public:
 	virtual void	reply(const Connection* to, std::string const & message) = 0;
-	virtual void	broadcast(std::string const & message) = 0;
+	virtual void	broadcast(Connection* sender, std::string const & message) = 0;
 
 	virtual ~ITransport() {}
 };

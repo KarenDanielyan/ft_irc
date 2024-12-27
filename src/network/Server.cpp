@@ -203,9 +203,12 @@ void	Server::reply(const Connection* to, std::string const & message)
 	send(to->getFd(), message.c_str(), message.length(), 0);
 }
 
-void	Server::broadcast(std::string const & message)
+void	Server::broadcast(Connection* sender, std::string const & message)
 {
 	for (size_t i = 1; i < _pollfds.size(); i++)
-		send(_pollfds[i].fd, message.c_str(), message.length(), 0);
+	{
+		if (_pollfds[i].fd != sender->getFd())
+			send(_pollfds[i].fd, message.c_str(), message.length(), 0);
+	}
 	std::cout << message;
 }
