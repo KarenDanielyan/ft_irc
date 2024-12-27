@@ -1,4 +1,4 @@
-#include "../include/Parser.hpp"
+#include "Parser.hpp"
 
 CommandType Parser::getCommandType(const std::string command)
 {
