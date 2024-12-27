@@ -14,7 +14,8 @@ class Command
 		Command() {};
 		virtual ~Command() {};
 
-		// virtual void validate(Client *client, IRCMessage& message) = 0;
+		virtual void validate(Client *client, IRCMessage& message) \
+			{ (void)client; (void)message; }
 		virtual void implement(Client *client, const ITransport* server, \
 			DAL& data, IRCMessage message) = 0;
 };
@@ -52,7 +53,8 @@ class Join: public Command
 		Join();
 		~Join();
 
-		void implement(Client *client, const ITransport* server, DAL& data, \
+		void	validate(Client* client, IRCMessage& message);
+		void	implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -63,7 +65,7 @@ class Kick: public Command, public IChannelCommand
 		~Kick();
 
 		void broadcast(const ITransport* server, Channel* to, \
-			std::string const & message) {
+			std::string const & message) const {
 			IChannelCommand::broadcast(server, to, message);
 		}
 		void implement(Client *client, const ITransport* server, DAL& data, \
@@ -77,7 +79,7 @@ class Mode: public Command, public IChannelCommand
 		~Mode();
 
 		void broadcast(const ITransport* server, Channel* to, \
-			std::string const & message) {
+			std::string const & message) const {
 			IChannelCommand::broadcast(server, to, message);
 		}
 		void implement(Client *client, const ITransport* server, DAL& data, \
@@ -101,7 +103,7 @@ class Notice: public Command, public IChannelCommand
 		~Notice();
 
 		void broadcast(const ITransport* server, Channel* to, \
-			std::string const & message) {IChannelCommand::broadcast(server, to, message);}
+			std::string const & message) const {IChannelCommand::broadcast(server, to, message);}
 		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
@@ -113,7 +115,7 @@ class Part: public Command, public IChannelCommand
 		~Part();
 
 		void broadcast(const ITransport* server, Channel* to, \
-			std::string const & message) {IChannelCommand::broadcast(server, to, message);}
+			std::string const & message) const {IChannelCommand::broadcast(server, to, message);}
 		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
@@ -155,7 +157,7 @@ class PrivMsg: public Command, public IChannelCommand
 		~PrivMsg();
 
 		void broadcast(const ITransport* server, Channel* to, \
-			std::string const & message) {IChannelCommand::broadcast(server, to, message);}
+			std::string const & message) const {IChannelCommand::broadcast(server, to, message);}
 		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
