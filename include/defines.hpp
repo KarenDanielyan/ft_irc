@@ -70,4 +70,11 @@
 # define ERR_NONICKNAMEGIVEN(nick) (std::string("421")) + " :No nickname given" 
 # define ERR_BADCHANMASK(channel) (std::string("476")) " :Bad Channel Mask"
 
+
+// for message 
+# define MAX_MESSAGE_LENGTH 512
+# define IGNOR_MESSAGE -1
+# define VALID_MESSAGE 1
+# define ERR_INPUTTOOLONG() (std::string("417") + " :Input line was too long")
+
 #endif

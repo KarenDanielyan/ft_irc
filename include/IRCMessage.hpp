@@ -13,6 +13,7 @@ struct IRCMessage
 	std::string _source;
 	std::string _command;
 	std::vector<std::string> _parameters;
+	IRCMessage() : _tags(), _source(""), _command(""), _parameters() {}
 };
 
 

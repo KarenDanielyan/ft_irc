@@ -190,7 +190,8 @@
     "queue": "cpp",
     "__functional_03": "cpp",
     "ranges": "cpp",
-    "span": "cpp"
+    "span": "cpp",
+    "xstddef": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "python.analysis.typeCheckingMode": "basic"
