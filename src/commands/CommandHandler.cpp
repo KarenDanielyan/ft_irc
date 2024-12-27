@@ -12,7 +12,7 @@
 
 #include "CommandHandler.hpp"
 
-CommandHandler::CommandHandler(const ITransport* server, DAL const & data): _server(server), _data(data)
+CommandHandler::CommandHandler(const ITransport* server, DAL & data): _server(server), _data(data)
 {
 	_commands["CAP"] = new Cap();
 }

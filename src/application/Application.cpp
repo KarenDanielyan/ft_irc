@@ -15,8 +15,7 @@
 
 Application*	Application::_instance = NULL;
 
-Application::Application(std::string const & port, \
-				std::string const & password): _password(password)
+Application::Application(std::string const & port, std::string const & password)
 {
 	int	p;
 
@@ -25,9 +24,9 @@ Application::Application(std::string const & port, \
 	p = std::atoi(port.c_str());
 	if (p <= 1023 || p >= UINT16_MAX)
 		throw std::runtime_error(ERR_PINV);
-	_data = new DAL();
+	_data = new DAL(password);
 	_serv = new Server(static_cast<unsigned short>(p), _requests);
-	_handler = new CommandHandler(_serv, _clients, _channels);
+	_handler = new CommandHandler(_serv, *_data);
 }
 
 Application::~Application(void)

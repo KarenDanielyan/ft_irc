@@ -8,7 +8,7 @@ Pong::~Pong()
 {
 }
 
-void Pong::implement(Client *client, ITransport* server, DAL* data, \
+void Pong::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)data;

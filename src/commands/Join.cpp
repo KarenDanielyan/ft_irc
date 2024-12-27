@@ -16,7 +16,7 @@ Join::~Join()
 // }
 
 
-void Join::implement(Client *client, ITransport* server, DAL* data, \
+void Join::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message._parameters.empty())
@@ -26,12 +26,13 @@ void Join::implement(Client *client, ITransport* server, DAL* data, \
 	}
 	std::string name = message._parameters[0];
 	std::string pass = message._parameters.size() > 1 ? message._parameters[1] : "";
-	Channel *channel = data->getChannel(name);
+	std::string topic = "I exist because you wanted to.";
+	Channel *channel = data.getChannel(name);
 	//if the client is on the channel
 	if (!channel)
 	{
-		data->addChannel(name, "", pass, client);
-		Channel* new_channel = data->getChannel(name);
+		data.addChannel(name, topic, pass, client);
+		Channel* new_channel = data.getChannel(name);
 		new_channel->addClient(client);
 	}
 	if (channel->isInviteOnly())

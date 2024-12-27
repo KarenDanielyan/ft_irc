@@ -24,7 +24,7 @@ class DAL
 		std::vector<Channel *>			_channels;
 		std::string						_password;
 	public:
-		DAL() {};
+		DAL(std::string const & password): _password(password) {};
 		~DAL();
 
 		/* Read Methods */

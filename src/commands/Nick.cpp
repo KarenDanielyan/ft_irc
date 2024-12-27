@@ -40,7 +40,7 @@ Nick::~Nick()
 
 
 
-void Nick::implement(Client *client, ITransport* server, DAL* data, \
+void Nick::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)server;
@@ -51,7 +51,7 @@ void Nick::implement(Client *client, ITransport* server, DAL* data, \
 	}
 	std::string nickname = message._parameters[0];
 
-	Client *new_client = data->getClient(nickname);
+	Client *new_client = data.findClient(nickname);
 	if (new_client && new_client != client)
 	{
 		throw ReplyException(ERR_NICKNAMEINUSE(message._source, nickname));

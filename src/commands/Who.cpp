@@ -1,4 +1,5 @@
 #include "Command.hpp"
+#include "defines.hpp"
 //done done
 Who::Who()
 {
@@ -8,19 +9,18 @@ Who::~Who()
 {
 }
 
-void Who::implement(Client *client, const ITransport* server, DAL const & data, \
+void Who::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	int i;
 	if (message._parameters.empty())
 	{
-		std::vector<Client*> clients = data.getClients();
-		i = -1;
-		while (clients[++i])
+		std::map<int, Client*> clients = data.getClients();
+		for (clients_iterator_t it = clients.begin(); it != clients.end(); it++)
 		{
 			server->reply(client->getConnection(), \
-				RPL_WHOREPLY(message._source, clients[i]->getNickname(), \
-				clients[i]->getUsername(), clients[i]->getRealname()));
+				RPL_WHOREPLY(message._source, it->second->getNickname(), \
+				it->second->getUsername(), it->second->getRealname()));
 		}
 		return ;
 	}

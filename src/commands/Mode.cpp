@@ -10,7 +10,7 @@ Mode::~Mode()
 {
 }
 
-void Mode::implement(Client *client, ITransport* server, DAL* data, \
+void Mode::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)server;
@@ -22,7 +22,7 @@ void Mode::implement(Client *client, ITransport* server, DAL* data, \
 	std::string target = message._parameters[0].substr(1);
 	std::string mode_str = message._parameters[1];
 	std::string mode_arg = message._parameters[2];
-	Channel* channel = data->getChannel(target);
+	Channel* channel = data.getChannel(target);
 	if (!channel->isOperator(client))
 	{
 		throw ReplyException(ERR_CHANOPRIVSNEEDED(message._source, \

@@ -11,7 +11,7 @@ PrivMsg::~PrivMsg()
 {
 }
 
-void PrivMsg::implement(Client *client, ITransport* server, DAL* data, \
+void PrivMsg::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message._parameters.size() < 2 || message._parameters[0].empty() || \
@@ -31,7 +31,7 @@ void PrivMsg::implement(Client *client, ITransport* server, DAL* data, \
 	if (target[0] == '#')
 	{
 		std::string name = target.substr(1);
-		Channel* channel = data->getChannel(name);
+		Channel* channel = data.getChannel(name);
 		if (!channel)
 		{
 			throw ReplyException(ERR_NOSUCHCHANNEL(message._source, "PRIVMSG"));
@@ -46,7 +46,7 @@ void PrivMsg::implement(Client *client, ITransport* server, DAL* data, \
 		broadcast(server, channel, msg);
 		return ;
 	}
-	Client *dest = data->getClient(target);
+	Client *dest = data.findClient(target);
 	if (!dest)
 	{
 		throw ReplyException(ERR_NOSUCHNICK(message._source, \

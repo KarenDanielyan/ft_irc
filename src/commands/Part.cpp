@@ -9,7 +9,7 @@ Part::~Part()
 {
 }
 
-void Part::implement(Client *client, ITransport* server, DAL* data, \
+void Part::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message._parameters.empty())
@@ -19,7 +19,7 @@ void Part::implement(Client *client, ITransport* server, DAL* data, \
 	}
 	std::string name = message._parameters[0].substr(1);
 
-	Channel *channel = data->getChannel(name);
+	Channel *channel = data.getChannel(name);
 	if (!channel)
 	{
 		throw ReplyException(ERR_NOSUCHCHANNEL(message._source, name));

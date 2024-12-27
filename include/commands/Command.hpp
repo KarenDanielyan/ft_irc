@@ -15,15 +15,15 @@ class Command
 		virtual ~Command() {};
 
 		// virtual void validate(Client *client, IRCMessage& message) = 0;
-		virtual void implement(Client *client, ITransport* server, \
-			DAL* data, IRCMessage message) = 0;
+		virtual void implement(Client *client, const ITransport* server, \
+			DAL& data, IRCMessage message) = 0;
 };
 
 class	IChannelCommand
 {
 	public:
-		virtual void broadcast(ITransport* server, Channel* to, \
-			std::string const & message) = 0;
+		virtual void broadcast(const ITransport* server, Channel* to, \
+			std::string const & message) const = 0;
 };
 
 class Cap: public Command
@@ -32,7 +32,7 @@ class Cap: public Command
 		Cap();
 		~Cap();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -42,7 +42,7 @@ class Invite: public Command
 		Invite();
 		~Invite();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -52,7 +52,7 @@ class Join: public Command
 		Join();
 		~Join();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -62,11 +62,11 @@ class Kick: public Command, public IChannelCommand
 		Kick();
 		~Kick();
 
-		void broadcast(ITransport* server, Channel* to, \
+		void broadcast(const ITransport* server, Channel* to, \
 			std::string const & message) {
 			IChannelCommand::broadcast(server, to, message);
 		}
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -76,11 +76,11 @@ class Mode: public Command, public IChannelCommand
 		Mode();
 		~Mode();
 
-		void broadcast(ITransport* server, Channel* to, \
+		void broadcast(const ITransport* server, Channel* to, \
 			std::string const & message) {
 			IChannelCommand::broadcast(server, to, message);
 		}
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -90,7 +90,7 @@ class Nick: public Command
 		Nick();
 		~Nick();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -100,9 +100,9 @@ class Notice: public Command, public IChannelCommand
 		Notice();
 		~Notice();
 
-		void broadcast(ITransport* server, Channel* to, \
+		void broadcast(const ITransport* server, Channel* to, \
 			std::string const & message) {IChannelCommand::broadcast(server, to, message);}
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -112,9 +112,9 @@ class Part: public Command, public IChannelCommand
 		Part();
 		~Part();
 
-		void broadcast(ITransport* server, Channel* to, \
+		void broadcast(const ITransport* server, Channel* to, \
 			std::string const & message) {IChannelCommand::broadcast(server, to, message);}
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -124,7 +124,7 @@ class Pass: public Command
 		Pass();
 		~Pass();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -134,7 +134,7 @@ class Ping: public Command
 		Ping();
 		~Ping();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -144,7 +144,7 @@ class Pong: public Command
 		Pong();
 		~Pong();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -154,9 +154,9 @@ class PrivMsg: public Command, public IChannelCommand
 		PrivMsg();
 		~PrivMsg();
 
-		void broadcast(ITransport* server, Channel* to, \
+		void broadcast(const ITransport* server, Channel* to, \
 			std::string const & message) {IChannelCommand::broadcast(server, to, message);}
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -166,7 +166,7 @@ class Quit: public Command
 		Quit();
 		~Quit();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -176,7 +176,7 @@ class Topic: public Command
 		Topic();
 		~Topic();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -186,7 +186,7 @@ class User: public Command
 		User();
 		~User();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -196,7 +196,7 @@ class Who: public Command
 		Who();
 		~Who();
 
-		void implement(Client *client, ITransport* server, DAL* data, \
+		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 #endif

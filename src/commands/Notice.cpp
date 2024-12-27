@@ -1,14 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Notice.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/27 21:38:58 by kdaniely          #+#    #+#             */
+/*   Updated: 2024/12/27 21:40:23 by kdaniely         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Command.hpp"
-//<target>{,<target>} <text to be sent>
-Notice::Notice()
-{
-}
 
-Notice::~Notice()
-{
-}
-
-void Notice::implement(Client *client, ITransport* server, DAL* data, \
+void Notice::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message._parameters.size() < 2 || message._parameters[0].empty() || \
@@ -24,7 +28,7 @@ void Notice::implement(Client *client, ITransport* server, DAL* data, \
 	if (target[0] == '#')
 	{
 		std::string name = target.substr(1);
-		Channel* channel = data->getChannel(name);
+		Channel* channel = data.getChannel(name);
 		if (!channel)
 			return ;
 		if (!channel->isExist(client))
@@ -32,7 +36,7 @@ void Notice::implement(Client *client, ITransport* server, DAL* data, \
 		broadcast(server, channel, message._source + msg);
 		return ;
 	}	
-	Client *dest = data->getClient(target);
+	Client *dest = data.findClient(target);
 	if (!dest)
 		return;
 	server->reply(client->getConnection(), (message._source + msg));

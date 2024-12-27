@@ -10,7 +10,7 @@ Invite::~Invite()
 {
 }
 
-void Invite::implement(Client *client, ITransport* server, DAL* data, \
+void Invite::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message._parameters.size() < 2)
@@ -20,8 +20,8 @@ void Invite::implement(Client *client, ITransport* server, DAL* data, \
 		return ;
 	}
 
-	Client* clientToInvite = data->getClient(message._parameters[0]);
-	Channel* channelToInvite = data->getChannel(message._parameters[1]);
+	Client* clientToInvite = data.findClient(message._parameters[0]);
+	Channel* channelToInvite = data.getChannel(message._parameters[1]);
 
 	if (!clientToInvite)
 	{

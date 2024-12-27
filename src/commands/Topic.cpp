@@ -1,14 +1,10 @@
 #include "Command.hpp"
 // done done
-Topic::Topic()
-{
-}
+Topic::Topic() {}
 
-Topic::~Topic()
-{
-}
+Topic::~Topic() {}
 
-void Topic::implement(Client *client, ITransport* server, DAL* data, \
+void Topic::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message._parameters.size() < 1)
@@ -17,7 +13,7 @@ void Topic::implement(Client *client, ITransport* server, DAL* data, \
 		return ;
 	}
 	std::string name = message._parameters[0].substr(1);
-	Channel* channel = data->getChannel(name);
+	Channel* channel = data.getChannel(name);
 	if (!channel)
 	{
 		throw ReplyException(ERR_NOSUCHCHANNEL(message._source, "TOPIC"));

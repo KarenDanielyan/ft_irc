@@ -8,7 +8,7 @@ Kick::~Kick()
 {
 }
 //<channel> <user> *( "," <user> ) [<comment>]
-void Kick::implement(Client *client, ITransport* server, DAL* data, \
+void Kick::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)server;
@@ -20,7 +20,7 @@ void Kick::implement(Client *client, ITransport* server, DAL* data, \
 	std::string name = message._parameters[0].substr(1);
 	std::string target = message._parameters[1];
 	std::string msg = "Reason: ";
-	Channel* channel = data->getChannel(name);
+	Channel* channel = data.getChannel(name);
 	unsigned long i = 1;
 	while (++i <= message._parameters.size())
 		msg += message._parameters[i];
@@ -29,7 +29,7 @@ void Kick::implement(Client *client, ITransport* server, DAL* data, \
 		throw ReplyException(ERR_NOSUCHCHANNEL(message._source, "KICK"));
 		return ;
 	}
-	Client *dest = data->getClient(target);
+	Client *dest = data.findClient(target);
 	if (!dest)
 	{
 		throw ReplyException(ERR_NOSUCHNICK(message._source, \

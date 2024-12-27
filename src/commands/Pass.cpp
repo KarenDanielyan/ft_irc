@@ -8,7 +8,7 @@ Pass::~Pass()
 {
 }
 
-void Pass::implement(Client *client, ITransport* server, DAL* data, \
+void Pass::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)server;
@@ -26,7 +26,7 @@ void Pass::implement(Client *client, ITransport* server, DAL* data, \
 			client->getNickname()));
 		return ;
 	}
-	if (data->getPassword() != message._parameters[0])
+	if (data.getPassword() != message._parameters[0])
 	{
 		throw ReplyException(ERR_PASSWDMISMATCH(message._source, \
 			client->getNickname()));
