@@ -9,11 +9,12 @@ Join::Join()
 Join::~Join()
 {
 }
-
-// void Join::validate(Client *client, std::vector<std::string> arg)
-// {
-// 	std::string channel = IRCMessage.parameters[0]
-// }
+void Join::validate(Client *client, std::vector<std::string> arg)
+{
+	std::string channel = IRCMessage.parameters[0]
+	if ( channel[0] != '#' || channel[0] != '&')
+		throw ERR_BADCHANMASK(channel);
+}
 
 
 void Join::implement(Client *client, const ITransport* server, DAL& data, \

@@ -188,7 +188,10 @@
     "xtree": "cpp",
     "xutility": "cpp",
     "queue": "cpp",
-    "__functional_03": "cpp"
+    "__functional_03": "cpp",
+    "ranges": "cpp",
+    "span": "cpp",
+    "xstddef": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "python.analysis.typeCheckingMode": "basic"

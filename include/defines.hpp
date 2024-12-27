@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 21:40:11 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/27 22:23:03 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,16 @@ typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
 # define RPL_ENDOFNAMES(source, channel) (source + std::string(" 366 ") + channel + " :End of /NAMES list")
 # define RPL_NAMREPLY(source, channel, nick) (source + std::string(" 353 ") + channel + " :" + nick)
 # define RPL_WHOREPLY(source, nick, username, realname) (source + std::string(" 352 ") + nick + " " + username + " " + realname)
+
+/* Nick reply */
+# define ERR_ERRONEUSNICKNAME(nick) (std::string("432")) + " :Erroneus nickname"
+# define ERR_NONICKNAMEGIVEN(nick) (std::string("421")) + " :No nickname given" 
+# define ERR_BADCHANMASK(channel) (std::string("476")) " :Bad Channel Mask"
+
+# define ERR_INPUTTOOLONG() (std::string("417") + " :Input line was too long")
+
+# define MAX_MESSAGE_LENGTH 512
+# define IGNOR_MESSAGE -1
+# define VALID_MESSAGE 1
+
 #endif
