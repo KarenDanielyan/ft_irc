@@ -25,6 +25,7 @@ Application::Application(std::string const & port, \
 	p = std::atoi(port.c_str());
 	if (p <= 1023 || p >= UINT16_MAX)
 		throw std::runtime_error(ERR_PINV);
+	_data = new DAL();
 	_serv = new Server(static_cast<unsigned short>(p), _requests);
 	_handler = new CommandHandler(_serv, _clients, _channels);
 }
@@ -32,10 +33,7 @@ Application::Application(std::string const & port, \
 Application::~Application(void)
 {
 	delete _serv;
-	for (channel_iterator_t i = _channels.begin(); i != _channels.end(); i++)
-		delete *i;
-	for (clients_iterator_t i = _clients.begin(); i != _clients.end(); i++)
-		delete i->second;
+	delete _data;
 }
 
 void	Application::destroyInstance(void)

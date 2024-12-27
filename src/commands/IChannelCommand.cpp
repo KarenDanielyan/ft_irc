@@ -13,8 +13,8 @@
 #include "Command.hpp"
 #include "Channel.hpp"
 
-void IChannelCommand::broadcast(ITransport* server, Channel* to, \
-			std::string const & message)
+void IChannelCommand::broadcast(const ITransport* server, Channel* to, \
+			std::string const & message) const
 {
 	std::vector<Client*>	clients = to->getClients();
 	for (Channel::clientlist_iterator_t it = clients.begin(); it != clients.end(); it++)

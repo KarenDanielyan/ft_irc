@@ -198,12 +198,12 @@ int	Server::newSocket()
 	return (sockfd);
 }
 
-void	Server::reply(const Connection* to, std::string const & message)
+void	Server::reply(const Connection* to, std::string const & message) const
 {
 	send(to->getFd(), message.c_str(), message.length(), 0);
 }
 
-void	Server::broadcast(Connection* sender, std::string const & message)
+void	Server::broadcast(Connection* sender, std::string const & message) const
 {
 	for (size_t i = 1; i < _pollfds.size(); i++)
 	{

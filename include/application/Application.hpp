@@ -29,10 +29,7 @@ private:
 	Server*						_serv;
 	CommandHandler*				_handler;
 
-	std::string					_password;
-	std::vector<Channel *>		_channels;
-	std::map<int, Client*>		_clients;
-
+	DAL*						_data;
 
 	Application(std::string const & port, \
 			 std::string const & password);

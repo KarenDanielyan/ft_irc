@@ -12,12 +12,8 @@
 
 #include "CommandHandler.hpp"
 
-CommandHandler::CommandHandler(ITransport* server, \
-				std::map<int, Client*>& clients, \
-				std::vector<Channel *>& channels)
+CommandHandler::CommandHandler(const ITransport* server, DAL const & data): _server(server), _data(data)
 {
-	_server = server;
-	_data = new DAL(clients, channels);
 	_commands["CAP"] = new Cap();
 }
 
@@ -30,3 +26,12 @@ void CommandHandler::handle(Client* client, IRCMessage message)
 	else
 		_commands[message._command]->implement(client, _server, _data, message);
 }
+
+CommandHandler::~CommandHandler(void)
+{
+	for (commands_iterator_t it = _commands.begin(); it != _commands.end(); it++)
+	{
+		delete it->second;
+	}
+}
+

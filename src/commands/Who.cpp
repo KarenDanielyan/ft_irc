@@ -8,13 +8,13 @@ Who::~Who()
 {
 }
 
-void Who::implement(Client *client, ITransport* server, DAL* data, \
+void Who::implement(Client *client, const ITransport* server, DAL const & data, \
 			IRCMessage message)
 {
 	int i;
 	if (message._parameters.empty())
 	{
-		std::vector<Client*> clients = data->getClients();
+		std::vector<Client*> clients = data.getClients();
 		i = -1;
 		while (clients[++i])
 		{
@@ -28,7 +28,7 @@ void Who::implement(Client *client, ITransport* server, DAL* data, \
 	if (mask[0] == '#')
 	{
 		mask = mask.substr(1);
-		Channel *channel = data->getChannel(mask);
+		Channel *channel = data.getChannel(mask);
 		if (!channel)
 		{
 			throw ReplyException(ERR_NOSUCHCHANNEL(message._source, mask));
@@ -44,7 +44,7 @@ void Who::implement(Client *client, ITransport* server, DAL* data, \
 		}
 		return ;
 	}
-	Client *toPrint = data->getClient(mask);
+	Client *toPrint = data.findClient(mask);
 	if (!toPrint)
 	{
 		throw ReplyException(ERR_NOSUCHNICK(message._source, mask));

@@ -20,21 +20,25 @@
 class DAL
 {
 	private:
-		std::map<int, Client *>&			_clients;
-		std::vector<Channel *>&				_channels;
-		std::string							_password;
+		std::map<int, Client *>			_clients;
+		std::vector<Channel *>			_channels;
+		std::string						_password;
 	public:
-		DAL(std::map<int, Client *>& clients, \
-			std::vector<Channel *>& channels);
+		DAL() {};
 		~DAL();
 
-		Client*					getClient(std::string nick);
-		std::vector<Client *>	getClients(void);
-		Channel*				getChannel(std::string name);
-		std::string const &		getPassword();
+		/* Read Methods */
+		Client*	findClient(std::string nickname);
+		std::map<int, Client *>& \
+						getClients(void);
+		Channel*		getChannel(std::string name);
+		std::string const & \
+						getPassword();
 
-		void					addChannel(std::string name, std::string topic, \
-			std::string pass, Client* client);
+		/* Write Methods */
+		void			newClient(Connection *connection);
+		void			addChannel(std::string& name, std::string& topic, \
+			std::string& pass, Client* client);
 
 };
 

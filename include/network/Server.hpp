@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:31:10 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 21:39:35 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/27 18:51:20 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ public:
 
 	void	handlePollEvents(void);
 	
-	void	reply(const Connection* to, std::string const & message);
+	void	reply(const Connection* to, std::string const & message) const;
 
-	void	broadcast(Connection* sender, std::string const & message);
+	void	broadcast(Connection* sender, std::string const & message) const;
 
 	const RequestData *	hasPendingRequest(void);
 };
