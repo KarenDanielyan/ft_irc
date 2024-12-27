@@ -46,7 +46,7 @@ DEP		=	$(INC) Makefile
 
 CXX			=	c++
 
-CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 #-g -fsanitize=address
+CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g -fsanitize=address
 
 INCFLAGS	=	-I $(INCLUDE) -I$(INCLUDE)/application -I$(INCLUDE)/network \
 				-I$(INCLUDE)/commands -I$(INCLUDE)/data

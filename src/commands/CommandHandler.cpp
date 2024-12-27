@@ -23,7 +23,7 @@ CommandHandler::CommandHandler(ITransport* server, \
 
 void CommandHandler::handle(Client* client, IRCMessage message)
 {
-	std::map<std::string, Command*>::iterator it = _commands.find(message._command);
+	commands_iterator_t it = _commands.find(message._command);
 	if (it == _commands.end())
 		throw ReplyException(ERR_UNKNOWNCOMMAND(message._source, \
 			message._command));

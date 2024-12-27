@@ -16,14 +16,16 @@ class Client;
 
 class CommandHandler
 {
-	private:
-		ITransport*							_server;
-		DAL*						_data;
-		std::map<std::string, Command *>	_commands;
-	public:
-		CommandHandler(ITransport* server, std::map<int, Client *>& clients, \
-			std::vector<Channel *>& channels);
-		~CommandHandler();
+public:
+	typedef std::map<std::string, Command*>::iterator	commands_iterator_t;
+private:
+	ITransport*							_server;
+	DAL*						_data;
+	std::map<std::string, Command *>	_commands;
+public:
+	CommandHandler(ITransport* server, std::map<int, Client *>& clients, \
+		std::vector<Channel *>& channels);
+	~CommandHandler();
 
 	void handle(Client* Client, IRCMessage message);
 };
