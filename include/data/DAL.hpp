@@ -16,6 +16,7 @@
 # include "Client.hpp"
 # include "Server.hpp"
 # include "Channel.hpp"
+#include "defines.hpp"
 
 class DAL
 {
@@ -23,6 +24,8 @@ class DAL
 		std::map<int, Client *>			_clients;
 		std::vector<Channel *>			_channels;
 		std::string						_password;
+
+		request_data_container_t		_requests;
 	public:
 		DAL(std::string const & password): _password(password) {};
 		~DAL();
@@ -34,6 +37,8 @@ class DAL
 		Channel*		getChannel(std::string name);
 		std::string const & \
 						getPassword();
+		request_data_container_t& \
+						getRequestDataContainer(void);
 
 		/* Write Methods */
 		void			newClient(Connection *connection);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "DAL.hpp"
+#include "defines.hpp"
 
 DAL::~DAL()
 {
@@ -55,4 +56,9 @@ void DAL::addChannel(std::string& name, std::string& topic, std::string& pass, C
 {
 	Channel *channel = new Channel(name, topic, pass, admin);
 	_channels.push_back(channel);
+}
+
+request_data_container_t&	DAL::getRequestDataContainer(void)
+{
+	return (_requests);
 }

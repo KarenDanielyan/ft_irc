@@ -24,8 +24,6 @@ class	Application
 private:
 	static Application*			_instance;
 
-	request_data_container_t	_requests;
-
 	Server*						_serv;
 	CommandHandler*				_handler;
 

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Application.hpp"
+#include "defines.hpp"
 #include "utils.hpp"
 
 Application*	Application::_instance = NULL;
@@ -25,7 +26,8 @@ Application::Application(std::string const & port, std::string const & password)
 	if (p <= 1023 || p >= UINT16_MAX)
 		throw std::runtime_error(ERR_PINV);
 	_data = new DAL(password);
-	_serv = new Server(static_cast<unsigned short>(p), _requests);
+	_serv = new Server(static_cast<unsigned short>(p), \
+					_data->getRequestDataContainer());
 	_handler = new CommandHandler(_serv, *_data);
 }
 
@@ -43,11 +45,13 @@ void	Application::destroyInstance(void)
 
 void	Application::process(void)
 {
-	while (_requests.size() != 0)
+	request_data_container_t&	requests = _data->getRequestDataContainer();
+
+	while (requests.size() != 0)
 	{
 		// TODO: Add Presentation layer and application layer methods.
-		std::cout << _requests.front().what;
-		_requests.pop();
+		std::cout << requests.front().what;
+		requests.pop();
 	}
 }
 
