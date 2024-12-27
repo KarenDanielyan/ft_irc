@@ -73,7 +73,7 @@ void Mode::implement(Client *client, ITransport* server, DAL* data, \
 					channel->getName(), (plus ? "+o" : "-o")));
 				break;
 			case 'l':
-				channel->setLimit(plus ? std::stol(mode_arg) : 0);
+				channel->setLimit(plus ? std::atol(mode_arg.c_str()) : 0);
 				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
 					client->getNickname(), channel->getName(), \
 					(plus ? "+l" : "-l")));
