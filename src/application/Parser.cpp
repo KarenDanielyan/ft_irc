@@ -34,12 +34,12 @@ std::vector<IRCMessage> Parser::parseMessage(std::string& rawMessage, Connection
 		else if (buffer.empty())
 			continue ;
 		else
-			_messages.push_back(_fillIRCMessage(buffer));
+			_messages.push_back(_fillIRCMessage(buffer, from));
 	}
 	return (_messages);
 }
 
-IRCMessage	Parser::_fillIRCMessage(const std::string& line)
+IRCMessage	Parser::_fillIRCMessage(const std::string& line, Connection* from)
 {
 	IRCMessage	message;
 
@@ -57,6 +57,8 @@ IRCMessage	Parser::_fillIRCMessage(const std::string& line)
 	}
 	if (!message.parameters.empty() && (message.parameters.back())[0] == ':')
 		message.parameters.back().erase(0, 1);
+	if (message.source.empty())
+		message.source = from->getHostname();
 	return (message);
 }
 

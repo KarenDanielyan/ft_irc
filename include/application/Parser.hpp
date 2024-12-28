@@ -24,7 +24,7 @@ class Parser
 	private:
 		ITransport*				_server;
 
-		IRCMessage	_fillIRCMessage(const std::string& line);
+		IRCMessage	_fillIRCMessage(const std::string& line, Connection* from);
 	public:
 		Parser(ITransport* server);
 		~Parser();
