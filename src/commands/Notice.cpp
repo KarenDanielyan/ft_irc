@@ -12,6 +12,10 @@
 
 #include "Command.hpp"
 
+Notice::Notice() {}
+
+Notice::~Notice() {}
+
 void Notice::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {

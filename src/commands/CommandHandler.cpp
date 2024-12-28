@@ -11,10 +11,26 @@
 /* ************************************************************************** */
 
 #include "CommandHandler.hpp"
+#include "Command.hpp"
 
 CommandHandler::CommandHandler(const ITransport* server, DAL & data): _server(server), _data(data)
 {
 	_commands["CAP"] = new Cap();
+	_commands["INVITE"] = new Invite();
+	_commands["JOIN"] = new Join();
+	_commands["KICK"] = new Kick();
+	_commands["MODE"] = new Mode();
+	_commands["NICK"] = new Nick();
+	_commands["NOTICE"] = new Notice();
+	_commands["PART"] = new Part();
+	_commands["PASS"] = new Pass();
+	_commands["PING"] = new Ping();
+	_commands["PONG"] = new Pong();
+	_commands["PRIVMSG"] = new PrivMsg();
+	_commands["QUIT"] = new Quit();
+	_commands["TOPIC"] = new Topic();
+	_commands["USER"] = new User();
+	_commands["WHO"] = new Who();
 }
 
 void CommandHandler::handle(Client* client, IRCMessage message)
