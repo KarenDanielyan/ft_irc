@@ -13,7 +13,8 @@ SRCS	=	$(patsubst %.cpp, $(SRC)/%.cpp, \
 			$(patsubst %.cpp, $(SRC)/network/%.cpp, \
 			Server.cpp Connection.cpp) \
 			$(patsubst %.cpp, $(SRC)/application/%.cpp, \
-			Client.cpp Channel.cpp Application.cpp) \
+			Client.cpp Channel.cpp Application.cpp \
+			Parser.cpp) \
 			$(patsubst %.cpp, $(SRC)/commands/%.cpp, \
 			CommandHandler.cpp IChannelCommand.cpp Cap.cpp \
 			Invite.cpp Join.cpp \
@@ -33,7 +34,8 @@ INC		=	$(patsubst %.hpp, $(INCLUDE)/%.hpp, \
 			$(patsubst %.hpp, $(INCLUDE)/network/%.hpp, \
 			Connection.hpp Server.hpp ITransport.hpp) \
 			$(patsubst %.hpp, $(INCLUDE)/application/%.hpp, \
-			Application.hpp Channel.hpp Client.hpp)
+			Application.hpp Channel.hpp Client.hpp \
+			Parser.hpp)
 
 OBJS	=	$(foreach dir, $(SUBDIRS), \
 			$(patsubst $(SRC)/$(dir)/%.cpp, $(BUILD)/%.o, \

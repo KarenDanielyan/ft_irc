@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Parser.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
+/*   Updated: 2024/12/28 19:06:01 by kdaniely         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Parser.hpp"
 
 int Parser::parseMessage(const std::string& rawMessage)
@@ -18,20 +30,20 @@ int Parser::parseMessage(const std::string& rawMessage)
 		size_t spacePos = message.find(' ');
 		if (spacePos == std::string::npos)
 			return IGNOR_MESSAGE;
-		_message._source = message.substr(1, spacePos - 1);
+		_message.source = message.substr(1, spacePos - 1);
 		message = message.substr(spacePos + 1);
 	}
 
 	size_t spacePos = message.find(' ');
 	if (spacePos == std::string::npos)
 	{
-		_message._command = message;
-		_message._parameters.clear();
+		_message.command = message;
+		_message.parameters.clear();
 	}
 	else
 	{
-		_message._command = message.substr(0, spacePos);
-		_message._parameters = parseParameters(message.substr(spacePos + 1));
+		_message.command = message.substr(0, spacePos);
+		_message.parameters = parseParameters(message.substr(spacePos + 1));
 	}
 
 	return VALID_MESSAGE;
@@ -70,42 +82,6 @@ std::vector<std::string> Parser::parseParameters(const std::string& rawParams)
 	return parameters;
 }
 
-// std::string Parser::decodeEscaped(const std::string& rawValue)
-// {
-// 	std::string decoded;
-// 	for (size_t i = 0; i < rawValue.size(); ++i)
-// 	{
-// 		if (rawValue[i] == '\\' && i + 1 < rawValue.size()) 
-// 		{
-// 			switch (rawValue[i + 1])
-// 			{
-// 				case ':':
-// 					decoded += ':';
-// 					break;
-// 				case 's':
-// 					decoded += ' ';
-// 					break;
-// 				case '\\':
-// 					decoded += '\\';
-// 					break;
-// 				default:
-// 					decoded += rawValue[i + 1];
-// 					break;
-// 			}
-// 			++i;
-// 		}
-// 		else
-// 			decoded += rawValue[i];
-// 	}
-// 	return decoded;
-// }
+Parser::Parser() : _message() {}
 
-
-Parser::Parser() : _message()
-{
-}
-
-Parser::~Parser()
-{
-	
-}
+Parser::~Parser() {}
