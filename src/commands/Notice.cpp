@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 21:38:58 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/27 21:40:23 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 18:19:26 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 void Notice::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
-	if (message._parameters.size() < 2 || message._parameters[0].empty() || \
-			message._parameters[1].empty())
+	if (message.parameters.size() < 2 || message.parameters[0].empty() || \
+			message.parameters[1].empty())
 		return;
-	std::string target = message._parameters[0];
+	std::string target = message.parameters[0];
 	std::string msg = "";
-	for (unsigned long i = 1; i < message._parameters.size(); i++)
+	for (unsigned long i = 1; i < message.parameters.size(); i++)
 	{
-		msg += message._parameters[i];
+		msg += message.parameters[i];
 		msg += " ";
 	}
 	if (target[0] == '#')
@@ -33,11 +33,11 @@ void Notice::implement(Client *client, const ITransport* server, DAL& data, \
 			return ;
 		if (!channel->isExist(client))
 			return ;
-		broadcast(server, channel, message._source + msg);
+		broadcast(server, channel, message.source + msg);
 		return ;
 	}	
 	Client *dest = data.findClient(target);
 	if (!dest)
 		return;
-	server->reply(client->getConnection(), (message._source + msg));
+	server->reply(client->getConnection(), (message.source + msg));
 }

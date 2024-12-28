@@ -78,11 +78,11 @@ class Mode: public Command, public IChannelCommand
 		Mode();
 		~Mode();
 
-		void broadcast(const ITransport* server, Channel* to, \
+		void	broadcast(const ITransport* server, Channel* to, \
 			std::string const & message) const {
 			IChannelCommand::broadcast(server, to, message);
 		}
-		void implement(Client *client, const ITransport* server, DAL& data, \
+		void	implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -92,7 +92,8 @@ class Nick: public Command
 		Nick();
 		~Nick();
 
-		void implement(Client *client, const ITransport* server, DAL& data, \
+		void	validate(Client *client, IRCMessage& message);
+		void	implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };
 
@@ -188,6 +189,7 @@ class User: public Command
 		User();
 		~User();
 
+		void	validate(Client* client, IRCMessage& message);
 		void implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message);
 };

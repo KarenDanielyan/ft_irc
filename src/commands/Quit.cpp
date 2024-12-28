@@ -13,9 +13,9 @@ void Quit::implement(Client *client, const ITransport* server, DAL& data, \
 {
 	(void)data;
 	std::string reason;
-	if (message._parameters[0][0] == ':')
-		reason = message._parameters[0].substr(1);
+	if (message.parameters[0][0] == ':')
+		reason = message.parameters[0].substr(1);
 	else
 		reason = "quit with no reason";
-	server->reply(client->getConnection(), (message._source + ":" + reason));
+	server->reply(client->getConnection(), (message.source + ":" + reason));
 }

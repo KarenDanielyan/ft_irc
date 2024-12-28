@@ -1,15 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Join.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
+/*   Updated: 2024/12/28 18:00:26 by kdaniely         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Command.hpp"
 #include "defines.hpp"
 
-// JOIN <channel>{,<channel>} [<key>{,<key>}]
+Join::Join() {}
 
-Join::Join()
-{
-}
+Join::~Join() {}
 
-Join::~Join()
-{
-}
 void Join::validate(Client *client, IRCMessage& message)
 {
 	(void)client;

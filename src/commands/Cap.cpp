@@ -11,5 +11,5 @@ void Cap::implement(Client *client, const ITransport* server, DAL & data, \
 	(void)server;
 	(void)data;
 	(void)message;
-	throw ReplyException(ERR_UNKNOWNCOMMAND(message._source, "CAP"));
+	throw ReplyException(ERR_UNKNOWNCOMMAND(message.source, "CAP"));
 }

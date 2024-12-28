@@ -19,12 +19,12 @@ CommandHandler::CommandHandler(const ITransport* server, DAL & data): _server(se
 
 void CommandHandler::handle(Client* client, IRCMessage message)
 {
-	commands_iterator_t it = _commands.find(message._command);
+	commands_iterator_t it = _commands.find(message.command);
 	if (it == _commands.end())
-		throw ReplyException(ERR_UNKNOWNCOMMAND(message._source, \
-			message._command));
+		throw ReplyException(ERR_UNKNOWNCOMMAND(message.source, \
+			message.command));
 	else
-		_commands[message._command]->implement(client, _server, _data, message);
+		_commands[message.command]->implement(client, _server, _data, message);
 }
 
 CommandHandler::~CommandHandler(void)

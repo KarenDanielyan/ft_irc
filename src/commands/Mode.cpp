@@ -1,37 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Mode.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/28 18:18:44 by kdaniely          #+#    #+#             */
+/*   Updated: 2024/12/28 18:19:01 by kdaniely         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Command.hpp"
 
-//  <target> [<modestring> [<mode arguments>...]]
+Mode::Mode() {}
 
-Mode::Mode()
-{ 
-}
-
-Mode::~Mode()
-{
-}
+Mode::~Mode() {}
 
 void Mode::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)server;
-	if (message._parameters.size() < 2 || message._parameters[0].empty())
+	if (message.parameters.size() < 2 || message.parameters[0].empty())
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "MODE"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "MODE"));
 		return;
 	}
-	std::string target = message._parameters[0].substr(1);
-	std::string mode_str = message._parameters[1];
-	std::string mode_arg = message._parameters[2];
+	std::string target = message.parameters[0].substr(1);
+	std::string mode_str = message.parameters[1];
+	std::string mode_arg = message.parameters[2];
 	Channel* channel = data.getChannel(target);
 	if (!channel->isOperator(client))
 	{
-		throw ReplyException(ERR_CHANOPRIVSNEEDED(message._source, \
+		throw ReplyException(ERR_CHANOPRIVSNEEDED(message.source, \
 			client->getNickname()));
 		return ;
 	}
 	if (!channel)
 	{
-		throw ReplyException(ERR_NOSUCHCHANNEL(message._source, "MODE"));
+		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "MODE"));
 		return ;
 	}
 	int i = 0;
@@ -42,39 +48,39 @@ void Mode::implement(Client *client, const ITransport* server, DAL& data, \
 		{
 			case 'i':
 				channel->setOnlyInvite(plus);
-				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
 					client->getNickname(), \
 					channel->getName(), (plus ? "+i" : "-i")));
 				break;
 			case 't':
 				channel->setTopic(plus ? mode_arg : "");
-				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
 					client->getNickname(), \
 					channel->getName(), (plus ? "+t" : "-t")));
 				break;
 			case 'k':
 				channel->setPassword(plus ? mode_arg : "");
-				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
 					client->getNickname(), \
 					channel->getName(), (plus ? "+k" : "-k")));
 				break;
 			case 'o':
 				if (target != client->getNickname())
 				{
-					throw ReplyException(ERR_USERSDONTMATCH(message._source));
+					throw ReplyException(ERR_USERSDONTMATCH(message.source));
 					return;
 				}
 				if (plus)
 					channel->addOperator(client);
 				else
 					channel->removeOperator(client);
-				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
 					client->getNickname(), \
 					channel->getName(), (plus ? "+o" : "-o")));
 				break;
 			case 'l':
 				channel->setLimit(plus ? std::atol(mode_arg.c_str()) : 0);
-				broadcast(server, channel, RPL_CHANNELMODEIS(message._source, \
+				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
 					client->getNickname(), channel->getName(), \
 					(plus ? "+l" : "-l")));
 				break;

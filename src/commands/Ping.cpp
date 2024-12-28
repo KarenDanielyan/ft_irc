@@ -12,16 +12,16 @@ void Ping::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)data;
-	if (message._parameters.empty())
+	if (message.parameters.empty())
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, "PING"));
+		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "PING"));
 		return;
 	}
 	std::string msg = "";
-	for (unsigned long i = 1; i < message._parameters.size(); i++)
+	for (unsigned long i = 1; i < message.parameters.size(); i++)
 	{
-		msg += message._parameters[i];
+		msg += message.parameters[i];
 		msg += " ";
 	}
-	server->reply(client->getConnection(), RPL_PING(message._source, msg));
+	server->reply(client->getConnection(), RPL_PING(message.source, msg));
 }

@@ -14,18 +14,18 @@ PrivMsg::~PrivMsg()
 void PrivMsg::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
-	if (message._parameters.size() < 2 || message._parameters[0].empty() || \
-		message._parameters[1].empty())
+	if (message.parameters.size() < 2 || message.parameters[0].empty() || \
+		message.parameters[1].empty())
 	{
-		throw ReplyException(ERR_NEEDMOREPARAMS(message._source, \
+		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, \
 			client->getNickname() + "PRIVMSG"));
 		return;
 	}
-	std::string target = message._parameters[0];
+	std::string target = message.parameters[0];
 	std::string msg = "";
-	for (unsigned long i = 1; i < message._parameters.size(); i++)
+	for (unsigned long i = 1; i < message.parameters.size(); i++)
 	{
-		msg += message._parameters[i];
+		msg += message.parameters[i];
 		msg += " ";
 	}
 	if (target[0] == '#')
@@ -34,12 +34,12 @@ void PrivMsg::implement(Client *client, const ITransport* server, DAL& data, \
 		Channel* channel = data.getChannel(name);
 		if (!channel)
 		{
-			throw ReplyException(ERR_NOSUCHCHANNEL(message._source, "PRIVMSG"));
+			throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "PRIVMSG"));
 			return ;
 		}
 		if (!channel->isExist(client))
 		{
-			throw ReplyException(ERR_CANNOTSENDTOCHAN(message._source, \
+			throw ReplyException(ERR_CANNOTSENDTOCHAN(message.source, \
 				channel->getName()));
 			return ;
 		}
@@ -49,9 +49,9 @@ void PrivMsg::implement(Client *client, const ITransport* server, DAL& data, \
 	Client *dest = data.findClient(target);
 	if (!dest)
 	{
-		throw ReplyException(ERR_NOSUCHNICK(message._source, \
+		throw ReplyException(ERR_NOSUCHNICK(message.source, \
 			client->getNickname()));
 		return;
 	}
-	server->reply(dest->getConnection(), (message._source + msg));
+	server->reply(dest->getConnection(), (message.source + msg));
 }
