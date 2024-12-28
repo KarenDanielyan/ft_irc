@@ -21,7 +21,7 @@ Part::~Part()
 {
 }
 
-void Part::implement(Client *client, const ITransport* server, DAL& data, \
+void Part::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message.parameters.empty())

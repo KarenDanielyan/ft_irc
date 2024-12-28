@@ -23,7 +23,7 @@ PrivMsg::~PrivMsg()
 {
 }
 
-void PrivMsg::implement(Client *client, const ITransport* server, DAL& data, \
+void PrivMsg::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message.parameters.size() < 2 || message.parameters[0].empty() || \

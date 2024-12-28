@@ -43,6 +43,12 @@ std::map<int, Client *>& DAL::getClients(void)
 	return (_clients);
 }
 
+void	DAL::removeClient(Client* client)
+{
+	_clients.erase(_clients.find(client->getConnection()->getFd()));
+	delete client;
+}
+
 Channel* DAL::getChannel(std::string name)
 {
 	for (std::vector<Channel*>::iterator it = _channels.begin(); \

@@ -22,7 +22,7 @@ Invite::~Invite()
 {
 }
 
-void Invite::implement(Client *client, const ITransport* server, DAL& data, \
+void Invite::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message.parameters.size() < 2)

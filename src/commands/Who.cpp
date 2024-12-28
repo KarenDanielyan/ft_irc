@@ -21,7 +21,7 @@ Who::~Who()
 {
 }
 
-void Who::implement(Client *client, const ITransport* server, DAL& data, \
+void Who::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	int i;

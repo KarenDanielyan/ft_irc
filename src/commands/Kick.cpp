@@ -20,7 +20,7 @@ Kick::~Kick()
 {
 }
 //<channel> <user> *( "," <user> ) [<comment>]
-void Kick::implement(Client *client, const ITransport* server, DAL& data, \
+void Kick::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)server;

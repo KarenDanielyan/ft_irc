@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 
 #include "Command.hpp"
-// done done
+
 Topic::Topic() {}
 
 Topic::~Topic() {}
 
-void Topic::implement(Client *client, const ITransport* server, DAL& data, \
+void Topic::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message.parameters.size() < 1)

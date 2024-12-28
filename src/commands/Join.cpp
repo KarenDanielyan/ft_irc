@@ -26,7 +26,7 @@ void Join::validate(Client *client, IRCMessage& message)
 }
 
 
-void Join::implement(Client *client, const ITransport* server, DAL& data, \
+void Join::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message.parameters.empty())

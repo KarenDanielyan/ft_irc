@@ -13,7 +13,7 @@
 #include "CommandHandler.hpp"
 #include "Command.hpp"
 
-CommandHandler::CommandHandler(const ITransport* server, DAL & data): _server(server), _data(data)
+CommandHandler::CommandHandler(ITransport* server, DAL & data): _server(server), _data(data)
 {
 	_commands["CAP"] = new Cap();
 	_commands["INVITE"] = new Invite();

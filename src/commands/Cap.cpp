@@ -16,7 +16,7 @@ Cap::Cap() {}
 
 Cap::~Cap() {}
 
-void Cap::implement(Client *client, const ITransport* server, DAL & data, \
+void Cap::implement(Client *client, ITransport* server, DAL & data, \
 			IRCMessage message)
 {
 	(void)client;

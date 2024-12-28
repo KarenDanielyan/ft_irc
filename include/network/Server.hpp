@@ -78,6 +78,9 @@ public:
 
 	void	broadcast(Connection* sender, std::string const & message) const;
 
+	void	closeConnection(Connection* connection);
+	void	closeConnection(const Connection* connection);
+
 	const RequestData *	hasPendingRequest(void);
 };
 

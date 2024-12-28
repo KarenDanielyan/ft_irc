@@ -20,15 +20,18 @@ Quit::~Quit()
 {
 }
 
-void Quit::implement(Client *client, const ITransport* server, DAL& data, \
+void Quit::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
-	(void)data;
+	const Connection*	c;
+
 	std::string reason;
 	if (message.parameters[0][0] == ':')
 		reason = message.parameters[0].substr(1);
 	else
 		reason = "quit with no reason";
+	c = client->getConnection();
 	server->reply(client->getConnection(), (message.source + " Quit :" + reason));
-	close(client->getConnection()->getFd());
+	data.removeClient(client);
+	server->closeConnection(c);
 }

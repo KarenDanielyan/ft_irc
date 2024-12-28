@@ -36,7 +36,7 @@ void	User::validate(Client *client, IRCMessage& message)
 }
 
 
-void User::implement(Client *client, const ITransport* server, DAL& data, \
+void User::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)data;

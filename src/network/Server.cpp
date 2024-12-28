@@ -63,21 +63,35 @@ void	Server::handlePollEvents(void)
 	}
 }
 
+void	Server::closeConnection(Connection* connection)
+{
+	char		log_message[NI_MAXHOST + 1024];
+
+	_connections.erase(connection->getFd());
+	sprintf(log_message, "%s:%d disconnected to the server.", \
+		connection->getHostname().c_str(), connection->getPort());
+	log(log_message);
+	delete connection;
+}
+
+void	Server::closeConnection(const Connection* connection)
+{
+	char		log_message[NI_MAXHOST + 1024];
+
+	_connections.erase(connection->getFd());
+	sprintf(log_message, "%s:%d disconnected to the server.", \
+		connection->getHostname().c_str(), connection->getPort());
+	log(log_message);
+	delete connection;
+}
+
+
 void	Server::onClientDisconnect(pollfd& fd)
 {
 	connection_iterator_t	it = _connections.find(fd.fd);
 
 	if (it != _connections.end())
-	{
-		Connection	*c = _connections.find(fd.fd)->second;
-		char		log_message[NI_MAXHOST + 1024];
-
-		_connections.erase(fd.fd);
-		sprintf(log_message, "%s:%d disconnected to the server.", \
-			c->getHostname().c_str(), c->getPort());
-		log(log_message);
-		delete c;
-	}
+		closeConnection(it->second);
 }
 
 void	Server::onClientRequest(pollfd& fd)

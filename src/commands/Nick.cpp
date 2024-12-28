@@ -26,9 +26,9 @@ void Nick::validate(Client *client,  IRCMessage& message)
 
 	(void)client;
 	if (nickname.find_first_of(disallowedChars) != std::string::npos)
-	throw ReplyException(ERR_ERRONEUSNICKNAME(message.source, nickname));
-	if (disallowedStartChars.find(nickname[0]) != std::string::npos || \
-		channelPrefixes.find(nickname[0]) != std::string::npos)
+		throw ReplyException(ERR_ERRONEUSNICKNAME(message.source, nickname));
+	if (disallowedStartChars.find(nickname[0]) != std::string::npos \
+			|| channelPrefixes.find(nickname[0]) != std::string::npos)
 		throw ReplyException(ERR_ERRONEUSNICKNAME(message.source, nickname));
 
 	if (nickname.find('.') != std::string::npos)
@@ -45,7 +45,7 @@ void Nick::validate(Client *client,  IRCMessage& message)
 }
 
 
-void Nick::implement(Client *client, const ITransport* server, DAL& data, \
+void Nick::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)server;

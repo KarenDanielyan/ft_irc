@@ -16,7 +16,7 @@ Mode::Mode() {}
 
 Mode::~Mode() {}
 
-void Mode::implement(Client *client, const ITransport* server, DAL& data, \
+void Mode::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)server;

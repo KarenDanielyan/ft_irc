@@ -31,12 +31,12 @@ class CommandHandler
 public:
 	typedef std::map<std::string, Command*>::iterator	commands_iterator_t;
 private:
-	const ITransport*			_server;
+	ITransport*			_server;
 	DAL&					_data;
 	std::map<std::string, Command*> \
 								_commands;
 public:
-	CommandHandler(const ITransport* server, DAL& _data);
+	CommandHandler(ITransport* server, DAL& _data);
 	~CommandHandler();
 
 	void handle(Client* Client, IRCMessage message);

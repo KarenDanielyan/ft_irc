@@ -31,8 +31,8 @@ class DAL
 		~DAL();
 
 		/* Read Methods */
-		Client*	findClient(int fd);
-		Client*	findClient(std::string nickname);
+		Client*			findClient(int fd);
+		Client*			findClient(std::string nickname);
 		std::map<int, Client *>& \
 						getClients(void);
 		Channel*		getChannel(std::string name);
@@ -43,6 +43,7 @@ class DAL
 
 		/* Write Methods */
 		void			newClient(Connection *connection);
+		void			removeClient(Client *client);
 		void			addChannel(std::string& name, std::string& topic, \
 			std::string& pass, Client* client);
 
