@@ -17,6 +17,7 @@
 # include "Server.hpp"
 # include "Client.hpp"
 # include "Channel.hpp"
+# include "Parser.hpp"
 # include "CommandHandler.hpp"
 
 class	Application
@@ -25,7 +26,9 @@ private:
 	static Application*			_instance;
 
 	Server*						_serv;
+	Parser*						_parser;
 	CommandHandler*				_handler;
+
 
 	DAL*						_data;
 
