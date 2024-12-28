@@ -191,7 +191,11 @@
     "__functional_03": "cpp",
     "ranges": "cpp",
     "span": "cpp",
-    "xstddef": "cpp"
+    "xstddef": "cpp",
+    "semaphore": "cpp",
+    "stop_token": "cpp",
+    "thread": "cpp",
+    "cinttypes": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "python.analysis.typeCheckingMode": "basic"

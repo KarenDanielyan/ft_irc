@@ -3,85 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 19:13:53 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 21:38:28 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Parser.hpp"
+#include "defines.hpp"
+#include <sstream>
 
-int Parser::parseMessage(const std::string& rawMessage)
+
+/* TODO: Add \r\n as a define callse CRCN */
+int Parser::parseMessage(std::string& rawMessage, Connection *from)
 {
-	if (rawMessage.length() == 0)
-		return IGNOR_MESSAGE;
-
-	else if (rawMessage.length() > MAX_MESSAGE_LENGTH)
-		throw ReplyException(ERR_INPUTTOOLONG());
-
-	else if (rawMessage.substr(rawMessage.length() - 2) != "\r\n")
-		return IGNOR_MESSAGE;
-
-	std::string message = rawMessage.substr(0, rawMessage.length() - 2);
-
-	if (!message.empty() && message[0] == ':')
+	std::string	buffer;
+	size_t		pos;
+	while(true)
 	{
-		size_t spacePos = message.find(' ');
-		if (spacePos == std::string::npos)
-			return IGNOR_MESSAGE;
-		_message.source = message.substr(1, spacePos - 1);
-		message = message.substr(spacePos + 1);
+		pos = rawMessage.find_first_of("\r\n");
+		if (pos == std::string::npos)
+			return (IGNOR_MESSAGE);
+		buffer = rawMessage.substr(0, pos);
+		rawMessage = rawMessage.erase(0, pos + 2);
+		if (buffer.size() > MAX_MESSAGE_LENGTH)
+			_server->reply(from, ERR_INPUTTOOLONG(from->getHostname()));
+		else if (buffer.empty())
+			continue ;
+		else
+			_messages.push_back(_fillIRCMessage(buffer));
 	}
-
-	size_t spacePos = message.find(' ');
-	if (spacePos == std::string::npos)
-	{
-		_message.command = message;
-		_message.parameters.clear();
-	}
-	else
-	{
-		_message.command = message.substr(0, spacePos);
-		_message.parameters = parseParameters(message.substr(spacePos + 1));
-	}
-
-	return VALID_MESSAGE;
 }
 
-const IRCMessage& Parser::getMessage()
+IRCMessage	Parser::_fillIRCMessage(const std::string& line)
 {
-	return _message;
-}
+	IRCMessage	message;
 
-
-void		Parser::setMessage(const IRCMessage& message)
-{
-	this->_message = message;
-}
-
-
-std::vector<std::string> Parser::parseParameters(const std::string& rawParams)
-{
-	std::vector<std::string> parameters;
-	std::istringstream stream(rawParams);
-	std::string param;
-
-	while (std::getline(stream, param, ' '))
+	std::vector<std::string> arguments;
+	std::string arg;
+	std::stringstream stream(line);
+	for(int i = 0; std::getline(stream, arg, ' '); i++)
 	{
-		if (param[0] == ':')
-		{
-			std::string trailing;
-			std::getline(stream, trailing);
-			param = param.substr(1) + trailing;
-			parameters.push_back(param);
-			break;
-		}
-		parameters.push_back(param);
+		if (arg[0] == ':' && i == 0)
+			message.source = arg.substr(1, (arg.length() - 1));
+		else if (i == 0 || i == 1)
+			message.command = arg;
+		else
+			message.parameters.push_back(arg);
 	}
-	return parameters;
+	if ((message.parameters.back())[0] == ':')
+		message.parameters.back().erase(0, 1);
+	return (message);
 }
 
-Parser::Parser() : _message() {}
+std::vector<IRCMessage> const & Parser::getMessages() const
+{
+	return _messages;
+}
+
+Parser::Parser(ITransport* server) : _messages(), _server(server) {}
 
 Parser::~Parser() {}

@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 18:12:24 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 19:48:30 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,6 @@ typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
 /* Nick reply */
 # define ERR_BADCHANMASK(channel) (std::string("476") + channel + " :Bad Channel Mask")
 # define ERR_ERRONEUSNICKNAME(source, nickname) ("432" + source + nickname + " ::Erroneus nickname")
-# define ERR_INPUTTOOLONG() (std::string("417") + " :Input line was too long")
+# define ERR_INPUTTOOLONG(source) ( source + " " + std::string("417") + " :Input line was too long")
 
 #endif

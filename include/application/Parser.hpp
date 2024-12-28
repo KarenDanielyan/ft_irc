@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 21:16:18 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/27 22:27:19 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 20:10:52 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,25 @@
 # define PARSER_HPP
 
 # include "IRCMessage.hpp"
+# include "Server.hpp"
 # include "utils.hpp"
 # include <sstream>
-
+# include "Connection.hpp"
 
 class Parser
 {
 	private:
-		IRCMessage	_message;
+		std::vector<IRCMessage>	_messages;
+		ITransport*				_server;
+
+		IRCMessage	_fillIRCMessage(const std::string& line);
 	public:
-		Parser();
+		Parser(ITransport* server);
 		~Parser();
 	public:
-		std::vector<std::string>	parseParameters(const std::string& rawParams);
-		int 						parseMessage(const std::string& rawMessage);
-		void 						setMessage(const IRCMessage& message); 
-		const IRCMessage& 			getMessage();
+		int 	parseMessage(std::string& rawMessage, Connection *from);
+		std::vector<IRCMessage> const &	\
+				getMessages() const;
 };
 
 #endif
