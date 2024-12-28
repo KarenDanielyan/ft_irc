@@ -50,6 +50,7 @@ void	Application::process(void)
 
 	while (requests.size() != 0)
 	{
+		std::cout << "Message before parsing: " << requests.front().what;
 		std::vector<IRCMessage>	messages = \
 			_parser->parseMessage(requests.front().what, requests.front().who);
 		_parser->prettyPrint(messages);

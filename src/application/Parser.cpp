@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 21:38:28 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 22:46:38 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ std::vector<IRCMessage> Parser::parseMessage(std::string& rawMessage, Connection
 
 	while(true)
 	{
-		pos = rawMessage.find_first_of("\r\n");
+		pos = rawMessage.find("\r\n");
 		if (pos == std::string::npos)
 			break ;
 		buffer = rawMessage.substr(0, pos);
@@ -48,15 +48,14 @@ IRCMessage	Parser::_fillIRCMessage(const std::string& line)
 	std::stringstream stream(line);
 	for(int i = 0; std::getline(stream, arg, ' '); i++)
 	{
-		std::cout << arg << std::endl;
 		if (arg[0] == ':' && i == 0)
 			message.source = arg.substr(1, (arg.length() - 1));
-		else if (i == 0 || i == 1)
+		else if (message.command.empty() && (i == 0 || i == 1))
 			message.command = arg;
 		else
 			message.parameters.push_back(arg);
 	}
-	if ((message.parameters.back())[0] == ':')
+	if (!message.parameters.empty() && (message.parameters.back())[0] == ':')
 		message.parameters.back().erase(0, 1);
 	return (message);
 }
