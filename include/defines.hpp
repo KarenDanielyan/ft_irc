@@ -20,6 +20,7 @@
 
 
 /* Forward declarations */
+struct	IRCMessage;
 struct	RequestData;
 struct	pollfd;
 class	Connection;
@@ -34,6 +35,7 @@ class	Channel;
 # define VALID_MESSAGE 1
 
 # define BUFFER_SIZE 80
+# define CRNL "\n"
 
 # define USAGE_MSG "Usage: ./ircserv <port> <password>"
 
@@ -46,6 +48,7 @@ typedef std::map<int, Connection*>::iterator	connection_iterator_t;
 typedef std::vector<Channel*>::iterator			channel_iterator_t;
 typedef std::map<int, Client*>::iterator		clients_iterator_t;
 typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
+typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 
 /* Info Messages */
 # define INFO_LISTEN "Server listens to any new connections..."
@@ -94,6 +97,6 @@ typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
 /* Nick reply */
 # define ERR_BADCHANMASK(channel) (std::string(" 476 ") + channel + " :Bad Channel Mask")
 # define ERR_ERRONEUSNICKNAME(source, nickname) (source +std::string(" 432 ") + nickname + " ::Erroneus nickname")
-# define ERR_INPUTTOOLONG() (std::string(" 417 ") + " :Input line was too long")
+# define ERR_INPUTTOOLONG(source) (source + std::string(" 417 ") + " :Input line was too long")
 
 #endif

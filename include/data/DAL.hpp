@@ -16,7 +16,7 @@
 # include "Client.hpp"
 # include "Server.hpp"
 # include "Channel.hpp"
-#include "defines.hpp"
+# include "defines.hpp"
 
 class DAL
 {
@@ -31,6 +31,7 @@ class DAL
 		~DAL();
 
 		/* Read Methods */
+		Client*	findClient(int fd);
 		Client*	findClient(std::string nickname);
 		std::map<int, Client *>& \
 						getClients(void);

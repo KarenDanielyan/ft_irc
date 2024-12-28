@@ -26,14 +26,15 @@ Application::Application(std::string const & port, std::string const & password)
 	if (p <= 1023 || p >= UINT16_MAX)
 		throw std::runtime_error(ERR_PINV);
 	_data = new DAL(password);
-	_serv = new Server(static_cast<unsigned short>(p), \
-					_data->getRequestDataContainer());
+	_serv = new Server(static_cast<unsigned short>(p), _data);
 	_parser = new Parser(_serv);
 	_handler = new CommandHandler(_serv, *_data);
 }
 
 Application::~Application(void)
 {
+	delete _handler;
+	delete _parser;
 	delete _serv;
 	delete _data;
 }
@@ -53,7 +54,22 @@ void	Application::process(void)
 		std::cout << "Message before parsing: " << requests.front().what;
 		std::vector<IRCMessage>	messages = \
 			_parser->parseMessage(requests.front().what, requests.front().who);
-		_parser->prettyPrint(messages);
+		// _parser->prettyPrint(messages);
+		for (ircmessage_iterator_t it = messages.begin(); \
+			it != messages.end(); it++)
+		{
+			try
+			{
+				_handler->handle(_data->findClient(\
+							requests.front().who->getFd()), *it);
+			}
+			catch (std::exception& e)
+			{
+				std::string msg = e.what();
+				msg += "\n";
+				_serv->reply(requests.front().who, msg);
+			}
+		}
 		requests.pop();
 	}
 }

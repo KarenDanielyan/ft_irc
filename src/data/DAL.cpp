@@ -32,6 +32,12 @@ Client*	DAL::findClient(std::string nickname)
 	return NULL;
 }
 
+
+Client*	DAL::findClient(int fd)
+{
+	return (_clients[fd]);
+}
+
 std::map<int, Client *>& DAL::getClients(void)
 {
 	return (_clients);
@@ -52,10 +58,16 @@ std::string const &	DAL::getPassword()
 {
 	return _password;
 }
+
 void DAL::addChannel(std::string& name, std::string& topic, std::string& pass, Client* admin)
 {
 	Channel *channel = new Channel(name, topic, pass, admin);
 	_channels.push_back(channel);
+}
+
+void	DAL::newClient(Connection* connection)
+{
+	_clients[connection->getFd()] = new Client(connection);
 }
 
 request_data_container_t&	DAL::getRequestDataContainer(void)

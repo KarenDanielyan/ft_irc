@@ -38,6 +38,7 @@
 # include "ITransport.hpp"
 # include "defines.hpp"
 
+class	DAL;
 
 struct	RequestData
 {
@@ -58,6 +59,7 @@ private:
 	std::map<int, Connection*>			_connections;
 
 	request_data_container_t&			_rqueue;
+	DAL*								_data;
 
 	std::string	readMessage(int fd, bool &is_closed);
 
@@ -67,7 +69,7 @@ private:
 	void	onClientDisconnect(pollfd& fd);
 	void	onClientRequest(pollfd&fd);
 public:
-	Server(unsigned short port, std::queue<RequestData>& rqueue);
+	Server(unsigned short port, DAL* data);
 	~Server();
 
 	void	handlePollEvents(void);

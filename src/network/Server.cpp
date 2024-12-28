@@ -11,12 +11,13 @@
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "DAL.hpp"
 #include "Connection.hpp"
 #include "defines.hpp"
 #include "utils.hpp"
 
-Server::Server(unsigned short port, request_data_container_t& requests): \
-	_port(port), _rqueue(requests)
+Server::Server(unsigned short port, DAL* data): \
+	_port(port), _rqueue(data->getRequestDataContainer()), _data(data)
 {
 	pollfd	servfd;
 
@@ -79,17 +80,6 @@ void	Server::onClientDisconnect(pollfd& fd)
 	}
 }
 
-/*
- * TODO:	As any communication is triggered by the client only, when handling
- *			client requests, we can let know of the status of the proccess
- *			through returning a value.
- *			The pipeline should look like this:
- *				1. We recieve a request
- *				2. We send it up to the Application layer
- *				3. Application layers sends back a reply code.
- *				4. Server sends back a reply based on the reply code.
-*/
-
 void	Server::onClientRequest(pollfd& fd)
 {
 	bool		is_closed = false;
@@ -97,7 +87,7 @@ void	Server::onClientRequest(pollfd& fd)
 	std::string	input;
 
 	input = readMessage(fd.fd, is_closed);
-		if (is_closed == true)
+	if (is_closed == true)
 		fd.revents = POLLHUP;
 	else
 	{
@@ -131,6 +121,7 @@ void	Server::onClientConnect(void)
 	}
 	c = new Connection(fd, hostname, ntohs(sa.sin_port));
 	_connections[fd] = c;
+	_data->newClient(c);
 	sprintf(log_message, "%s:%d connected to the server.", \
 		c->getHostname().c_str(), c->getPort());
 	log(log_message);

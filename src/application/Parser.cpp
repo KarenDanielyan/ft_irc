@@ -24,7 +24,7 @@ std::vector<IRCMessage> Parser::parseMessage(std::string& rawMessage, Connection
 
 	while(true)
 	{
-		pos = rawMessage.find("\r\n");
+		pos = rawMessage.find(CRNL);
 		if (pos == std::string::npos)
 			break ;
 		buffer = rawMessage.substr(0, pos);

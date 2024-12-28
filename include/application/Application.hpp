@@ -23,14 +23,13 @@
 class	Application
 {
 private:
-	static Application*			_instance;
+	static Application*	_instance;
 
-	Server*						_serv;
-	Parser*						_parser;
-	CommandHandler*				_handler;
+	Server*				_serv;
+	Parser*				_parser;
+	CommandHandler*		_handler;
 
-
-	DAL*						_data;
+	DAL*				_data;
 
 	Application(std::string const & port, \
 			 std::string const & password);
