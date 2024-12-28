@@ -14,6 +14,7 @@
 # define PARSER_HPP
 
 # include "IRCMessage.hpp"
+# include "utils.hpp"
 # include <sstream>
 
 

@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 19:06:01 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 19:13:53 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int Parser::parseMessage(const std::string& rawMessage)
 		return IGNOR_MESSAGE;
 
 	else if (rawMessage.length() > MAX_MESSAGE_LENGTH)
-		throw ERR_INPUTTOOLONG();
+		throw ReplyException(ERR_INPUTTOOLONG());
 
 	else if (rawMessage.substr(rawMessage.length() - 2) != "\r\n")
 		return IGNOR_MESSAGE;
