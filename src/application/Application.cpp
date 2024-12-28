@@ -28,6 +28,7 @@ Application::Application(std::string const & port, std::string const & password)
 	_data = new DAL(password);
 	_serv = new Server(static_cast<unsigned short>(p), \
 					_data->getRequestDataContainer());
+	_parser = new Parser(_serv);
 	_handler = new CommandHandler(_serv, *_data);
 }
 
@@ -49,8 +50,9 @@ void	Application::process(void)
 
 	while (requests.size() != 0)
 	{
-		// TODO: Add Presentation layer and application layer methods.
-		std::cout << requests.front().what;
+		std::vector<IRCMessage>	messages = \
+			_parser->parseMessage(requests.front().what, requests.front().who);
+		_parser->prettyPrint(messages);
 		requests.pop();
 	}
 }

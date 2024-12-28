@@ -16,15 +16,17 @@
 
 
 /* TODO: Add \r\n as a define callse CRCN */
-int Parser::parseMessage(std::string& rawMessage, Connection *from)
+std::vector<IRCMessage> Parser::parseMessage(std::string& rawMessage, Connection *from)
 {
-	std::string	buffer;
-	size_t		pos;
+	std::vector<IRCMessage>	_messages;
+	std::string				buffer;
+	size_t					pos;
+
 	while(true)
 	{
 		pos = rawMessage.find_first_of("\r\n");
 		if (pos == std::string::npos)
-			return (IGNOR_MESSAGE);
+			break ;
 		buffer = rawMessage.substr(0, pos);
 		rawMessage = rawMessage.erase(0, pos + 2);
 		if (buffer.size() > MAX_MESSAGE_LENGTH)
@@ -34,6 +36,7 @@ int Parser::parseMessage(std::string& rawMessage, Connection *from)
 		else
 			_messages.push_back(_fillIRCMessage(buffer));
 	}
+	return (_messages);
 }
 
 IRCMessage	Parser::_fillIRCMessage(const std::string& line)
@@ -45,6 +48,7 @@ IRCMessage	Parser::_fillIRCMessage(const std::string& line)
 	std::stringstream stream(line);
 	for(int i = 0; std::getline(stream, arg, ' '); i++)
 	{
+		std::cout << arg << std::endl;
 		if (arg[0] == ':' && i == 0)
 			message.source = arg.substr(1, (arg.length() - 1));
 		else if (i == 0 || i == 1)
@@ -57,11 +61,24 @@ IRCMessage	Parser::_fillIRCMessage(const std::string& line)
 	return (message);
 }
 
-std::vector<IRCMessage> const & Parser::getMessages() const
+void	Parser::prettyPrint(std::vector<IRCMessage> const & messages)
 {
-	return _messages;
+	for (size_t i = 0; i < messages.size(); i ++)
+	{
+		std::cout << i << ": ";
+		std::cout << "Source: " << messages[i].source << std::endl;
+		std::cout << "Command: " << messages[i].command << std::endl;
+		std::cout << "Argumets: ";
+		for (std::vector<std::string>::const_iterator it = \
+					messages[i].parameters.begin(); \
+					it != messages[i].parameters.end(); it++)
+		{
+			std::cout << *it << " -> ";
+		}
+	  std::cout << std::endl << "|" << std::endl;
+	}
 }
 
-Parser::Parser(ITransport* server) : _messages(), _server(server) {}
+Parser::Parser(ITransport* server) : _server(server) {}
 
 Parser::~Parser() {}
