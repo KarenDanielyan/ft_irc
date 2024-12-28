@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IChannelCommand.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/27 00:15:40 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 22:07:02 by mariam           ###   ########.fr       */
+/*   Created: 2024/12/28 22:10:31 by marihovh          #+#    #+#             */
+/*   Updated: 2024/12/28 22:10:32 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
