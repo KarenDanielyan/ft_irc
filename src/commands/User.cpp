@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:44:08 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 18:44:10 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 20:30:51 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,16 @@ void User::implement(Client *client, const ITransport* server, DAL& data, \
 {
 	(void)data;
 	if (message.parameters.size() < 4)
-	{
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "USER"));
-		return ;
-	}
 	if (client->getState() == Client::LIVE)
-	{
 		throw ReplyException(ERR_ALREADYREGISTERED(message.source, \
 			client->getUsername()));
-		return ;
-	}
+	std::string realname = "";
+	for (unsigned long i = 3; i < message.parameters.size(); i++)
+		realname += message.parameters[i];
+	client->setRealname(realname);
 	client->setUsername(message.parameters[0]);
-	client->setRealname(message.parameters[3]);
+	client->setState(Client::LIVE);
 	server->reply(client->getConnection(), \
 		RPL_WELCOME(message.source, client->getUsername()));
 }

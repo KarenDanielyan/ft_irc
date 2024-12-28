@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 18:12:24 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 19:43:14 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,17 @@ typedef std::vector<pollfd>::iterator			pollfds_iterator_t;
 /*command reply*/
 # define RPL_CHANNELMODEIS(source, channel, mode, argument) (source + std::string(" 324 ") + " " + channel + " "  +mode + " " +argument)
 # define RPL_WELCOME(source, nick) (source + std::string(" 001 ") + " :Welcome to the IRC  Network, " + nick)
-# define RPL_PING(source, message) (source + std::string(" 001 ") + " :PING " + message)
+# define RPL_PING(source, message) (source + std::string(" 5000 ") + " :PING " + message)
 # define RPL_INVITING(source, nick, channel) (source + std::string(" 341 ") + " " + nick + " " + channel)
 # define RPL_ENDOFNAMES(source, channel) (source + std::string(" 366 ") + channel + " :End of /NAMES list")
 # define RPL_NAMREPLY(source, channel, nick) (source + std::string(" 353 ") + channel + " :" + nick)
 # define RPL_WHOREPLY(source, nick, username, realname) (source + std::string(" 352 ") + nick + " " + username + " " + realname)
+# define RPL_TOPIC(source, channel, topic) (source + std::string(" 366 ") + channel + " :" + topic)
+# define RPL_NOTOPIC(source, channel) (source + std::string(" 331 ") + channel + " :No topic is set")
 
 /* Nick reply */
-# define ERR_BADCHANMASK(channel) (std::string("476") + channel + " :Bad Channel Mask")
-# define ERR_ERRONEUSNICKNAME(source, nickname) ("432" + source + nickname + " ::Erroneus nickname")
-# define ERR_INPUTTOOLONG() (std::string("417") + " :Input line was too long")
+# define ERR_BADCHANMASK(channel) (std::string(" 476 ") + channel + " :Bad Channel Mask")
+# define ERR_ERRONEUSNICKNAME(source, nickname) (source +std::string(" 432 ") + nickname + " ::Erroneus nickname")
+# define ERR_INPUTTOOLONG() (std::string(" 417 ") + " :Input line was too long")
 
 #endif

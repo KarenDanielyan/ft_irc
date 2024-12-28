@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:18:44 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 18:19:01 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 20:37:17 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,21 @@ void Mode::implement(Client *client, const ITransport* server, DAL& data, \
 {
 	(void)server;
 	if (message.parameters.size() < 2 || message.parameters[0].empty())
-	{
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "MODE"));
-		return;
-	}
+
 	std::string target = message.parameters[0].substr(1);
 	std::string mode_str = message.parameters[1];
 	std::string mode_arg = message.parameters[2];
 	Channel* channel = data.getChannel(target);
+
+	if (!channel)
+		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "MODE"));
+	if (!channel->isExist(client))
+		throw ReplyException(ERR_NOTONCHANNEL(message.source, \
+			client->getNickname()));
 	if (!channel->isOperator(client))
-	{
 		throw ReplyException(ERR_CHANOPRIVSNEEDED(message.source, \
 			client->getNickname()));
-		return ;
-	}
-	if (!channel)
-	{
-		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "MODE"));
-		return ;
-	}
 	int i = 0;
 	while (mode_str[++i])
 	{
@@ -66,10 +62,7 @@ void Mode::implement(Client *client, const ITransport* server, DAL& data, \
 				break;
 			case 'o':
 				if (target != client->getNickname())
-				{
 					throw ReplyException(ERR_USERSDONTMATCH(message.source));
-					return;
-				}
 				if (plus)
 					channel->addOperator(client);
 				else

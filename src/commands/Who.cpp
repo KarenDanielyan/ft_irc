@@ -30,10 +30,7 @@ void Who::implement(Client *client, const ITransport* server, DAL& data, \
 		mask = mask.substr(1);
 		Channel *channel = data.getChannel(mask);
 		if (!channel)
-		{
 			throw ReplyException(ERR_NOSUCHCHANNEL(message.source, mask));
-			return ;
-		}
 		std::vector<Client*> clients = channel->getClients();
 		i = -1;
 		while (clients[++i])
@@ -46,10 +43,7 @@ void Who::implement(Client *client, const ITransport* server, DAL& data, \
 	}
 	Client *toPrint = data.findClient(mask);
 	if (!toPrint)
-	{
 		throw ReplyException(ERR_NOSUCHNICK(message.source, mask));
-		return ;
-	}
 	server->reply(client->getConnection(), \
 			RPL_WHOREPLY(message.source, toPrint->getNickname(), \
 			toPrint->getUsername(), toPrint->getRealname()));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 18:00:26 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/28 22:04:17 by mariam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ void Join::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	if (message.parameters.empty())
-	{
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "JOIN"));
-		return ;
-	}
 	std::string name = message.parameters[0];
 	std::string pass = message.parameters.size() > 1 ? message.parameters[1] : "";
 	std::string topic = "I exist because you wanted to.";
@@ -44,30 +41,30 @@ void Join::implement(Client *client, const ITransport* server, DAL& data, \
 		data.addChannel(name, topic, pass, client);
 		Channel* new_channel = data.getChannel(name);
 		new_channel->addClient(client);
+		// new_channel->setAdmin(client);
+		return ;
 	}
-	if (channel->isInviteOnly())
-	{
+	if (channel->isInviteOnly() && !channel->isInvited(client))
 		throw ReplyException(ERR_INVITEONLYCHAN(message.source, name));
-		return ;
-	}
 	if (channel->getLimit() >= channel->getClientCount())
-	{
 		throw ReplyException(ERR_CHANNELISFULL(message.source, name));
-		return ;
-	}
 	if (channel->getPassword() != pass)
-	{
 		throw ReplyException(ERR_BADCHANNELKEY(message.source, name));
-		return ;
-	}
 	if (channel->isExist(client))
-	{
 		throw ReplyException(ERR_USERONCHANNEL(message.source, \
 			client->getNickname()));
-		return ;
+	if (client->getChannel())
+	{
+		broadcast(server, client->getChannel(), message.source + \
+			client->getNickname() + " leaves the " + channel->getName() + \
+			" channel because of joining another");
+		channel->removeClient(client);
+		client->part();
 	}
-	server->reply(client->getConnection(), message.source + \
-		client->getNickname() + " Joined " + \
+	channel->addClient(client);
+	client->join(channel);
+	server->reply(client->getConnection(), message.source + " " \
+		+ client->getNickname() + " Joined " + \
 		channel->getName() + " channel");
 	//print about channel
 	std::vector<Client *> clients = channel->getClients();
@@ -84,5 +81,4 @@ void Join::implement(Client *client, const ITransport* server, DAL& data, \
 	if (channel->getTopic() != "")
 		server->reply(client->getConnection(), message.source + \
 			" Topic of channel: " + channel->getTopic());
-	channel->addClient(client);
 }

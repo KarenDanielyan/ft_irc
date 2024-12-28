@@ -17,5 +17,6 @@ void Quit::implement(Client *client, const ITransport* server, DAL& data, \
 		reason = message.parameters[0].substr(1);
 	else
 		reason = "quit with no reason";
-	server->reply(client->getConnection(), (message.source + ":" + reason));
+	server->reply(client->getConnection(), (message.source + " Quit :" + reason));
+	close(client->getConnection()->getFd());
 }

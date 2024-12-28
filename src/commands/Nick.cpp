@@ -33,23 +33,18 @@ void Nick::validate(Client *client,  IRCMessage& message)
 }
 
 
-
 void Nick::implement(Client *client, const ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	(void)server;
+	validate(client, message);
 	if (message.parameters.empty() || message.parameters[0].empty())
-	{
 		throw ReplyException(ERR_NONICKNAMEGIVEN(message.source, "NICK"));
-		return ;
-	}
-	std::string nickname = message.parameters[0];
 
+	std::string nickname = message.parameters[0];
 	Client *new_client = data.findClient(nickname);
+	
 	if (new_client && new_client != client)
-	{
 		throw ReplyException(ERR_NICKNAMEINUSE(message.source, nickname));
-		return;
-	}
 	client->setNickname(nickname);
 }

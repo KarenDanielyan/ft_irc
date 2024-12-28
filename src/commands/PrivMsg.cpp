@@ -19,7 +19,6 @@ void PrivMsg::implement(Client *client, const ITransport* server, DAL& data, \
 	{
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, \
 			client->getNickname() + "PRIVMSG"));
-		return;
 	}
 	std::string target = message.parameters[0];
 	std::string msg = "";
@@ -33,25 +32,16 @@ void PrivMsg::implement(Client *client, const ITransport* server, DAL& data, \
 		std::string name = target.substr(1);
 		Channel* channel = data.getChannel(name);
 		if (!channel)
-		{
 			throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "PRIVMSG"));
-			return ;
-		}
 		if (!channel->isExist(client))
-		{
 			throw ReplyException(ERR_CANNOTSENDTOCHAN(message.source, \
 				channel->getName()));
-			return ;
-		}
 		broadcast(server, channel, msg);
 		return ;
 	}
 	Client *dest = data.findClient(target);
 	if (!dest)
-	{
 		throw ReplyException(ERR_NOSUCHNICK(message.source, \
 			client->getNickname()));
-		return;
-	}
-	server->reply(dest->getConnection(), (message.source + msg));
+	server->reply(dest->getConnection(), (message.source + " " + msg));
 }

@@ -13,10 +13,7 @@ void Pong::implement(Client *client, const ITransport* server, DAL& data, \
 {
 	(void)data;
 	if (message.parameters.empty())
-	{
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "PONG"));
-		return;
-	}
 	std::string msg = "";
 	for (unsigned long i = 1; i < message.parameters.size(); i++)
 	{
