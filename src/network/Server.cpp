@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 01:32:01 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 21:07:52 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ void	Server::handlePollEvents(void)
 
 void	Server::closeConnection(const Connection* connection)
 {
-	// char		log_message[NI_MAXHOST + 1024];
+	char		log_message[NI_MAXHOST + 1024];
 
 	_connections.erase(connection->getFd());
-	// sprintf(log_message, "%s:%d disconnected to the server.", \
-	// 	connection->getHostname().c_str(), connection->getPort());
-	// log(log_message);
-	// _unsubscribe(connection);
+	sprintf(log_message, "%s:%d disconnected to the server.", \
+		connection->getHostname().c_str(), connection->getPort());
+	log(log_message);
+	_unsubscribe(connection);
 	close(connection->getFd());
 	delete connection;
 }
@@ -145,7 +145,7 @@ void	Server::onClientConnect(void)
 	SA_IN		sa;
 	socklen_t	sa_len;
 	char		hostname[NI_MAXHOST];
-	// char		log_message[NI_MAXHOST + 1024];
+	char		log_message[NI_MAXHOST + 1024];
 	Connection	*c;
 
 	sa_len = sizeof(sa);
@@ -163,9 +163,9 @@ void	Server::onClientConnect(void)
 	_subscribe(c);
 	_connections[fd] = c;
 	_data->newClient(c);
-	// sprintf(log_message, "%s:%d connected to the server.", \
-	// 	c->getHostname().c_str(), c->getPort());
-	// log(log_message);
+	sprintf(log_message, "%s:%d connected to the server.", \
+		c->getHostname().c_str(), c->getPort());
+	log(log_message);
 }
 
 std::string	Server::readMessage(int fd, bool& is_closed)

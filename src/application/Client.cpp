@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:16:27 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 02:32:47 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 14:31:57 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void	Client::setUsername(std::string const & username)
 	_username = username;
 }
 
-std::string		Client::getSource() const
+std::string		Clinet::getSource() const
 {
 	std::string source = _nickname;
 	if (!_username.empty())
 		source = source + "!" + _username;
-	if (!_connection->getHostname().empty())
-		source = source + "@" + _connection->getHostname();
+	if (!_connection.getHostname())
+		source = source + "@" + _connection.getHostname();
 	return source;
 }
 
