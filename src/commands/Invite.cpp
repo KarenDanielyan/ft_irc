@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:37 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/28 22:10:38 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 19:48:18 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void Invite::implement(Client *client, ITransport* server, DAL& data, \
 	if (message.parameters.size() < 2)
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, \
 			"INVITE"));
-
+	if (message.parameters[1][0] == '#')
+		message.parameters[1] = message.parameters[1].substr(1);
 	Client* clientToInvite = data.findClient(message.parameters[0]);
 	Channel* channelToInvite = data.getChannel(message.parameters[1]);
 

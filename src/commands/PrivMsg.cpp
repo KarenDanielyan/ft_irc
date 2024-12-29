@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:18 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/28 22:11:19 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:29:50 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,9 @@ void PrivMsg::implement(Client *client, ITransport* server, DAL& data, \
 			client->getNickname() + "PRIVMSG"));
 	}
 	std::string target = message.parameters[0];
-	std::string msg = "";
-	for (unsigned long i = 1; i < message.parameters.size(); i++)
-	{
-		msg += message.parameters[i];
-		msg += " ";
-	}
+	std::string msg = message.parameters[1];
+	for (unsigned long i = 2; i < message.parameters.size(); i++)
+		msg += " " + message.parameters[i];
 	if (target[0] == '#')
 	{
 		std::string name = target.substr(1);

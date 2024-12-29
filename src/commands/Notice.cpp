@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 21:38:58 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 22:11:03 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:32:36 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,9 @@ void Notice::implement(Client *client, ITransport* server, DAL& data, \
 			message.parameters[1].empty())
 		return;
 	std::string target = message.parameters[0];
-	std::string msg = "";
-	for (unsigned long i = 1; i < message.parameters.size(); i++)
-	{
-		msg += message.parameters[i];
-		msg += " ";
-	}
+	std::string msg = message.parameters[1];
+	for (unsigned long i = 2; i < message.parameters.size(); i++)
+		msg += " " + message.parameters[i];
 	if (target[0] == '#')
 	{
 		std::string name = target.substr(1);
