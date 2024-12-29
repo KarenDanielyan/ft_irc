@@ -42,7 +42,7 @@ class	DAL;
 
 struct	RequestData
 {
-	Connection*	who;
+	Client*	who;
 	std::string	what;
 };
 
