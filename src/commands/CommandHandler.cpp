@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandHandler.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:38:34 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/27 01:38:10 by mariam           ###   ########.fr       */
+/*   Updated: 2024/12/29 14:17:09 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,14 @@ void CommandHandler::handle(Client* client, IRCMessage message)
 		throw ReplyException(ERR_UNKNOWNCOMMAND(message.source, \
 			message.command));
 	else
+	{
+		if (message.command != "PASS" && message.command != "NICK" && message.command != "USER")
+		{
+			if (client->getState() != Client::LIVE)
+				server->reply(cleint->getConnection(), "You are not registrated");
+		}
 		_commands[message.command]->implement(client, _server, _data, message);
+	}
 }
 
 CommandHandler::~CommandHandler(void)
