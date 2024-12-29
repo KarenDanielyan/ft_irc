@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:24 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/28 22:11:25 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:28:11 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void Topic::implement(Client *client, ITransport* server, DAL& data, \
 {
 	if (message.parameters.size() < 1)
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "TOPIC"));
-	std::string name = message.parameters[0].substr(1);
+	std::string name;
+	if (message.parameters[0][0] == '#')
+		name = message.parameters[0].substr(1);
+	else
+		name = message.parameters[0];
 	Channel* channel = data.getChannel(name);
 	if (!channel)
 		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "TOPIC"));
@@ -33,8 +37,8 @@ void Topic::implement(Client *client, ITransport* server, DAL& data, \
 			client->getNickname()));
 	if (message.parameters.size() == 2)
 	{
-		std::string topic = "";
-		for (size_t i = 1; i < message.parameters.size(); i++)
+		std::string topic = message.parameters[1];
+		for (size_t i = 2; i < message.parameters.size(); i++)
 			topic += " " + message.parameters[i];
 		channel->setTopic(topic);
 		return ;

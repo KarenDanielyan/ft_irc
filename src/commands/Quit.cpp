@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:21 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/28 22:11:22 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:28:53 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ void Quit::implement(Client *client, ITransport* server, DAL& data, \
 {
 	const Connection*	c;
 
-	std::string reason;
-	if (message.parameters[0][0] == ':')
-		reason = message.parameters[0].substr(1);
+	std::string reason = "";
+	if (message.parameters.size() >= 1)
+	{
+		std::string msg = message.parameters[0];
+		for (unsigned long i = 1; i < message.parameters.size(); i++)
+			msg += " " + message.parameters[i];
+	}
 	else
 		reason = "quit with no reason";
 	c = client->getConnection();

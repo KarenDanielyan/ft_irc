@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:46 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/28 22:10:47 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:35:33 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,17 @@ void Kick::implement(Client *client, ITransport* server, DAL& data, \
 	if (message.parameters.size() < 2)
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "KICK"));
 
-	std::string name = message.parameters[0].substr(1);
+	std::string name;
+	if (message.parameters[0][0] == '#')
+		name = message.parameters[0].substr(1);
+	else
+		name = message.parameters[0];
 	std::string target = message.parameters[1];
-	std::string msg = "Reason: ";
+	std::string msg = "Reason:";
 	Channel* channel = data.getChannel(name);
 
 	for (unsigned long i = 2; ++i <= message.parameters.size(); i++)
-		msg += message.parameters[i];
+		msg += " " + message.parameters[i];
 	if (!channel)
 		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "KICK"));
 	if (!channel->isOperator(client))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:18:44 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 20:37:17 by mariam           ###   ########.fr       */
+/*   Updated: 2024/12/29 18:34:05 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 	if (message.parameters.size() < 2 || message.parameters[0].empty())
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "MODE"));
 
-	std::string target = message.parameters[0].substr(1);
+	std::string target;
+	if (message.parameters[0][0] == '#')
+		target = message.parameters[0].substr(1);
+	else
+		target = message.parameters[0];
 	std::string mode_str = message.parameters[1];
 	std::string mode_arg = message.parameters[2];
 	Channel* channel = data.getChannel(target);

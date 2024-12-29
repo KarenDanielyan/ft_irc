@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 22:10:40 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:17:49 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 {
 	if (message.parameters.empty())
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "JOIN"));
-	std::string name = message.parameters[0];
+	validate(client, message);
+	std::string name = message.parameters[0].substr(1);
 	std::string pass = message.parameters.size() > 1 ? message.parameters[1] : "";
 	std::string topic = "I exist because you wanted to.";
 	Channel *channel = data.getChannel(name);
