@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:38:34 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 14:38:33 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 15:02:11 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void CommandHandler::handle(Client* client, IRCMessage message)
 			message.command));
 	else
 	{
-		if (message.command != "PASS" && message.command != "NICK" && message.command != "USER")
+		if ((message.command != "PASS" && message.command != "NICK" && message.command != "USER") && client->getState() != Client::LIVE)
 		{
-			if (client->getState() != Client::LIVE)
-				_server->reply(client->getConnection(), "You are not registrated");
+			_server->reply(client->getConnection(), "You are not registrated");
+			return ;
 		}
 		_commands[message.command]->implement(client, _server, _data, message);
 	}
