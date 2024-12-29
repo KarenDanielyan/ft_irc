@@ -43,7 +43,7 @@ void CommandHandler::handle(Client* client, IRCMessage message)
 	{
 		if ((message.command != "PASS" && message.command != "NICK" && message.command != "USER") && client->getState() != Client::LIVE)
 		{
-			_server->reply(client->getConnection(), "You are not registrated");
+			_server->reply(client->getConnection(), "You are not registrated\n");
 			return ;
 		}
 		_commands[message.command]->implement(client, _server, _data, message);

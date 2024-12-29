@@ -39,10 +39,10 @@ void Invite::implement(Client *client, ITransport* server, DAL& data, \
 	if (!channelToInvite)
 		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, \
 			message.parameters[1]));
-	if (client->getChannel()->getName() != channelToInvite->getName())
+	if (client->getChannel() && client->getChannel()->getName() != channelToInvite->getName())
 		throw ReplyException(ERR_NOTONCHANNEL(message.source, \
 			client->getNickname()));
-	if (clientToInvite->getChannel()->getName() == channelToInvite->getName())
+	if (clientToInvite->getChannel() && clientToInvite->getChannel()->getName() == channelToInvite->getName())
 		throw ReplyException(ERR_USERONCHANNEL(message.source, \
 			clientToInvite->getNickname()));
 	if (!channelToInvite->isOperator(client))

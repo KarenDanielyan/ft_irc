@@ -35,7 +35,7 @@ class	Channel;
 # define VALID_MESSAGE 1
 
 # define BUFFER_SIZE 80
-# define CRNL "\r\n"
+# define CRNL "\n"
 
 # define USAGE_MSG "Usage: ./ircserv <port> <password>"
 

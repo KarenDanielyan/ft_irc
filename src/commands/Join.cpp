@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 18:17:49 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:43:29 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,30 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 	std::string topic = "I exist because you wanted to.";
 	Channel *channel = data.getChannel(name);
 	//if the client is on the channel
+
+	if (client->getChannel())
+	{
+		std::string cur_chan = client->getChannel()->getName();
+		broadcast(server, client->getChannel(), message.source + \
+			client->getNickname() + " leaves the " + cur_chan + \
+			" channel because of joining another");
+		Channel *it = data.getChannel(cur_chan);
+		it->removeClient(client);
+		if (it->isOperator(client))
+			it->removeOperator(client);
+		client->part();
+	}
 	if (!channel)
 	{
 		data.addChannel(name, topic, pass, client);
 		Channel* new_channel = data.getChannel(name);
+		client->join(new_channel);
 		new_channel->addClient(client);
-		// new_channel->setAdmin(client);
+		new_channel->addOperator(client);
+		new_channel->setOnlyInvite(false);
 		return ;
 	}
+
 	if (channel->isInviteOnly() && !channel->isInvited(client))
 		throw ReplyException(ERR_INVITEONLYCHAN(message.source, name));
 	if (channel->getLimit() >= channel->getClientCount())
@@ -54,14 +70,6 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 	if (channel->isExist(client))
 		throw ReplyException(ERR_USERONCHANNEL(message.source, \
 			client->getNickname()));
-	if (client->getChannel())
-	{
-		broadcast(server, client->getChannel(), message.source + \
-			client->getNickname() + " leaves the " + channel->getName() + \
-			" channel because of joining another");
-		channel->removeClient(client);
-		client->part();
-	}
 	channel->addClient(client);
 	client->join(channel);
 	server->reply(client->getConnection(), message.source + " " \
@@ -77,9 +85,9 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 			(*it)->getNickname()));
 	}
 	server->reply(client->getConnection(), RPL_ENDOFNAMES(message.source, \
-		channel->getName()));
+		channel->getName() + "\n"));
 
 	if (channel->getTopic() != "")
 		server->reply(client->getConnection(), message.source + \
-			" Topic of channel: " + channel->getTopic());
+			" Topic of channel: " + channel->getTopic() + "\n");
 }
