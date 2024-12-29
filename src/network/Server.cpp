@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 13:47:18 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 15:25:38 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,15 +178,21 @@ std::string	Server::readMessage(int fd, bool& is_closed)
 	{
 		memset(buffer, 0, BUFFER_SIZE);
 		rv = recv(fd, buffer, BUFFER_SIZE, 0);
-		buffer[rv] = 0;
 		if (rv == 0)
 		{
 			is_closed = true;
 			break;
 		}
-		else if (rv < 0 && errno != EWOULDBLOCK)
-			throw std::runtime_error(strerror(errno));
-		msg.append(buffer);
+		else if (rv < 0)
+		{
+			if (errno != EWOULDBLOCK)
+				throw std::runtime_error(strerror(errno));
+		}
+		else
+		{
+			buffer[rv] = 0;
+			msg.append(buffer);
+		}
 	}
 	while (rv == BUFFER_SIZE);
 	return (msg);
