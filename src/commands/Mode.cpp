@@ -36,10 +36,12 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 	if (!channel->isOperator(client))
 		throw ReplyException(ERR_CHANOPRIVSNEEDED(message.source, \
 			client->getNickname()));
-	int i = 0;
+	int i = -1;
+
 	while (mode_str[++i])
 	{
-		bool plus = (mode_str[i++] == '+');
+		bool plus = (mode_str[i] == '+');
+		i++;
 		switch (mode_str[i])
 		{
 			case 'i':

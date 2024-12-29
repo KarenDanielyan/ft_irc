@@ -24,7 +24,6 @@ Who::~Who()
 void Who::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
-	int i;
 	if (message.parameters.empty())
 	{
 		std::map<int, Client*> clients = data.getClients();
@@ -44,12 +43,11 @@ void Who::implement(Client *client, ITransport* server, DAL& data, \
 		if (!channel)
 			throw ReplyException(ERR_NOSUCHCHANNEL(message.source, mask));
 		std::vector<Client*> clients = channel->getClients();
-		i = -1;
-		while (clients[++i])
+		for (std::vector<Client*>::iterator it = clients.begin(); it != clients.end(); it++)
 		{
-			server->reply(client->getConnection(), \
-				RPL_WHOREPLY(message.source, clients[i]->getNickname(), \
-				clients[i]->getUsername(), clients[i]->getRealname()));
+			server->reply((client)->getConnection(), \
+				RPL_WHOREPLY(message.source, (*it)->getNickname(), \
+				(*it)->getUsername(), (*it)->getRealname()));
 		}
 		return ;
 	}

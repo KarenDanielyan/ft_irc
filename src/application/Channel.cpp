@@ -78,13 +78,13 @@ void Channel::addClient(Client *client)
 
 void Channel::addOperator(Client *client)
 {
-	_clients.push_back(client);
+	_operators.push_back(client);
 }
 
 bool Channel::isExist(Client *client)
 {
 	std::vector<Client*>::const_iterator it = std::find(_clients.begin(), _clients.end(), client);
-	if (it != _clients.end())
+	if (it == _clients.end())
 		return false;
 	return true;
 }
@@ -92,19 +92,15 @@ bool Channel::isExist(Client *client)
 void Channel::removeClient(Client* client)
 {
 	std::vector<Client*>::iterator it = std::find(_clients.begin(), _clients.end(), client);
-	if (it != _clients.end()) {
+	if (it != _clients.end())
 		_clients.erase(it);
-		delete client;
-	}
 }
 
 void Channel::removeOperator(Client* client)
 {
-	std::vector<Client*>::iterator it = std::find(_clients.begin(), _clients.end(), client);
-	if (it != _clients.end()) {
-		_clients.erase(it);
-		delete client;
-	}
+	std::vector<Client*>::iterator it = std::find(_operators.begin(), _operators.end(), client);
+	if (it != _operators.end())
+		_operators.erase(it);
 }
 
 std::vector<std::string> Channel::getNicknames() const
@@ -143,5 +139,5 @@ void Channel::setInvite(Client *client)
 
 bool Channel::isInviteOnly()
 {
-	return _inviteList.empty();
+	return _onlyInvite;
 }
