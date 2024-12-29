@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:18:44 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 18:34:05 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 19:51:15 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 	std::string mode_str = message.parameters[1];
 	std::string mode_arg = message.parameters[2];
 	Channel* channel = data.getChannel(target);
+	Client *new_op;
 
 	if (!channel)
 		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "MODE"));
@@ -67,12 +68,16 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 					channel->getName(), (plus ? "+k" : "-k")));
 				break;
 			case 'o':
-				if (target != client->getNickname())
-					throw ReplyException(ERR_USERSDONTMATCH(message.source));
+				new_op = data.findClient(mode_arg);
+				if (!new_op)
+					throw ReplyException(ERR_NOSUCHNICK(message.source, \
+						mode_arg));
+				if (!channel->isExist(new_op))
+					throw ReplyException(ERR_NOTONCHANNEL(message.source, mode_arg));
 				if (plus)
-					channel->addOperator(client);
-				else
-					channel->removeOperator(client);
+					channel->addOperator(new_op);
+				else if (channel->isOperator(new_op))
+					channel->removeOperator(new_op);
 				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
 					client->getNickname(), \
 					channel->getName(), (plus ? "+o" : "-o")));

@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 18:43:29 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 19:52:56 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void Join::validate(Client *client, IRCMessage& message)
 {
 	(void)client;
 	std::string channel = message.parameters[0];
-	if ( channel[0] != '#' || channel[0] != '&')
+	if ( channel[0] != '#' && channel[0] != '&')
 		throw ReplyException(ERR_BADCHANMASK(channel));
 }
 
