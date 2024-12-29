@@ -70,6 +70,7 @@ IRCMessage	Parser::_fillIRCMessage(const std::string& line, Connection* from)
 		message.parameters.back().erase(0, 1);
 	if (message.source.empty())
 		message.source = from->getHostname();
+	message.source = 
 	return (message);
 }
 

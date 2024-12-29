@@ -52,6 +52,16 @@ void	Client::setUsername(std::string const & username)
 	_username = username;
 }
 
+std::string		Clinet::getSource() const
+{
+	std::string source = _nickname;
+	if (!_username.empty())
+		source = source + "!" + _username;
+	if (!_connection.getHostname())
+		source = source + "@" + _connection.getHostname();
+	return source;
+}
+
 void	Client::setRealname(std::string const & realname)
 {
 	_realname = realname;

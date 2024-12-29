@@ -53,6 +53,8 @@ public:
 	void	setUsername(std::string const & username);
 	void	setRealname(std::string const & realname);
 	void 	setState(Client::ClientState state);
+
+	std::string	getSource() const;	
 	~Client();
 };
 
