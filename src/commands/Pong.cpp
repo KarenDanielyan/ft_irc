@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:15 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/28 22:11:16 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 06:08:42 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void Pong::implement(Client *client, ITransport* server, DAL& data, \
 	(void)data;
 	if (message.parameters.empty())
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "PONG"));
-	std::string msg = "";
+	std::string msg = message.parameters[0];
 	for (unsigned long i = 1; i < message.parameters.size(); i++)
 	{
 		msg += message.parameters[i];
