@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:44:08 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 15:05:26 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 01:43:51 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ void User::implement(Client *client, ITransport* server, DAL& data, \
 	}
 		
 	if (client->getState() == Client::LIVE)
-		throw ReplyException(ERR_ALREADYREGISTERED(message.source, \
-			client->getUsername()));
+		throw ReplyException(ERR_ALREADYREGISTERED(message.source));
 	std::string realname = "";
 	for (unsigned long i = 3; i < message.parameters.size(); i++)
 		realname += message.parameters[i];
@@ -63,5 +62,5 @@ void User::implement(Client *client, ITransport* server, DAL& data, \
 	client->setUsername(message.parameters[0]);
 	client->setState(Client::LIVE);
 	server->reply(client->getConnection(), \
-		RPL_WELCOME(message.source, client->getUsername()));
+		RPL_WELCOME(message.source));
 }

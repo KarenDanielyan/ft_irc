@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 20:09:45 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/27 00:03:26 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/30 01:34:40 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ public:
 
 	void addClient(Client *client);
 	bool isExist(Client *client);
+	bool isAdmin(Client *client);
 	bool isInvited(Client* client);
 	bool isOperator(Client* client);
 	bool isInviteOnly();

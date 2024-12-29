@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:46 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/29 18:35:33 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 01:40:55 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void Kick::implement(Client *client, ITransport* server, DAL& data, \
 			client->getNickname()));
 	if (dest->getChannel()->getName() != name)
 		throw ReplyException(ERR_USERNOTINCHANNEL(message.source, \
-			dest->getNickname()));
+			dest->getNickname(), name));
 	broadcast(server, channel, message.source + " from "+ channel->getName() \
 		+ " removed " + dest->getNickname() + " " + msg);
 	dest->part();

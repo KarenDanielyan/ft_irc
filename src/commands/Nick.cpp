@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:59 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/29 15:03:32 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 01:42:41 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void Nick::implement(Client *client, ITransport* server, DAL& data, \
 	}
 	validate(client, message);
 	if (message.parameters.empty() || message.parameters[0].empty())
-		throw ReplyException(ERR_NONICKNAMEGIVEN(message.source, "NICK"));
+		throw ReplyException(ERR_NONICKNAMEGIVEN(message.source));
 
 	std::string nickname = message.parameters[0];
 	Client *new_client = data.findClient(nickname);

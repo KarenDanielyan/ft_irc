@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:12:21 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/28 22:12:22 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 01:35:46 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ std::string Channel::getName() const
 std::string Channel::getTopic() const
 {
 	return _topic;
+}
+
+bool Channel::isAdmin(Client *client)
+{
+	return client->getNickname() == _admin->getNickname();
 }
 
 std::string Channel::getPassword() const 

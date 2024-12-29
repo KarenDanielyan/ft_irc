@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 19:52:56 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 01:55:53 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 		std::string cur_chan = client->getChannel()->getName();
 		broadcast(server, client->getChannel(), message.source + \
 			client->getNickname() + " leaves the " + cur_chan + \
-			" channel because of joining another");
+			" channel because of joining another\n");
 		Channel *it = data.getChannel(cur_chan);
 		it->removeClient(client);
 		if (it->isOperator(client))
@@ -58,6 +58,7 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 		new_channel->addClient(client);
 		new_channel->addOperator(client);
 		new_channel->setOnlyInvite(false);
+		new_channel->setAdmin(client);
 		return ;
 	}
 
@@ -69,20 +70,31 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 		throw ReplyException(ERR_BADCHANNELKEY(message.source, name));
 	if (channel->isExist(client))
 		throw ReplyException(ERR_USERONCHANNEL(message.source, \
-			client->getNickname()));
+			client->getNickname(), channel->getName()));
 	channel->addClient(client);
 	client->join(channel);
 	server->reply(client->getConnection(), message.source + " " \
 		+ client->getNickname() + " Joined " + \
-		channel->getName() + " channel");
+		channel->getName() + " channel\n");
 	//print about channel
 	std::vector<Client *> clients = channel->getClients();
 	for (std::vector<Client *>::iterator it = clients.begin(); \
 			it != clients.end(); ++it)
 	{
-		server->reply(client->getConnection(), RPL_NAMREPLY(message.source, \
-			channel->getName(), \
-			(*it)->getNickname()));
+		if (channel->isAdmin(*it))
+		{
+			server->reply(client->getConnection(), RPL_NAMREPLY(client->getNickname(), \
+				channel->getName(), \
+				"@", \
+				(*it)->getNickname()) + '\n');
+		}
+		else
+		{
+			server->reply(client->getConnection(), RPL_NAMREPLY(client->getNickname(), \
+				channel->getName(), \
+				"", \
+				(*it)->getNickname()) + '\n');
+		}
 	}
 	server->reply(client->getConnection(), RPL_ENDOFNAMES(message.source, \
 		channel->getName() + "\n"));
