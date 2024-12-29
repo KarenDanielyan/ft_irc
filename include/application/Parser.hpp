@@ -24,13 +24,13 @@ class Parser
 	private:
 		ITransport*				_server;
 
-		IRCMessage	_fillIRCMessage(const std::string& line, Connection* from);
+		IRCMessage	_fillIRCMessage(const std::string& line, Client* from);
 	public:
 		Parser(ITransport* server);
 		~Parser();
 
 		std::vector<IRCMessage> \
-					parseMessage(std::string& rawMessage, Connection *from);
+					parseMessage(std::string& rawMessage, Client *from);
 		void		prettyPrint(std::vector<IRCMessage> const & messages);
 };
 

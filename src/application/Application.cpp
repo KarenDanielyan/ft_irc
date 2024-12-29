@@ -67,12 +67,12 @@ void	Application::process(void)
 		{
 			try
 			{
-				_handler->handle(_data->findClient(\
-							requests.front().who->getFd()), *it);
+				
+				_handler->handle(requests.front().who, *it);
 			}
 			catch (std::exception& e)
 			{
-				_serv->reply(requests.front().who, e.what());
+				_serv->reply(requests.front().who->getConnection(), e.what());
 			}
 		}
 		requests.pop();

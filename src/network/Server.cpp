@@ -133,7 +133,7 @@ void	Server::onClientRequest(pollfd& fd)
 		fd.revents = POLLHUP;
 	else
 	{
-		cont.who = _connections[fd.fd];
+		cont.who = _data->findClient(fd.fd);
 		cont.what = input;
 		_rqueue.push(cont);
 	}

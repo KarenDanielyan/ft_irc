@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "Parser.hpp"
+#include "Client.hpp"
 #include "defines.hpp"
 #include <sstream>
 
 std::vector<IRCMessage> \
-	Parser::parseMessage(std::string& rawMessage, Connection *from)
+	Parser::parseMessage(std::string& rawMessage, Client *from)
 {
 	std::vector<IRCMessage>	_messages;
 	static std::string		buffer;
@@ -40,8 +41,10 @@ std::vector<IRCMessage> \
 		message = buffer + rawMessage.substr(0, pos);
 		buffer.erase();
 		rawMessage = rawMessage.erase(0, pos + to_erase);
-		if (message.size() > MAX_MESSAGE_LENGTH)
-			_server->reply(from, ERR_INPUTTOOLONG(from->getHostname()));
+		if (message.size() > MAX_MESSAGE_LENGTH) {
+			_server->reply(from->getConnection(), \
+				  ERR_INPUTTOOLONG(from->getSource()));
+		}
 		else if (message.empty())
 			continue ;
 		else
@@ -50,7 +53,7 @@ std::vector<IRCMessage> \
 	return (_messages);
 }
 
-IRCMessage	Parser::_fillIRCMessage(const std::string& line, Connection* from)
+IRCMessage	Parser::_fillIRCMessage(const std::string& line, Client* from)
 {
 	IRCMessage	message;
 
@@ -69,8 +72,7 @@ IRCMessage	Parser::_fillIRCMessage(const std::string& line, Connection* from)
 	if (!message.parameters.empty() && (message.parameters.back())[0] == ':')
 		message.parameters.back().erase(0, 1);
 	if (message.source.empty())
-		message.source = from->getHostname();
-	message.source = 
+		message.source = from->getSource();
 	return (message);
 }
 
