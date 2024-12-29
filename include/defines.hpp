@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 06:11:32 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 13:42:33 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ class	Channel;
 # define VALID_MESSAGE 1
 
 # define BUFFER_SIZE 80
-# define CRNL "\n"
+# define CRNL "\r\n"
 
 # define USAGE_MSG "Usage: ./ircserv <port> <password>"
 

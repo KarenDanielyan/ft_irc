@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 04:24:18 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 13:47:18 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	Server::handlePollEvents(void)
 		if (it->revents & POLLHUP)
 		{
 			onClientDisconnect(*it);
-			_pollfds.erase(it);
 			break ;
 		}
 	}
@@ -185,7 +184,7 @@ std::string	Server::readMessage(int fd, bool& is_closed)
 			is_closed = true;
 			break;
 		}
-		else if (rv < 0 && rv != EWOULDBLOCK)
+		else if (rv < 0 && errno != EWOULDBLOCK)
 			throw std::runtime_error(strerror(errno));
 		msg.append(buffer);
 	}
