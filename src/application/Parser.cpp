@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 04:35:37 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 22:26:34 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,34 @@ std::vector<IRCMessage> \
 	Parser::parseMessage(std::string& rawMessage, Connection *from)
 {
 	std::vector<IRCMessage>	_messages;
-	std::string				buffer;
+	static std::string		buffer;
+	std::string				message;
 	size_t					pos;
+	size_t					to_erase;
 
 	while(true)
 	{
-		pos = rawMessage.find(CRNL);
+		to_erase = 2;
+		pos = rawMessage.find(CRLF);
 		if (pos == std::string::npos)
-			break ;
-		buffer = rawMessage.substr(0, pos);
-		rawMessage = rawMessage.erase(0, pos + 2);
-		if (buffer.size() > MAX_MESSAGE_LENGTH)
+		{
+			pos = rawMessage.find("\n");
+			if (pos == std::string::npos)
+			{
+				buffer.append(rawMessage);
+				break ;
+			}
+			to_erase --;
+		}
+		message = buffer + rawMessage.substr(0, pos);
+		buffer.erase();
+		rawMessage = rawMessage.erase(0, pos + to_erase);
+		if (message.size() > MAX_MESSAGE_LENGTH)
 			_server->reply(from, ERR_INPUTTOOLONG(from->getHostname()));
-		else if (buffer.empty())
+		else if (message.empty())
 			continue ;
 		else
-			_messages.push_back(_fillIRCMessage(buffer, from));
+			_messages.push_back(_fillIRCMessage(message, from));
 	}
 	return (_messages);
 }
