@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:44:08 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 01:43:51 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 02:25:06 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void User::implement(Client *client, ITransport* server, DAL& data, \
 	(void)data;
 	if (message.parameters.size() < 4)
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "USER"));
-	if (client->getState() != Client::LOGIN)
+	if (client->getState() == Client::CONNECT)
 	{
 		server->reply(client->getConnection(), "First you need to registrate by command PASS\n");
 		return ;
