@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:13:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/26 15:51:41 by mariam           ###   ########.fr       */
+/*   Updated: 2024/12/29 14:32:06 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ class	Client
 public:
 	enum	ClientState
 	{
+		CONNECT,
 		LOGIN,
 		LIVE,
 		DISCONNECTED
