@@ -6,10 +6,11 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/24 20:41:58 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 04:24:18 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <algorithm>
 #include "Server.hpp"
 #include "DAL.hpp"
 #include "Connection.hpp"
@@ -50,7 +51,7 @@ void	Server::handlePollEvents(void)
 			if (it->fd == _server_fd)
 			{
 				onClientConnect();
-				break;
+				break ;
 			}
 			onClientRequest(*it);
 		}
@@ -63,17 +64,6 @@ void	Server::handlePollEvents(void)
 	}
 }
 
-void	Server::closeConnection(Connection* connection)
-{
-	char		log_message[NI_MAXHOST + 1024];
-
-	_connections.erase(connection->getFd());
-	sprintf(log_message, "%s:%d disconnected to the server.", \
-		connection->getHostname().c_str(), connection->getPort());
-	log(log_message);
-	delete connection;
-}
-
 void	Server::closeConnection(const Connection* connection)
 {
 	char		log_message[NI_MAXHOST + 1024];
@@ -82,9 +72,48 @@ void	Server::closeConnection(const Connection* connection)
 	sprintf(log_message, "%s:%d disconnected to the server.", \
 		connection->getHostname().c_str(), connection->getPort());
 	log(log_message);
+	_unsubscribe(connection);
+	close(connection->getFd());
 	delete connection;
 }
 
+/**
+ * @brief	_subscribe() adds the connetion to the polling list,
+ * 			if it's not present. Otherwise, it will do nothing.
+ * 
+ * @param connection	The connecion to be added into the polling list.
+ */
+void	Server::_subscribe(const Connection* connection)
+{
+	pollfd				pfd = {connection->getFd(), POLLIN, 0};
+	pollfds_iterator_t	it;
+
+	for (it = _pollfds.begin(); it != _pollfds.end(); it++)
+	{
+		if (it->fd == connection->getFd())
+			return ;
+	}
+	if (it == _pollfds.end())
+		_pollfds.push_back(pfd);
+}
+
+/**
+ * @brief	_unsubscribe() removes the connection from the polling list,
+ * 			if it's present. Otherwise, it will do nothing.
+ * 
+ * @param connection	connetion to be removed from the polling list.
+ */
+void	Server::_unsubscribe(const Connection* connection)
+{
+	for (pollfds_iterator_t it = _pollfds.begin(); it != _pollfds.end(); it++)
+	{
+		if (it->fd == connection->getFd())
+		{
+			_pollfds.erase(it);
+			break ;
+		}
+	}
+}
 
 void	Server::onClientDisconnect(pollfd& fd)
 {
@@ -126,14 +155,13 @@ void	Server::onClientConnect(void)
 		throw std::runtime_error(ERR_SCKFAIL);
 	if (fcntl(fd, F_SETFL, O_NONBLOCK) < 0)
 		throw std::runtime_error(ERR_FNBLCK);
-	pollfd	pfd = {fd, POLLIN, 0};
-	_pollfds.push_back(pfd);
 	if (getnameinfo((SA*)(&sa), sa_len, hostname, NI_MAXHOST, \
 					NULL, 0, NI_NUMERICSERV) < 0)
 	{
 		throw std::runtime_error(ERR_HOSTNAME);
 	}
 	c = new Connection(fd, hostname, ntohs(sa.sin_port));
+	_subscribe(c);
 	_connections[fd] = c;
 	_data->newClient(c);
 	sprintf(log_message, "%s:%d connected to the server.", \

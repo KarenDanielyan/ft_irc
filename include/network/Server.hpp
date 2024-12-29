@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:31:10 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/27 18:51:20 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 04:28:00 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ private:
 
 	std::string	readMessage(int fd, bool &is_closed);
 
-	int	newSocket(void);
+	void	_subscribe(const Connection* connection);
+	void	_unsubscribe(const Connection* connection);
+
+	int		newSocket(void);
 
 	void	onClientConnect(void);
 	void	onClientDisconnect(pollfd& fd);
@@ -75,13 +78,8 @@ public:
 	void	handlePollEvents(void);
 	
 	void	reply(const Connection* to, std::string const & message) const;
-
 	void	broadcast(Connection* sender, std::string const & message) const;
-
-	void	closeConnection(Connection* connection);
 	void	closeConnection(const Connection* connection);
-
-	const RequestData *	hasPendingRequest(void);
 };
 
 #endif
