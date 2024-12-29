@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:59 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/30 01:42:41 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 02:04:11 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void Nick::validate(Client *client,  IRCMessage& message)
 void Nick::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
-	if (client->getState() != Client::LOGIN)
+	if (client->getState() == Client::CONNECT)
 	{
 		server->reply(client->getConnection(), "First you need to connect with PASS command\n");
 		return ;
