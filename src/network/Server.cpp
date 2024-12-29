@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 13:47:18 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 22:47:47 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,8 @@ int	Server::newSocket()
 
 void	Server::reply(const Connection* to, std::string const & message) const
 {
-	send(to->getFd(), message.c_str(), message.length(), 0);
+	std::string msg = message + "\r\n";
+	send(to->getFd(), msg.c_str(), message.length(), 0);
 }
 
 void	Server::broadcast(Connection* sender, std::string const & message) const
