@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/28 22:52:20 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 04:32:30 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "defines.hpp"
 #include <sstream>
 
-
-/* TODO: Add \r\n as a define callse CRCN */
 std::vector<IRCMessage> Parser::parseMessage(std::string& rawMessage, Connection *from)
 {
 	std::vector<IRCMessage>	_messages;
@@ -76,7 +74,7 @@ void	Parser::prettyPrint(std::vector<IRCMessage> const & messages)
 		{
 			std::cout << *it << " -> ";
 		}
-	  std::cout << std::endl << "|" << std::endl;
+		std::cout << std::endl << "|" << std::endl;
 	}
 }
 

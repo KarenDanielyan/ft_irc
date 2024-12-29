@@ -12,13 +12,9 @@
 
 #include "Command.hpp"
 
-Quit::Quit()
-{
-}
+Quit::Quit() {}
 
-Quit::~Quit()
-{
-}
+Quit::~Quit() {}
 
 void Quit::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
