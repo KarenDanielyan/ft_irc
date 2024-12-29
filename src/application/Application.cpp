@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:53:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/27 00:30:30 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 13:59:11 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	Application::process(void)
 		std::cout << "Message before parsing: " << requests.front().what;
 		std::vector<IRCMessage>	messages = \
 			_parser->parseMessage(requests.front().what, requests.front().who);
-		// _parser->prettyPrint(messages);
+		_parser->prettyPrint(messages);
 		for (ircmessage_iterator_t it = messages.begin(); \
 			it != messages.end(); it++)
 		{
@@ -65,9 +65,7 @@ void	Application::process(void)
 			}
 			catch (std::exception& e)
 			{
-				std::string msg = e.what();
-				msg += "\n";
-				_serv->reply(requests.front().who, msg);
+				_serv->reply(requests.front().who, e.what());
 			}
 		}
 		requests.pop();
