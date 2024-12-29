@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 22:26:34 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/30 02:33:16 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ IRCMessage	Parser::_fillIRCMessage(const std::string& line, Connection* from)
 		message.parameters.back().erase(0, 1);
 	if (message.source.empty())
 		message.source = from->getHostname();
-	message.source = 
+	// message.source = 
 	return (message);
 }
 
