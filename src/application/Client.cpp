@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariam <mariam@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:16:27 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/27 02:05:49 by mariam           ###   ########.fr       */
+/*   Updated: 2024/12/29 14:31:57 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 #include "Connection.hpp"
 
-Client::Client(const Connection* connection): _state(LOGIN), \
+Client::Client(const Connection* connection): _state(CONNECT), \
 	_channel(NULL), _connection(connection)
 {}
 

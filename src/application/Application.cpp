@@ -54,7 +54,7 @@ void	Application::process(void)
 		std::cout << "Message before parsing: " << requests.front().what;
 		std::vector<IRCMessage>	messages = \
 			_parser->parseMessage(requests.front().what, requests.front().who);
-		_parser->prettyPrint(messages);
+		// _parser->prettyPrint(messages);
 		for (ircmessage_iterator_t it = messages.begin(); \
 			it != messages.end(); it++)
 		{
