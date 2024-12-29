@@ -16,6 +16,7 @@
 # include <string>
 # include <ctime>
 # include <cstdlib>
+# include <exception>
 
 void	log(std::string const & message);
 
@@ -26,6 +27,19 @@ class ReplyException : public std::exception
 	public:
 		ReplyException(const std::string& msg): message(msg) {}
 		virtual ~ReplyException() throw() {}
+		const char* what() const throw()
+		{
+			return message.c_str();
+		}
+};
+
+class	RuntimeException : public std::exception
+{
+	private:
+		std::string message;
+	public:
+		RuntimeException(const std::string& msg): message(msg) {}
+		virtual ~RuntimeException() throw() {}
 		const char* what() const throw()
 		{
 			return message.c_str();

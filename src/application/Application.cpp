@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:53:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 13:59:11 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 21:07:52 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,19 @@ Application::Application(std::string const & port, std::string const & password)
 	int	p;
 
 	if (port.find_first_not_of("0123456789") != port.npos)
-		throw std::runtime_error(ERR_PNAN);
+		throw RuntimeException(ERR_PNAN);
 	p = std::atoi(port.c_str());
 	if (p <= 1023 || p >= UINT16_MAX)
-		throw std::runtime_error(ERR_PINV);
+		throw RuntimeException(ERR_PINV);
 	_data = new DAL(password);
-	_serv = new Server(static_cast<unsigned short>(p), _data);
+	try {
+		_serv = new Server(static_cast<unsigned short>(p), _data);
+	}
+	catch (const std::exception& e)
+	{
+		delete _data;
+		throw RuntimeException(e.what());
+	}
 	_parser = new Parser(_serv);
 	_handler = new CommandHandler(_serv, *_data);
 }

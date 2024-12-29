@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 15:25:38 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 21:07:52 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ Server::~Server(void)
 void	Server::handlePollEvents(void)
 {
 	if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 1)
-		throw std::runtime_error(ERR_POLL);
+		throw RuntimeException(ERR_POLL);
 	for (pollfds_iterator_t it = _pollfds.begin(); it != _pollfds.end(); it++)
 	{
 		if (it->revents == 0)
@@ -151,13 +151,13 @@ void	Server::onClientConnect(void)
 	sa_len = sizeof(sa);
 	fd = accept(_server_fd, (SA*)(&sa), &sa_len);
 	if (fd < 0)
-		throw std::runtime_error(ERR_SCKFAIL);
+		throw RuntimeException(ERR_SCKFAIL);
 	if (fcntl(fd, F_SETFL, O_NONBLOCK) < 0)
-		throw std::runtime_error(ERR_FNBLCK);
+		throw RuntimeException(ERR_FNBLCK);
 	if (getnameinfo((SA*)(&sa), sa_len, hostname, NI_MAXHOST, \
 					NULL, 0, NI_NUMERICSERV) < 0)
 	{
-		throw std::runtime_error(ERR_HOSTNAME);
+		throw RuntimeException(ERR_HOSTNAME);
 	}
 	c = new Connection(fd, hostname, ntohs(sa.sin_port));
 	_subscribe(c);
@@ -186,7 +186,7 @@ std::string	Server::readMessage(int fd, bool& is_closed)
 		else if (rv < 0)
 		{
 			if (errno != EWOULDBLOCK)
-				throw std::runtime_error(strerror(errno));
+				throw RuntimeException(strerror(errno));
 		}
 		else
 		{
@@ -206,13 +206,13 @@ int	Server::newSocket()
 	{
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0)
-		throw std::runtime_error(ERR_SCKFAIL);
+		throw RuntimeException(ERR_SCKFAIL);
 	/* Setting the socket into non-blocking mode. */
 	if (fcntl(sockfd, F_SETFL, O_NONBLOCK) < 0)
-		throw std::runtime_error(ERR_FNBLCK);
+		throw RuntimeException(ERR_FNBLCK);
 	int	val = -42;
 	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val)) < 0)
-		throw std::runtime_error(ERR_FBIND);
+		throw RuntimeException(ERR_FBIND);
 
 	/* Naming the socket */
 	SA_IN	serv_addr = {};
@@ -222,16 +222,16 @@ int	Server::newSocket()
 	serv_addr.sin_port = htons(_port);
 
 	if (bind(sockfd, (const SA*)(&serv_addr), sizeof(serv_addr)) < 0)
-		throw std::runtime_error(ERR_ADDRBIND);
+		throw RuntimeException(ERR_ADDRBIND);
 	/* Making socket to listen to requests */
 	if (listen(sockfd, MAX_CONNECTIONS) < 0)
-		throw std::runtime_error(ERR_CREFUSED);
+		throw RuntimeException(ERR_CREFUSED);
 	}
 	catch (std::exception	&e)
 	{
 		if (sockfd >= 0)
 			close(sockfd);
-		throw e;
+		throw RuntimeException(e.what());
 	}
 	return (sockfd);
 }
