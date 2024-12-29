@@ -6,7 +6,7 @@
 /*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 04:32:30 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/29 04:35:37 by kdaniely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "defines.hpp"
 #include <sstream>
 
-std::vector<IRCMessage> Parser::parseMessage(std::string& rawMessage, Connection *from)
+std::vector<IRCMessage> \
+	Parser::parseMessage(std::string& rawMessage, Connection *from)
 {
 	std::vector<IRCMessage>	_messages;
 	std::string				buffer;
