@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:18 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/30 11:50:50 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:42:55 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void PrivMsg::implement(Client *client, ITransport* server, DAL& data, \
 		msg += " " + message.parameters[i];
 	if (target[0] == '#')
 	{
-		std::string name = target.substr(1);
+		std::string name = target;
 		Channel* channel = data.getChannel(name);
 		if (!channel)
 			throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "PRIVMSG"));
