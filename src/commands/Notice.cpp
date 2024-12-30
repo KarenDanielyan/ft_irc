@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 21:38:58 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 13:44:21 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:32:36 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void Notice::implement(Client *client, ITransport* server, DAL& data, \
 		msg += " " + message.parameters[i];
 	if (target[0] == '#')
 	{
-		std::string name = target;
+		std::string name = target.substr(1);
 		Channel* channel = data.getChannel(name);
 		if (!channel)
 			return ;

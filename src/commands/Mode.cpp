@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:18:44 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 13:43:21 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 01:42:26 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 
 	std::string target;
 	if (message.parameters[0][0] == '#')
-		target = message.parameters[0];
+		target = message.parameters[0].substr(1);
 	else
 		target = message.parameters[0];
 	std::string mode_str = message.parameters[1];

@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 13:45:02 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:26:19 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 		throw ReplyException(ERR_TOOMANYCHANNELS(message.source, \
 			client->getChannel()->getName()));
 	validate(client, message);
-	std::string name = message.parameters[0];
+	std::string name = message.parameters[0].substr(1);
 	std::string pass = message.parameters.size() > 1 ? message.parameters[1] : "";
 	std::string topic = "I exist because you wanted to.";
 	Channel *channel = data.getChannel(name);
@@ -77,20 +77,20 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 			server->reply(client->getConnection(), RPL_NAMREPLY(client->getNickname(), \
 				channel->getName(), \
 				"@", \
-				(*it)->getNickname()));
+				(*it)->getNickname()) + '\n');
 		}
 		else
 		{
 			server->reply(client->getConnection(), RPL_NAMREPLY(client->getNickname(), \
 				channel->getName(), \
 				"", \
-				(*it)->getNickname()));
+				(*it)->getNickname()) + '\n');
 		}
 	}
 	server->reply(client->getConnection(), RPL_ENDOFNAMES(message.source, \
-		channel->getName()));
+		channel->getName() + "\n"));
 
 	if (channel->getTopic() != "")
 		server->reply(client->getConnection(), message.source + \
-			" Topic of channel: " + channel->getTopic());
+			" Topic of channel: " + channel->getTopic() + "\n");
 }

@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:32 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/30 13:47:50 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:09:50 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void Who::implement(Client *client, ITransport* server, DAL& data, \
 	std::string mask = message.parameters[0];
 	if (mask[0] == '#')
 	{
+		mask = mask.substr(1);
 		Channel *channel = data.getChannel(mask);
 		if (!channel)
 			throw ReplyException(ERR_NOSUCHCHANNEL(message.source, mask));
@@ -84,5 +85,5 @@ void Who::implement(Client *client, ITransport* server, DAL& data, \
 				" ", \
 				toPrint->getRealname()));
 	server->reply(client->getConnection(), RPL_ENDOFWHO(message.source, \
-			mask));
+			mask + "\n"));
 }

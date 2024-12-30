@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:24 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/30 13:42:50 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/29 18:28:11 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void Topic::implement(Client *client, ITransport* server, DAL& data, \
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "TOPIC"));
 	std::string name;
 	if (message.parameters[0][0] == '#')
-		name = message.parameters[0];
+		name = message.parameters[0].substr(1);
 	else
 		name = message.parameters[0];
 	Channel* channel = data.getChannel(name);
