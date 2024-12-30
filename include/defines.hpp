@@ -31,8 +31,6 @@ class	Channel;
 # define HOSTNAME "127.0.0.1"
 
 # define MAX_MESSAGE_LENGTH 512
-# define IGNOR_MESSAGE -1
-# define VALID_MESSAGE 1
 
 # define BUFFER_SIZE 80
 # define CRLF "\r\n"
@@ -83,6 +81,7 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 # define ERR_INVITEONLYCHAN(source, target) ("473 " + source + " " + target + " :Cannot join channel, you must be invited (+i)")
 # define ERR_CHANNELISFULL(source, target) ("471 " + source + " " + target + " :Cannot join channel, channel is full (+l)")
 # define ERR_BADCHANNELKEY(source, target) ("475 " + source + " " + target + " :Cannot join channel (+k)")
+# define ERR_NOTREGISTERED(source) ("451 " + source + " :You have not registered")
 
 /*command reply*/
 # define RPL_CHANNELMODEIS(name, channel, mode) ("324 " + name + " " + channel + " " + mode)
