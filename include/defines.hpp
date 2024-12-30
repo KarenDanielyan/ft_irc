@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 11:29:27 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:49:17 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 # define RPL_CHANNELMODEIS(name, channel, mode) ("324 " + name + " " + channel + " " + mode)
 # define RPL_WELCOME(source) ("001 " + source + " :Welcome to the ft_irc Network")
 # define RPL_PING(source, message) (":" + source + " PONG :" + message)
+# define RPL_MSG(source, command, target, message)   ":" + source + " " + command + " " + target + " :" + message
 # define RPL_INVITING(source, nick, channel) ("341 " + source + " " + nick + " " + channel)
 # define RPL_ENDOFNAMES(source, channel) ("366 " + source +  " " + channel + " :End of /NAMES list")
 # define RPL_NAMREPLY(name, channel, isadmin, nick) ("353 " + name + " = " + channel + " :" + isadmin + nick)

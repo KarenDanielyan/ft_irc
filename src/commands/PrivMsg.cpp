@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:18 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/29 18:29:50 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:50:50 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ void PrivMsg::implement(Client *client, ITransport* server, DAL& data, \
 		if (!channel->isExist(client))
 			throw ReplyException(ERR_CANNOTSENDTOCHAN(message.source, \
 				channel->getName()));
-		broadcast(server, channel, msg);
+		broadcast(server, channel, RPL_MSG(message.source, "PRIVMSG", \
+			channel->getName(), msg));
 		return ;
 	}
 	Client *dest = data.findClient(target);
 	if (!dest)
 		throw ReplyException(ERR_NOSUCHNICK(message.source, \
 			client->getNickname()));
-	server->reply(dest->getConnection(), (message.source + " " + msg));
+	server->reply(dest->getConnection(), RPL_MSG(message.source, "PRIVMSG", \
+		dest->getNickname(), msg));
 }
