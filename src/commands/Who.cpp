@@ -48,7 +48,6 @@ void Who::implement(Client *client, ITransport* server, DAL& data, \
 	std::string mask = message.parameters[0];
 	if (mask[0] == '#')
 	{
-		mask = mask.substr(1);
 		Channel *channel = data.getChannel(mask);
 		if (!channel)
 			throw ReplyException(ERR_NOSUCHCHANNEL(message.source, mask));
@@ -85,5 +84,5 @@ void Who::implement(Client *client, ITransport* server, DAL& data, \
 				" ", \
 				toPrint->getRealname()));
 	server->reply(client->getConnection(), RPL_ENDOFWHO(message.source, \
-			mask + "\n"));
+			mask));
 }

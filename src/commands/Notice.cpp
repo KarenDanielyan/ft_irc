@@ -28,8 +28,7 @@ void Notice::implement(Client *client, ITransport* server, DAL& data, \
 		msg += " " + message.parameters[i];
 	if (target[0] == '#')
 	{
-		std::string name = target.substr(1);
-		Channel* channel = data.getChannel(name);
+		Channel* channel = data.getChannel(target);
 		if (!channel)
 			return ;
 		if (!channel->isExist(client))

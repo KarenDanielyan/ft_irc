@@ -24,15 +24,11 @@ Part::~Part()
 void Part::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
+	std::string name = message.parameters[0];
+
 	if (message.parameters.empty())
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "PART"));
-	std::string name;
-	if (message.parameters[0][0] == '#')
-		name = message.parameters[0].substr(1);
-	else
-		name = message.parameters[0];
 	Channel *channel = data.getChannel(name);
-
 	if (!channel)
 		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, name));
 	if (!client->getChannel() || client->getChannel()->getName() != name)

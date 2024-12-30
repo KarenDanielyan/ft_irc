@@ -28,8 +28,6 @@ void Invite::implement(Client *client, ITransport* server, DAL& data, \
 	if (message.parameters.size() < 2)
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, \
 			"INVITE"));
-	if (message.parameters[1][0] == '#')
-		message.parameters[1] = message.parameters[1].substr(1);
 	Client* clientToInvite = data.findClient(message.parameters[0]);
 	Channel* channelToInvite = data.getChannel(message.parameters[1]);
 

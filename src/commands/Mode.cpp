@@ -23,11 +23,7 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 	if (message.parameters.size() < 2 || message.parameters[0].empty())
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "MODE"));
 
-	std::string target;
-	if (message.parameters[0][0] == '#')
-		target = message.parameters[0].substr(1);
-	else
-		target = message.parameters[0];
+	std::string target = message.parameters[0];
 	std::string mode_str = message.parameters[1];
 	std::string mode_arg = message.parameters[2];
 	Channel* channel = data.getChannel(target);

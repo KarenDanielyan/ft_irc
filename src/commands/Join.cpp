@@ -29,68 +29,64 @@ void Join::validate(Client *client, IRCMessage& message)
 void Join::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
+	std::string name = message.parameters[0];
+	std::string pass = message.parameters.size() > 1 ? message.parameters[1] : "";
+	std::string topic = "I exist because you wanted to.";
+	Channel *channel = data.getChannel(name);
+
 	if (message.parameters.empty())
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "JOIN"));
 	if (client->getChannel())
 		throw ReplyException(ERR_TOOMANYCHANNELS(message.source, \
 			client->getChannel()->getName()));
 	validate(client, message);
-	std::string name = message.parameters[0].substr(1);
-	std::string pass = message.parameters.size() > 1 ? message.parameters[1] : "";
-	std::string topic = "I exist because you wanted to.";
-	Channel *channel = data.getChannel(name);
-
 	if (!channel)
 	{
 		data.addChannel(name, topic, pass, client);
-		Channel* new_channel = data.getChannel(name);
-		client->join(new_channel);
-		new_channel->addClient(client);
-		new_channel->addOperator(client);
-		new_channel->setOnlyInvite(false);
-		new_channel->setAdmin(client);
-		server->reply(client->getConnection(), RPL_JOIN(message.source, \
-		new_channel->getName()));
-		return ;
+		channel = data.getChannel(name);
+		channel->addOperator(client);
+		channel->setOnlyInvite(false);
 	}
-
-	if (channel->isInviteOnly() && !channel->isInvited(client))
-		throw ReplyException(ERR_INVITEONLYCHAN(message.source, name));
-	if (channel->getLimit() >= channel->getClientCount())
-		throw ReplyException(ERR_CHANNELISFULL(message.source, name));
-	if (channel->getPassword() != pass)
-		throw ReplyException(ERR_BADCHANNELKEY(message.source, name));
-	if (channel->isExist(client))
-		throw ReplyException(ERR_USERONCHANNEL(message.source, \
-			client->getNickname(), channel->getName()));
+	else
+	{
+		if (channel->isInviteOnly() && !channel->isInvited(client))
+			throw ReplyException(ERR_INVITEONLYCHAN(message.source, name));
+		if (channel->getLimit() >= channel->getClientCount())
+			throw ReplyException(ERR_CHANNELISFULL(message.source, name));
+		if (channel->getPassword() != pass)
+			throw ReplyException(ERR_BADCHANNELKEY(message.source, name));
+		if (channel->isExist(client))
+			throw ReplyException(ERR_USERONCHANNEL(message.source, \
+				client->getNickname(), channel->getName()));
+	}
 	channel->addClient(client);
 	client->join(channel);
-	server->reply(client->getConnection(), RPL_JOIN(message.source, \
+	std::cout << "On JOIN: " << RPL_JOIN(client->getNickname(), channel->getName());
+	server->reply(client->getConnection(), RPL_JOIN(client->getNickname(), \
 		channel->getName()));
-	//print about channel
+	if (channel->isOperator(client)) {
+		server->reply(client->getConnection(), RPL_USERMODE(client->getNickname(), \
+			channel->getName(), client->getNickname()));
+	}
 	std::vector<Client *> clients = channel->getClients();
 	for (std::vector<Client *>::iterator it = clients.begin(); \
 			it != clients.end(); ++it)
 	{
-		if (channel->isAdmin(*it))
+		if (channel->isOperator(*it))
 		{
 			server->reply(client->getConnection(), RPL_NAMREPLY(client->getNickname(), \
-				channel->getName(), \
-				"@", \
-				(*it)->getNickname()) + '\n');
+				channel->getName(), "@", (*it)->getNickname()));
 		}
 		else
 		{
 			server->reply(client->getConnection(), RPL_NAMREPLY(client->getNickname(), \
-				channel->getName(), \
-				"", \
-				(*it)->getNickname()) + '\n');
+				channel->getName(), "", (*it)->getNickname()));
 		}
 	}
 	server->reply(client->getConnection(), RPL_ENDOFNAMES(message.source, \
-		channel->getName() + "\n"));
+		channel->getName()));
 
 	if (channel->getTopic() != "")
 		server->reply(client->getConnection(), message.source + \
-			" Topic of channel: " + channel->getTopic() + "\n");
+			" Topic of channel: " + channel->getTopic());
 }

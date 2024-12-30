@@ -22,10 +22,6 @@ void Topic::implement(Client *client, ITransport* server, DAL& data, \
 	if (message.parameters.size() < 1)
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "TOPIC"));
 	std::string name;
-	if (message.parameters[0][0] == '#')
-		name = message.parameters[0].substr(1);
-	else
-		name = message.parameters[0];
 	Channel* channel = data.getChannel(name);
 	if (!channel)
 		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "TOPIC"));

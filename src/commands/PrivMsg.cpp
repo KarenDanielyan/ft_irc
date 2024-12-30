@@ -38,7 +38,7 @@ void PrivMsg::implement(Client *client, ITransport* server, DAL& data, \
 		msg += " " + message.parameters[i];
 	if (target[0] == '#')
 	{
-		std::string name = target.substr(1);
+		std::string name = target;
 		Channel* channel = data.getChannel(name);
 		if (!channel)
 			throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "PRIVMSG"));

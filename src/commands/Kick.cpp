@@ -27,11 +27,7 @@ void Kick::implement(Client *client, ITransport* server, DAL& data, \
 	if (message.parameters.size() < 2)
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "KICK"));
 
-	std::string name;
-	if (message.parameters[0][0] == '#')
-		name = message.parameters[0].substr(1);
-	else
-		name = message.parameters[0];
+	std::string name = message.parameters[0];
 	std::string target = message.parameters[1];
 	std::string msg = "Reason:";
 	Channel* channel = data.getChannel(name);
