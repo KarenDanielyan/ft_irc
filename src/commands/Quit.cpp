@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:21 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/30 10:20:06 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 10:28:06 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void Quit::implement(Client *client, ITransport* server, DAL& data, \
 			reason += " " + message.parameters[i];
 	}
 	c = client->getConnection();
-	server->reply(client->getConnection(), RPL_QUIT(message.source, reason));
 	client->setState(Client::DISCONNECTED);
 	
 	if (!client->getChannel())
 	{
+		server->reply(client->getConnection(), RPL_QUIT(message.source, reason));
 		data.removeClient(client);
 		server->closeConnection(c);
 		return ;
@@ -42,4 +42,6 @@ void Quit::implement(Client *client, ITransport* server, DAL& data, \
 	broadcast(server, it, RPL_QUIT(message.source, reason));
 	client->part();
 	it->removeClient(client);
+	data.removeClient(client);
+	server->closeConnection(c);
 }
