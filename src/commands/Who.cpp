@@ -69,10 +69,13 @@ void Who::implement(Client *client, ITransport* server, DAL& data, \
 		return ;
 	}
 	Client *toPrint = data.findClient(mask);
-	channel = "";
-	if (toPrint->getChannel())
-		channel = toPrint->getChannel()->getName();
-	if (!toPrint)
+	if (toPrint) {
+		if (toPrint->getChannel())
+			channel = toPrint->getChannel()->getName();
+		else
+			channel = "";
+	}
+	else
 		throw ReplyException(ERR_NOSUCHNICK(message.source, mask));
 	server->reply(client->getConnection(), \
 			RPL_WHOREPLY(message.source, \
