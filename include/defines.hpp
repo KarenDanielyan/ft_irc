@@ -88,12 +88,12 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 /*command reply*/
 # define RPL_USERMODE(source, channel, nickname) (":" + source + " MODE " + channel + " +o " + nickname)
 # define RPL_CHANNELMODEIS(name, channel, mode) ("324 " + name + " " + channel + " " + mode)
-# define RPL_WELCOME(source) ("001 " + source + " :Welcome to the ft_irc Network")
+# define RPL_WELCOME(source, nickname) ("001 " + source + " :Welcome to the ft_irc Network, " + nickname)
 # define RPL_PING(source, message) (":" + source + " PONG :" + message)
 # define RPL_MSG(source, command, target, message)   ":" + source + " " + command + " " + target + " :" + message
 # define RPL_INVITING(source, nick, channel) ("341 " + source + " " + nick + " " + channel)
 # define RPL_ENDOFNAMES(source, channel) ("366 " + source +  " " + channel + " :End of /NAMES list")
-# define RPL_NAMREPLY(name, channel, isadmin, nick) ("353 " + name + " = " + channel + " :" + isadmin + nick)
+# define RPL_NAMREPLY(name, channel, prefix, nick) ("353 " + name + " = " + channel + " :" + prefix + nick)
 # define RPL_WHOREPLY(source, channel, username, host, server, nick, flags, realname) \
 	("352 " + source + " " + channel +  " " + username + " " + host + \
 	" " + server + " " + nick + " " + flags + " 0 " + ":" + realname)

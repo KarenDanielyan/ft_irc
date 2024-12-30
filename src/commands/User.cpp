@@ -57,5 +57,5 @@ void User::implement(Client *client, ITransport* server, DAL& data, \
 	client->setUsername(message.parameters[0]);
 	client->setState(Client::LIVE);
 	server->reply(client->getConnection(), \
-		RPL_WELCOME(message.source));
+		RPL_WELCOME(client->getSource(), client->getNickname()));
 }

@@ -31,7 +31,7 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 {
 	std::string name = message.parameters[0];
 	std::string pass = message.parameters.size() > 1 ? message.parameters[1] : "";
-	std::string topic = "I exist because you wanted to.";
+	std::string topic = "";
 	Channel *channel = data.getChannel(name);
 
 	if (message.parameters.empty())
@@ -61,7 +61,6 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 	}
 	channel->addClient(client);
 	client->join(channel);
-	std::cout << "On JOIN: " << RPL_JOIN(client->getNickname(), channel->getName());
 	server->reply(client->getConnection(), RPL_JOIN(client->getNickname(), \
 		channel->getName()));
 	if (channel->isOperator(client)) {
@@ -83,10 +82,14 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 				channel->getName(), "", (*it)->getNickname()));
 		}
 	}
-	server->reply(client->getConnection(), RPL_ENDOFNAMES(message.source, \
+	server->reply(client->getConnection(), RPL_ENDOFNAMES(client->getNickname(), \
 		channel->getName()));
-
-	if (channel->getTopic() != "")
-		server->reply(client->getConnection(), message.source + \
-			" Topic of channel: " + channel->getTopic());
+	broadcast(server, channel, RPL_JOIN(client->getNickname(), channel->getName()));
+	if (!channel->getTopic().empty()) {
+		server->reply(client->getConnection(), \
+				RPL_TOPIC(message.source, \
+				channel->getName(), \
+				channel->getTopic())
+		);
+	}
 }

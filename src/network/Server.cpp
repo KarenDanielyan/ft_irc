@@ -240,6 +240,7 @@ void	Server::reply(const Connection* to, std::string const & message) const
 {
 	std::string	packet = message + CRLF;
 
+	std::cout << packet;
 	send(to->getFd(), packet.c_str(), packet.length(), 0);
 }
 
