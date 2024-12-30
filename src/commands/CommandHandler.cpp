@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 23:38:34 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 02:18:57 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 09:47:31 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ CommandHandler::CommandHandler(ITransport* server, DAL & data): _server(server),
 	_commands["WHO"] = new Who();
 }
 
+bool CommandHandler::requireLogin(std::string const & command)
+{
+	if (command != "PASS" && command != "NICK" && command != "USER" \
+			&& command != "CAP" && command != "PING" && command != "PONG")
+	{
+		return true;
+	}
+	return false;
+}
+
 void CommandHandler::handle(Client* client, IRCMessage message)
 {
 	commands_iterator_t it = _commands.find(message.command);
@@ -41,10 +51,7 @@ void CommandHandler::handle(Client* client, IRCMessage message)
 			message.command));
 	else
 	{
-		if ((message.command != "PASS" \
-			&& message.command != "NICK" && message.command != "USER" \
-			&& message.command != "CAP" && message.command != "PING" \
-			&& message.command != "PONG") && client->getState() != Client::LIVE)
+		if (requireLogin(message.command) && client->getState() != Client::LIVE)
 		{
 			_server->reply(client->getConnection(), \
 				  ERR_NOTREGISTERED(client->getSource()));

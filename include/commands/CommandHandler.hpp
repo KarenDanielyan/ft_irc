@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandHandler.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@42.fr>                  +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:12:56 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/27 19:01:03 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/30 09:47:50 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ public:
 	~CommandHandler();
 
 	void handle(Client* Client, IRCMessage message);
+	bool requireLogin(std::string const & command);
 };
 
 #endif
