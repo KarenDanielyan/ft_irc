@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 01:55:53 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 10:42:43 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,15 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 {
 	if (message.parameters.empty())
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "JOIN"));
+	if (client->getChannel())
+		throw ReplyException(ERR_TOOMANYCHANNELS(message.source, \
+			client->getChannel()->getName()));
 	validate(client, message);
 	std::string name = message.parameters[0].substr(1);
 	std::string pass = message.parameters.size() > 1 ? message.parameters[1] : "";
 	std::string topic = "I exist because you wanted to.";
 	Channel *channel = data.getChannel(name);
-	//if the client is on the channel
 
-	if (client->getChannel())
-	{
-		std::string cur_chan = client->getChannel()->getName();
-		broadcast(server, client->getChannel(), message.source + \
-			client->getNickname() + " leaves the " + cur_chan + \
-			" channel because of joining another\n");
-		Channel *it = data.getChannel(cur_chan);
-		it->removeClient(client);
-		if (it->isOperator(client))
-			it->removeOperator(client);
-		client->part();
-	}
 	if (!channel)
 	{
 		data.addChannel(name, topic, pass, client);

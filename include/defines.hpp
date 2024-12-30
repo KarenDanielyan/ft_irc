@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 10:00:47 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 10:38:28 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 # define RPL_QUIT(source, reason) (":" + source + " QUIT :Quit: " + reason)
 # define RPL_NOTOPIC(source, channel) ("331 " + source + " " + channel + " :No topic is set")
 # define RPL_ENDOFWHO(source, mask) ("315 " + source + " " + mask + " :End of WHO list")
+# define ERR_TOOMANYCHANNELS(source, target) ("405 " + source + " " + target + " :You have joined too many channels")
 
 /* Nick reply */
 # define ERR_BADCHANMASK(source) ("476 " + source + " :Bad Channel Mask")
