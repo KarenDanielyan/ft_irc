@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:32 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/28 22:11:33 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 02:01:15 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void Who::implement(Client *client, ITransport* server, DAL& data, \
 				RPL_WHOREPLY(message.source, (*it)->getNickname(), \
 				(*it)->getUsername(), (*it)->getRealname()));
 		}
+		server->reply(client->getConnection(), RPL_ENDOFWHO(message.source, \
+			mask + "\n"));
 		return ;
 	}
 	Client *toPrint = data.findClient(mask);
@@ -57,4 +59,6 @@ void Who::implement(Client *client, ITransport* server, DAL& data, \
 	server->reply(client->getConnection(), \
 			RPL_WHOREPLY(message.source, toPrint->getNickname(), \
 			toPrint->getUsername(), toPrint->getRealname()));
+	server->reply(client->getConnection(), RPL_ENDOFWHO(message.source, \
+			mask + "\n"));
 }

@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:59 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/29 15:03:32 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 02:04:11 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void Nick::validate(Client *client,  IRCMessage& message)
 void Nick::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
-	if (client->getState() != Client::LOGIN)
+	if (client->getState() == Client::CONNECT)
 	{
 		server->reply(client->getConnection(), "First you need to connect with PASS command\n");
 		return ;
 	}
 	validate(client, message);
 	if (message.parameters.empty() || message.parameters[0].empty())
-		throw ReplyException(ERR_NONICKNAMEGIVEN(message.source, "NICK"));
+		throw ReplyException(ERR_NONICKNAMEGIVEN(message.source));
 
 	std::string nickname = message.parameters[0];
 	Client *new_client = data.findClient(nickname);

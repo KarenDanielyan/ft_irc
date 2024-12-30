@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:18:44 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 19:51:15 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 01:42:26 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,16 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 			case 'i':
 				channel->setOnlyInvite(plus);
 				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
-					client->getNickname(), \
 					channel->getName(), (plus ? "+i" : "-i")));
 				break;
 			case 't':
 				channel->setTopic(plus ? mode_arg : "");
 				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
-					client->getNickname(), \
 					channel->getName(), (plus ? "+t" : "-t")));
 				break;
 			case 'k':
 				channel->setPassword(plus ? mode_arg : "");
 				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
-					client->getNickname(), \
 					channel->getName(), (plus ? "+k" : "-k")));
 				break;
 			case 'o':
@@ -79,13 +76,12 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 				else if (channel->isOperator(new_op))
 					channel->removeOperator(new_op);
 				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
-					client->getNickname(), \
 					channel->getName(), (plus ? "+o" : "-o")));
 				break;
 			case 'l':
 				channel->setLimit(plus ? std::atol(mode_arg.c_str()) : 0);
 				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
-					client->getNickname(), channel->getName(), \
+					channel->getName(), \
 					(plus ? "+l" : "-l")));
 				break;
 			default:

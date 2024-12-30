@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 22:56:14 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/30 02:00:36 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,40 +67,38 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 # define ERR_HOSTNAME "Error: cannot retrieve hostname of the Client!"
 
 /*error reply*/
-# define ERR_ALREADYREGISTERED(source, target) (source + std::string(" 462 ") + "Error: " + target + " :You may not reregister\n")
-# define ERR_NEEDMOREPARAMS(source, target) (source + std::string(" 461 ") + "Error: " + target + " :Not enough parameters\n")
-# define ERR_NOSUCHNICK(source, target) (source + std::string(" 401 ") + "Error: " + target + " :No such nick/channel\n")
-# define ERR_NOSUCHCHANNEL(source, target) (source + std::string(" 403 ") + "Error: " + target + " :No such channel\n")
-# define ERR_NONICKNAMEGIVEN(source, target) (source + std::string(" 431 ") + "Error: " + target + " :No nickname given\n")
-# define ERR_NICKNAMEINUSE(source, target) (source + std::string(" 433 ") + "Error: " + target + " :Nickname is already in use\n")
-# define ERR_PASSWDMISMATCH(source, target) (source + std::string(" 464 ") + "Error: " + target + " :Password incorrect\n")
-# define ERR_UNKNOWNCOMMAND(source, target) (source + std::string(" 421 ") + "Error:  " + target + " :Unknown command\n")
-# define ERR_CANNOTSENDTOCHAN(source, target) (source + std::string(" 404 ") + "Error:  " + target + " :Cannot send to channel\n")
-# define ERR_NOTONCHANNEL(source, target) (source + std::string(" 442 ") + "Error:  " + target + " :You're not on that channel\n")
-# define ERR_CHANOPRIVSNEEDED(source, target) (source + std::string(" 482 ") + "Error:  " + target + " :You're not channel operator\n")
-# define ERR_USERNOTINCHANNEL(source, target) (source + std::string(" 441 ") + "Error:  " + target + " :They aren't on that channel\n")
-# define ERR_USERONCHANNEL(source, target) (source + std::string(" 443 ") + target + " :is already on channel\n")
-# define ERR_INVITEONLYCHAN(source, target) (source + std::string(" 473 ") + target + " :Cannot join channel (+i)\n")
-# define ERR_CHANNELISFULL(source, target) (source + std::string(" 471 ") + target + " :Cannot join channel (+l)\n")
-# define ERR_BADCHANNELKEY(source, target) (source + std::string(" 471 ") + target + " :Cannot join channel (+k)\n")
-# define ERR_USERSDONTMATCH(source) (source + std::string(" 502 ") + " :Cant change mode for other users\n")
+# define ERR_ALREADYREGISTERED(source) ("462 " + source + " :You may not reregister")
+# define ERR_NEEDMOREPARAMS(source, target) ("461 " + source + " " + target + " :Not enough parameters")
+# define ERR_NOSUCHNICK(source, target) ("401 " + source + " " + target + " :No such nick/channel")
+# define ERR_NOSUCHCHANNEL(source, target) ("403 " + source + " " + target + " :No such channel")
+# define ERR_NONICKNAMEGIVEN(source) ("431 " + source + " :No nickname given")
+# define ERR_NICKNAMEINUSE(source, target) ("433 " + source + " " + target + " :Nickname is already in use")
+# define ERR_PASSWDMISMATCH(source) ("464 " + source + " :Password incorrect")
+# define ERR_UNKNOWNCOMMAND(source, target) ("421 " + source + " " + target + " :Unknown command")
+# define ERR_CANNOTSENDTOCHAN(source, target) ("404 " + source + " " + target + " :Cannot send to channel")
+# define ERR_NOTONCHANNEL(source, target) ("442 " + source + " " + target + " :You're not on that channel")
+# define ERR_CHANOPRIVSNEEDED(source, target) ("482 " + source + " " + target + " :You're not channel operator")
+# define ERR_USERNOTINCHANNEL(source, nick, channel) ("441 " + source + " " + nick + " " + channel + " :They aren't on that channel")
+# define ERR_USERONCHANNEL(source, nick, channel) ("443 " + source + " " + nick + " " + channel + " :is already on channel")
+# define ERR_INVITEONLYCHAN(source, target) ("473 " + source + " " + target + " :Cannot join channel, you must be invited (+i)")
+# define ERR_CHANNELISFULL(source, target) ("471 " + source + " " + target + " :Cannot join channel, channel is full (+l)")
+# define ERR_BADCHANNELKEY(source, target) ("475 " + source + " " + target + " :Cannot join channel (+k)")
 
 /*command reply*/
-# define RPL_CHANNELMODEIS(source, channel, mode, argument) (source + std::string(" 324 ") \
-	+ " " + channel + " "  +mode + " " +argument + "\n")
-# define RPL_WELCOME(source, nick) (source + std::string(" 001 ") + " :Welcome to the IRC  Network, " + nick + "\n")
-# define RPL_PING(source, message) (source + std::string(" 5000 ") + " :PING " + message + "\n")
-# define RPL_PONG(source, message) (source + std::string(" 5001 ") + " :PONG " + message + "\n")
-# define RPL_INVITING(source, nick, channel) (source + std::string(" 341 ") + " " + nick + " " + channel + "\n")
-# define RPL_ENDOFNAMES(source, channel) (source + std::string(" 366 ") + channel + " :End of /NAMES list\n")
-# define RPL_NAMREPLY(source, channel, nick) (source + std::string(" 353 ") + channel + " :" + nick + "\n")
-# define RPL_WHOREPLY(source, nick, username, realname) (source + std::string(" 352 ") + nick + " " + username + " " + realname + "\n")
-# define RPL_TOPIC(source, channel, topic) (source + std::string(" 366 ") + channel + " :" + topic + "\n") 
-# define RPL_NOTOPIC(source, channel) (source + std::string(" 331 ") + channel + " :No topic is set\n")
+# define RPL_CHANNELMODEIS(name, channel, mode) ("324 " + name + " " + channel + " " + mode)
+# define RPL_WELCOME(source) ("001 " + source + " :Welcome to the ft_irc Network")
+# define RPL_PING(source, message) (":" + source + " PONG :" + message)
+# define RPL_INVITING(source, nick, channel) ("341 " + source + " " + nick + " " + channel)
+# define RPL_ENDOFNAMES(source, channel) ("366 " + source +  " " + channel + " :End of /NAMES list")
+# define RPL_NAMREPLY(name, channel, isadmin, nick) ("353 " + name + " = " + channel + " :" + isadmin + nick)
+# define RPL_WHOREPLY(source, nick, username, realname) ("352 " + source + nick + " " + username + " " + realname)
+# define RPL_TOPIC(source, channel, topic) ("332 " + source + " " + channel + " :" + topic) 
+# define RPL_NOTOPIC(source, channel) ("331 " + source + " " + channel + " :No topic is set")
+# define RPL_ENDOFWHO(source, mask) ("315 " + source + " " + mask + " :End of WHO list")
 
 /* Nick reply */
-# define ERR_BADCHANMASK(channel) (std::string(" 476 ") + channel + " :Bad Channel Mask\n")
-# define ERR_ERRONEUSNICKNAME(source, nickname) (source +std::string(" 432 ") + nickname + " ::Erroneus nickname\n")
-# define ERR_INPUTTOOLONG(source) (source + std::string(" 417 ") + " :Input line was too long\n")
+# define ERR_BADCHANMASK(source) ("476 " + source + " :Bad Channel Mask")
+# define ERR_ERRONEUSNICKNAME(source, command) ("432 " + source + " " + command + " :Erroneous nickname")
+# define ERR_INPUTTOOLONG(source) ("417 " + source + " :Input line was too long")
 
 #endif

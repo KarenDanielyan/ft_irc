@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:37 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/29 19:48:18 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 01:32:48 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void Invite::implement(Client *client, ITransport* server, DAL& data, \
 			client->getNickname()));
 	if (clientToInvite->getChannel()->getName() == channelToInvite->getName())
 		throw ReplyException(ERR_USERONCHANNEL(message.source, \
-			clientToInvite->getNickname()));
+			clientToInvite->getNickname(), channelToInvite->getName()));
 	if (!channelToInvite->isOperator(client))
 		throw ReplyException(ERR_CHANOPRIVSNEEDED(message.source, \
 			client->getNickname()));

@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:10 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/29 14:26:54 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 02:27:27 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void Pass::implement(Client *client, ITransport* server, DAL& data, \
 	(void)client;
 	(void)data;
 	(void)message;
+	if (client->getState() == Client::LOGIN)
+		return ;
 	if (message.parameters.empty())
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "PASS"));
 	if (client->getState() == Client::LIVE)
-		throw ReplyException(ERR_ALREADYREGISTERED(message.source, \
-			client->getNickname()));
+		throw ReplyException(ERR_ALREADYREGISTERED(message.source));
 	if (data.getPassword() != message.parameters[0])
-		throw ReplyException(ERR_PASSWDMISMATCH(message.source, \
-			client->getNickname()));
+		throw ReplyException(ERR_PASSWDMISMATCH(message.source));
 	client->setState(Client::LOGIN);
 }
