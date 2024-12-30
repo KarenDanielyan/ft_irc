@@ -46,7 +46,8 @@ void CommandHandler::handle(Client* client, IRCMessage message)
 			&& message.command != "CAP" && message.command != "PING" \
 			&& message.command != "PONG") && client->getState() != Client::LIVE)
 		{
-			_server->reply(client->getConnection(), "You are not registrated\n");
+			_server->reply(client->getConnection(), \
+				  ERR_NOTREGISTERED(client->getSource()));
 			return ;
 		}
 		_commands[message.command]->implement(client, _server, _data, message);
