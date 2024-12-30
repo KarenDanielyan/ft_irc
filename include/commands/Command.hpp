@@ -185,12 +185,16 @@ class PrivMsg: public Command, public IChannelCommand
 			IRCMessage message);
 };
 
-class Quit: public Command
+class Quit: public Command, public IChannelCommand
 {
 	public:
 		Quit();
 		~Quit();
 
+		void broadcast(const ITransport* server, const Channel* to, \
+			std::string const & message) const {
+			IChannelCommand::broadcast(server, to, message);
+		}
 		void implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message);
 };
