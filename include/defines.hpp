@@ -95,7 +95,7 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 # define RPL_NAMREPLY(name, channel, isadmin, nick) ("353 " + name + " = " + channel + " :" + isadmin + nick)
 # define RPL_WHOREPLY(source, channel, username, host, server, nick, flags, realname) \
 	("352 " + source + " " + channel +  " " + username + " " + host + \
-	" " + server + " " + nick + " " + flags + " :0 " + realname)
+	" " + server + " " + nick + " " + flags + " 0 " + ": " + realname)
 # define RPL_TOPIC(source, channel, topic) ("332 " + source + " " + channel + " :" + topic)
 # define RPL_JOIN(source, channel) (":" + source + " JOIN " + channel)
 # define RPL_PART(source, channel) (":" + source + " PART " + channel)
