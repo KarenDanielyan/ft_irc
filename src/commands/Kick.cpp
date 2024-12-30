@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:46 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/30 01:40:55 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:19:48 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void Kick::implement(Client *client, ITransport* server, DAL& data, \
 		throw ReplyException(ERR_CHANOPRIVSNEEDED(message.source, \
 			client->getNickname()));
 	Client *dest = data.findClient(target);
+	if (channel->isAdmin(dest))
+		throw ReplyException(message.source + " Can not KICK the admin");
 	if (!dest)
 		throw ReplyException(ERR_NOSUCHNICK(message.source, \
 			client->getNickname()));
