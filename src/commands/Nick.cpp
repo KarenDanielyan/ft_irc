@@ -50,7 +50,8 @@ void Nick::implement(Client *client, ITransport* server, DAL& data, \
 {
 	if (client->getState() == Client::CONNECT)
 	{
-		server->reply(client->getConnection(), "First you need to connect with PASS command\n");
+		server->reply(client->getConnection(), \
+				ERR_UNKNOWNERROR(client->getSource(), "NICK", INFO_REGISTER));
 		return ;
 	}
 	validate(client, message);

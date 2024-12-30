@@ -42,17 +42,12 @@ void User::implement(Client *client, ITransport* server, DAL& data, \
 	(void)data;
 	if (message.parameters.size() < 4)
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "USER"));
-	if (client->getState() == Client::CONNECT)
+	if (client->getState() == Client::CONNECT || client->getNickname().empty())
 	{
-		server->reply(client->getConnection(), "First you need to registrate by command PASS\n");
+		server->reply(client->getConnection(), \
+				ERR_UNKNOWNERROR(client->getSource(), "USER", INFO_REGISTER));
 		return ;
 	}
-	if (client->getNickname().empty())
-	{
-		server->reply(client->getConnection(), "First you need to set Nick\n");
-		return ;
-	}
-		
 	if (client->getState() == Client::LIVE)
 		throw ReplyException(ERR_ALREADYREGISTERED(message.source));
 	std::string realname = "";
