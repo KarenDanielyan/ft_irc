@@ -20,13 +20,12 @@ void Quit::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
 	const Connection*	c;
+	std::string			reason;
 
-	std::string reason = "";
 	if (message.parameters.size() >= 1)
 	{
-		std::string msg = message.parameters[0];
-		for (unsigned long i = 1; i < message.parameters.size(); i++)
-			msg += " " + message.parameters[i];
+		for (size_t i = 0; i < message.parameters.size(); i++)
+			reason += " " + message.parameters[i];
 	}
 	else
 		reason = "quit with no reason";
