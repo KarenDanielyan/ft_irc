@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:11:07 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/29 18:31:31 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:33:01 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ void Part::implement(Client *client, ITransport* server, DAL& data, \
 	if (!client->getChannel() || client->getChannel()->getName() != name)
 		throw ReplyException(ERR_NOTONCHANNEL(message.source, \
 			client->getNickname()));
+	broadcast(server, channel, RPL_PART(message.source, name));
 	channel->removeClient(client);
 	client->part();
-	broadcast(server, channel, message.source + \
-		client->getNickname() + " PART " + channel->getName());
 }
