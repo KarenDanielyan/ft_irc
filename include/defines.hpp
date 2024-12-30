@@ -52,6 +52,7 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 
 /* Info Messages */
 # define INFO_LISTEN "Server listens to any new connections..."
+# define INFO_REGISTER "Registration must follow the following order: PASS -> NICK -> USER"
 
 /* Error Messages */
 # define ERR_PNAN "Error: <port> must contain only numbers!"
@@ -82,6 +83,7 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 # define ERR_CHANNELISFULL(source, target) ("471 " + source + " " + target + " :Cannot join channel, channel is full (+l)")
 # define ERR_BADCHANNELKEY(source, target) ("475 " + source + " " + target + " :Cannot join channel (+k)")
 # define ERR_NOTREGISTERED(source) ("451 " + source + " :You have not registered")
+# define ERR_UNKNOWNERROR(source, command, info) ("400 " + source + " " + command + " :" + info)
 
 /*command reply*/
 # define RPL_CHANNELMODEIS(name, channel, mode) ("324 " + name + " " + channel + " " + mode)
@@ -90,7 +92,7 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 # define RPL_INVITING(source, nick, channel) ("341 " + source + " " + nick + " " + channel)
 # define RPL_ENDOFNAMES(source, channel) ("366 " + source +  " " + channel + " :End of /NAMES list")
 # define RPL_NAMREPLY(name, channel, isadmin, nick) ("353 " + name + " = " + channel + " :" + isadmin + nick)
-# define RPL_WHOREPLY(source, nick, username, realname) ("352 " + source + nick + " " + username + " " + realname)
+# define RPL_WHOREPLY(source, nick, username, realname) ("352 " + source + " " + nick + " " + username + " " + realname)
 # define RPL_TOPIC(source, channel, topic) ("332 " + source + " " + channel + " :" + topic) 
 # define RPL_NOTOPIC(source, channel) ("331 " + source + " " + channel + " :No topic is set")
 # define RPL_ENDOFWHO(source, mask) ("315 " + source + " " + mask + " :End of WHO list")
