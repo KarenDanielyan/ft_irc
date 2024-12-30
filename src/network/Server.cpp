@@ -238,15 +238,18 @@ int	Server::newSocket()
 
 void	Server::reply(const Connection* to, std::string const & message) const
 {
-	send(to->getFd(), message.c_str(), message.length(), 0);
+	std::string	packet = message + CRLF;
+
+	send(to->getFd(), packet.c_str(), packet.length(), 0);
 }
 
 void	Server::broadcast(Connection* sender, std::string const & message) const
 {
 	for (size_t i = 1; i < _pollfds.size(); i++)
 	{
+	  std::string	packet = message + CRLF;
 		if (_pollfds[i].fd != sender->getFd())
-			send(_pollfds[i].fd, message.c_str(), message.length(), 0);
+			send(_pollfds[i].fd, packet.c_str(), packet.length(), 0);
 	}
 	std::cout << message;
 }
