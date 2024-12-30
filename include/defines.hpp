@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:20:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 10:38:28 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 10:54:00 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 # define RPL_INVITING(source, nick, channel) ("341 " + source + " " + nick + " " + channel)
 # define RPL_ENDOFNAMES(source, channel) ("366 " + source +  " " + channel + " :End of /NAMES list")
 # define RPL_NAMREPLY(name, channel, isadmin, nick) ("353 " + name + " = " + channel + " :" + isadmin + nick)
-# define RPL_WHOREPLY(source, nick, username, realname) ("352 " + source + " " + nick + " " + username + " " + realname)
+# define RPL_WHOREPLY(source, channel, username, host, server, nick, flags, realname) \
+	("352 " + source + " " + channel +  " " + username + " " + host + \
+	" " + server + " " + nick + " " + flags + " :0 " + realname)
 # define RPL_TOPIC(source, channel, topic) ("332 " + source + " " + channel + " :" + topic)
 # define RPL_QUIT(source, reason) (":" + source + " QUIT :Quit: " + reason)
 # define RPL_NOTOPIC(source, channel) ("331 " + source + " " + channel + " :No topic is set")
