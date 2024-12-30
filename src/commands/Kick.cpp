@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:46 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/30 01:40:55 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:43:28 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void Kick::implement(Client *client, ITransport* server, DAL& data, \
 
 	std::string name;
 	if (message.parameters[0][0] == '#')
-		name = message.parameters[0].substr(1);
+		name = message.parameters[0];
 	else
 		name = message.parameters[0];
 	std::string target = message.parameters[1];

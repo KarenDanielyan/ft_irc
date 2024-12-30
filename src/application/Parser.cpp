@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 22:26:34 by kdaniely         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:43:50 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Parser.hpp"
-#include "Client.hpp"
 #include "defines.hpp"
 #include <sstream>
 
 std::vector<IRCMessage> \
-	Parser::parseMessage(std::string& rawMessage, Client *from)
+	Parser::parseMessage(std::string& rawMessage, Connection *from)
 {
 	std::vector<IRCMessage>	_messages;
 	static std::string		buffer;
@@ -41,10 +40,8 @@ std::vector<IRCMessage> \
 		message = buffer + rawMessage.substr(0, pos);
 		buffer.erase();
 		rawMessage = rawMessage.erase(0, pos + to_erase);
-		if (message.size() > MAX_MESSAGE_LENGTH) {
-			_server->reply(from->getConnection(), \
-				  ERR_INPUTTOOLONG(from->getSource()));
-		}
+		if (message.size() > MAX_MESSAGE_LENGTH)
+			_server->reply(from, ERR_INPUTTOOLONG(from->getHostname()));
 		else if (message.empty())
 			continue ;
 		else
@@ -53,7 +50,7 @@ std::vector<IRCMessage> \
 	return (_messages);
 }
 
-IRCMessage	Parser::_fillIRCMessage(const std::string& line, Client* from)
+IRCMessage	Parser::_fillIRCMessage(const std::string& line, Connection* from)
 {
 	IRCMessage	message;
 
@@ -72,7 +69,8 @@ IRCMessage	Parser::_fillIRCMessage(const std::string& line, Client* from)
 	if (!message.parameters.empty() && (message.parameters.back())[0] == ':')
 		message.parameters.back().erase(0, 1);
 	if (message.source.empty())
-		message.source = from->getSource();
+		message.source = from->getHostname();
+	// message.source = 
 	return (message);
 }
 
