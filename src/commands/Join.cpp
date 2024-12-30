@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 10:42:43 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:26:19 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 		new_channel->addOperator(client);
 		new_channel->setOnlyInvite(false);
 		new_channel->setAdmin(client);
+		server->reply(client->getConnection(), RPL_JOIN(message.source, \
+		new_channel->getName()));
 		return ;
 	}
 
@@ -63,9 +65,8 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 			client->getNickname(), channel->getName()));
 	channel->addClient(client);
 	client->join(channel);
-	server->reply(client->getConnection(), message.source + " " \
-		+ client->getNickname() + " Joined " + \
-		channel->getName() + " channel\n");
+	server->reply(client->getConnection(), RPL_JOIN(message.source, \
+		channel->getName()));
 	//print about channel
 	std::vector<Client *> clients = channel->getClients();
 	for (std::vector<Client *>::iterator it = clients.begin(); \
