@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:37 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/30 01:32:48 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 01:31:22 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void Invite::implement(Client *client, ITransport* server, DAL& data, \
 	if (client->getChannel()->getName() != channelToInvite->getName())
 		throw ReplyException(ERR_NOTONCHANNEL(message.source, \
 			client->getNickname()));
-	if (clientToInvite->getChannel()->getName() == channelToInvite->getName())
+	if (clientToInvite->getChannel() && clientToInvite->getChannel()->getName() == channelToInvite->getName())
 		throw ReplyException(ERR_USERONCHANNEL(message.source, \
 			clientToInvite->getNickname(), channelToInvite->getName()));
 	if (!channelToInvite->isOperator(client))
