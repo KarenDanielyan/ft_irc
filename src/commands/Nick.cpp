@@ -63,5 +63,6 @@ void Nick::implement(Client *client, ITransport* server, DAL& data, \
 	
 	if (new_client && new_client != client)
 		throw ReplyException(ERR_NICKNAMEINUSE(message.source, nickname));
+	server->reply(client->getConnection(), RPL_NICK(message.source, nickname));
 	client->setNickname(nickname);
 }

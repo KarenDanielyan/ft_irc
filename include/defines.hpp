@@ -101,6 +101,7 @@ typedef std::vector<IRCMessage>::iterator		ircmessage_iterator_t;
 # define RPL_JOIN(source, channel) (":" + source + " JOIN " + channel)
 # define RPL_PART(source, channel) (":" + source + " PART " + channel)
 # define RPL_QUIT(source, reason) (":" + source + " QUIT :Quit: " + reason)
+# define RPL_NICK(source, new_nick) (":" + source + " NICK " + new_nick)
 # define RPL_NOTOPIC(source, channel) ("331 " + source + " " + channel + " :No topic is set")
 # define RPL_ENDOFWHO(source, mask) ("315 " + source + " " + mask + " :End of WHO list")
 # define ERR_TOOMANYCHANNELS(source, target) ("405 " + source + " " + target + " :You have joined too many channels")
