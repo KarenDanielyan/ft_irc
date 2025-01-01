@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 21:07:52 by kdaniely         ###   ########.fr       */
+/*   Updated: 2025/01/01 16:49:29 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	Server::closeConnection(const Connection* connection)
 	char		log_message[NI_MAXHOST + 1024];
 
 	_connections.erase(connection->getFd());
-	sprintf(log_message, "%s:%d disconnected to the server.", \
+	snprintf(log_message, sizeof(log_message), "%s:%d disconnected to the server.", \
 		connection->getHostname().c_str(), connection->getPort());
 	log(log_message);
 	_unsubscribe(connection);
@@ -163,7 +163,7 @@ void	Server::onClientConnect(void)
 	_subscribe(c);
 	_connections[fd] = c;
 	_data->newClient(c);
-	sprintf(log_message, "%s:%d connected to the server.", \
+	snprintf(log_message, sizeof(log_message), "%s:%d connected to the server.", \
 		c->getHostname().c_str(), c->getPort());
 	log(log_message);
 }
