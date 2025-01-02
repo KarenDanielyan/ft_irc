@@ -19,10 +19,13 @@ Topic::~Topic() {}
 void Topic::implement(Client *client, ITransport* server, DAL& data, \
 			IRCMessage message)
 {
+	std::string	name;
+	Channel*	channel;
+
 	if (message.parameters.size() < 1)
 		throw ReplyException(ERR_NEEDMOREPARAMS(message.source, "TOPIC"));
-	std::string name;
-	Channel* channel = data.getChannel(name);
+	name = message.parameters[0];
+	channel = data.getChannel(name);
 	if (!channel)
 		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "TOPIC"));
 	if (!channel->isExist(client))
