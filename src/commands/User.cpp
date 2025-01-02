@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:44:08 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 02:25:06 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:47:01 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ void User::implement(Client *client, ITransport* server, DAL& data, \
 	client->setUsername(message.parameters[0]);
 	client->setState(Client::LIVE);
 	server->reply(client->getConnection(), \
-		RPL_WELCOME(client->getNickname(), client->getNickname()));
+		RPL_WELCOME(client->getSource(), client->getNickname()));
 }

@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:10:46 by marihovh          #+#    #+#             */
-/*   Updated: 2025/01/02 00:34:20 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:13:04 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void Kick::implement(Client *client, ITransport* server, DAL& data, \
 	std::string msg = "Reason:";
 	Channel* channel = data.getChannel(name);
 
-	for (unsigned long i = 2; ++i <= message.parameters.size(); i++)
+	for (unsigned long i = 2; i <= message.parameters.size(); i++)
 		msg += " " + message.parameters[i];
 	if (!channel)
 		throw ReplyException(ERR_NOSUCHCHANNEL(message.source, "KICK"));
@@ -43,14 +43,14 @@ void Kick::implement(Client *client, ITransport* server, DAL& data, \
 	if (!dest)
 		throw ReplyException(ERR_NOSUCHNICK(message.source, \
 			client->getNickname()));
-	if (!client->getChannel() && client->getChannel()->getName() != name)
+	if (!client->getChannel() || client->getChannel()->getName() != name)
 		throw ReplyException(ERR_NOTONCHANNEL(message.source, \
 			client->getNickname()));
-	if (dest->getChannel() && dest->getChannel()->getName() != name)
+	if (!dest->getChannel() || (dest->getChannel() && dest->getChannel()->getName() != name))
 		throw ReplyException(ERR_USERNOTINCHANNEL(message.source, \
 			dest->getNickname(), name));
-	broadcast(server, channel, ":" + dest->getNickname() + " KICK " + \
-		channel->getName() + " " + client->getNickname() + " :" + msg);
+	broadcast(server, channel, ":" + client->getNickname() + " KICK " + \
+		channel->getName() + " " + dest->getNickname() + " :" + msg);
 	dest->part();
 	channel->removeClient(dest);
 }

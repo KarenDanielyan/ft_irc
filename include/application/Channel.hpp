@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 20:09:45 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 01:34:40 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:34:11 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ private:
 	std::vector<Client* >	_clients;
 	std::vector<Client* >	_inviteList;
 	std::vector<Client* >	_operators;
+	std::vector<Client* >	_topicOperators;
 	Client*					_admin;
 public:
 	Channel(std::string name, std::string topic, \
@@ -57,16 +58,19 @@ public:
 	void setLimit(unsigned long limit);
 	void setOnlyInvite(bool OnlyInvite);
 	void addOperator(Client *client);
+	void addTopicOperator(Client *client);
 	void setInvite(Client *client);
 
 	void removeClient(Client *client);
 	void removeOperator(Client *client);
+	void removeTopicOperator(Client *client);
 
 	void addClient(Client *client);
 	bool isExist(Client *client);
 	bool isAdmin(Client *client);
 	bool isInvited(Client* client);
 	bool isOperator(Client* client);
+	bool isTopicOperator(Client* client);
 	bool isInviteOnly();
 };
 

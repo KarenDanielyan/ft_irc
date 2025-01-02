@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:12:21 by marihovh          #+#    #+#             */
-/*   Updated: 2024/12/30 01:35:46 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:35:37 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ void Channel::addOperator(Client *client)
 	_operators.push_back(client);
 }
 
+void Channel::addTopicOperator(Client *client)
+{
+	_topicOperators.push_back(client);
+}
+
 bool Channel::isExist(Client *client)
 {
 	std::vector<Client*>::const_iterator it = std::find(_clients.begin(), _clients.end(), client);
@@ -106,6 +111,13 @@ void Channel::removeOperator(Client* client)
 	std::vector<Client*>::iterator it = std::find(_operators.begin(), _operators.end(), client);
 	if (it != _operators.end())
 		_operators.erase(it);
+}
+
+void Channel::removeTopicOperator(Client* client)
+{
+	std::vector<Client*>::iterator it = std::find(_topicOperators.begin(), _topicOperators.end(), client);
+	if (it != _topicOperators.end())
+		_topicOperators.erase(it);
 }
 
 std::vector<std::string> Channel::getNicknames() const
@@ -130,6 +142,11 @@ void Channel::setOnlyInvite(bool OnlyInvite)
 bool Channel::isOperator(Client* client)
 {
 	return std::find(_operators.begin(), _operators.end(), client) != _operators.end();
+}
+
+bool Channel::isTopicOperator(Client* client)
+{
+	return std::find(_topicOperators.begin(), _topicOperators.end(), client) != _topicOperators.end();
 }
 
 bool Channel::isInvited(Client* client)

@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:18:44 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/30 01:42:26 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:37:10 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,16 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 					channel->getName(), (plus ? "+i" : "-i")));
 				break;
 			case 't':
-				channel->setTopic(plus ? mode_arg : "");
+				new_op = data.findClient(mode_arg);
+				if (!new_op)
+					throw ReplyException(ERR_NOSUCHNICK(message.source, \
+						mode_arg));
+				if (!channel->isExist(new_op))
+					throw ReplyException(ERR_NOTONCHANNEL(message.source, mode_arg));
+				if (plus)
+					channel->addTopicOperator(new_op);
+				else if (channel->isTopicOperator(new_op))
+					channel->removeTopicOperator(new_op);
 				broadcast(server, channel, RPL_CHANNELMODEIS(message.source, \
 					channel->getName(), (plus ? "+t" : "-t")));
 				break;
