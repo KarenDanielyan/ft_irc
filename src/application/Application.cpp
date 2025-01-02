@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Application.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:53:12 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 21:07:52 by kdaniely         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:19:58 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	Application::process(void)
 		std::cout << "What: " << requests.front().what;
 		std::vector<IRCMessage>	messages = \
 			_parser->parseMessage(requests.front().what, requests.front().who);
-		// _parser->prettyPrint(messages);
+		_parser->prettyPrint(messages);
 		for (ircmessage_iterator_t it = messages.begin(); \
 			it != messages.end(); it++)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdaniely <kdaniely@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 19:05:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2024/12/29 22:26:34 by kdaniely         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:23:32 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ std::vector<IRCMessage> \
 				buffer.append(rawMessage);
 				break ;
 			}
-			to_erase --;
+			to_erase--;
 		}
 		message = buffer + rawMessage.substr(0, pos);
 		buffer.erase();

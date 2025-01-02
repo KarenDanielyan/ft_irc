@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 18:18:44 by kdaniely          #+#    #+#             */
-/*   Updated: 2025/01/02 18:37:10 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:26:49 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 	std::string mode_str = message.parameters[1];
 	std::string mode_arg = message.parameters[2];
 	Channel* channel = data.getChannel(target);
+	std::cout << ":" +message.parameters[1] + ":"<< std::endl;
+	std::cout << ":" + message.parameters[2]+ ":"<< std::endl;
 	Client *new_op;
 
 	if (!channel)
@@ -39,6 +41,7 @@ void Mode::implement(Client *client, ITransport* server, DAL& data, \
 			client->getNickname()));
 	int i = -1;
 
+	
 	while (mode_str[++i])
 	{
 		bool plus = (mode_str[i] == '+');

@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:34:59 by kdaniely          #+#    #+#             */
-/*   Updated: 2025/01/01 16:49:29 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 20:05:01 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	Server::closeConnection(const Connection* connection)
 	char		log_message[NI_MAXHOST + 1024];
 
 	_connections.erase(connection->getFd());
-	snprintf(log_message, sizeof(log_message), "%s:%d disconnected to the server.", \
+	snprintf(log_message,sizeof(log_message), "%s:%d disconnected to the server.", \
 		connection->getHostname().c_str(), connection->getPort());
 	log(log_message);
 	_unsubscribe(connection);
