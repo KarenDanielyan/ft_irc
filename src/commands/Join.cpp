@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 17:59:52 by kdaniely          #+#    #+#             */
-/*   Updated: 2025/01/02 00:21:51 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 21:48:44 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void Join::implement(Client *client, ITransport* server, DAL& data, \
 	{
 		if (channel->isInviteOnly() && !channel->isInvited(client))
 			throw ReplyException(ERR_INVITEONLYCHAN(message.source, name));
-		if (channel->getLimit() >= channel->getClientCount())
+		if (channel->getLimit() != 0 && channel->getLimit() <= channel->getClientCount())
 			throw ReplyException(ERR_CHANNELISFULL(message.source, name));
 		if (channel->getPassword() != pass)
 			throw ReplyException(ERR_BADCHANNELKEY(message.source, name));

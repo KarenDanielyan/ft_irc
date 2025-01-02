@@ -6,14 +6,14 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 22:12:21 by marihovh          #+#    #+#             */
-/*   Updated: 2025/01/02 18:35:37 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 23:07:25 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
 
 Channel::Channel(std::string name, std::string topic, std::string pass, Client* admin): \
-	_name(name), _topic(topic), _password(pass), _admin(admin)
+	_name(name), _topic(topic), _password(pass), _admin(admin), _clientLimit(0)
 {
 }
 
@@ -72,7 +72,7 @@ void Channel::setPassword(std::string pass) {
 	_password = pass;
 }
 
-void Channel::setTopic(std::string topic) {
+void Channel::setTopic(std::string &topic) {
 	_topic = topic;
 }
 

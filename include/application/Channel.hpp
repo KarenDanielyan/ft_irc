@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42yerevan.am    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 20:09:45 by kdaniely          #+#    #+#             */
-/*   Updated: 2025/01/02 18:34:11 by marihovh         ###   ########.fr       */
+/*   Updated: 2025/01/02 23:07:40 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ class Channel
 public:
 	typedef std::vector<Client*>::iterator	clientlist_iterator_t;
 private:
-	unsigned long			_clientLimit;
 	bool					_onlyInvite;
 	std::string				_name;
 	std::string				_topic;
@@ -36,6 +35,7 @@ private:
 	std::vector<Client* >	_operators;
 	std::vector<Client* >	_topicOperators;
 	Client*					_admin;
+	unsigned long			_clientLimit;
 public:
 	Channel(std::string name, std::string topic, \
 		std::string pass, Client* admin);
@@ -54,7 +54,7 @@ public:
 	void setName(std::string name);
 	void setPassword(std::string pass);
 	void setAdmin(Client* admin);
-	void setTopic(std::string topic);
+	void setTopic(std::string &topic);
 	void setLimit(unsigned long limit);
 	void setOnlyInvite(bool OnlyInvite);
 	void addOperator(Client *client);
